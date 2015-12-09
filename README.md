@@ -1,2 +1,7 @@
-# video-tagging
-A Polymer-based video tagging control.
+# VideoTaggingControl
+A control for video tagging
+
+run:
+bower install 
+npm install
+node server.js
