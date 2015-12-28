@@ -4,15 +4,15 @@
 
 
 <!--
-`<video-locationging>` control for video locationging.
+`<video-tagging>` control for video video-tagging.
 -->
 
 <dom-module id="video-tagging">
 
   <template>
     
-    <link rel="stylesheet" href="css/video-tagging.css" />
-    <link rel="stylesheet" href="css/imgareaselect-animated.css" />
+    <link rel="stylesheet" href="/css/video-tagging.css" />
+    <link rel="stylesheet" href="/css/imgareaselect-animated.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" />
     <link rel="stylesheet" href="assets/icons/style.css">
     
@@ -104,12 +104,7 @@
       multilocations: Number,
       locationsize: Number, 
       inputtagsarray:Object, 
-      inputFrames: Object,   
-      src: {
-        type: String,
-        value: '',
-        observer: 'videoSrcChanged'
-      }
+      inputFrames: Object  
     },
     // Element Lifecycle
     ready: function() {
@@ -119,7 +114,7 @@
       this.lockTagsEnabled = false;
       this.selectedTags = [];
       this.x1, this.y1, this.x2, this.y2 = 0;//location coordinates
-      this.volumeStyle = document.createElement('style');
+      this.volumeStyle = document.createElement('style');//style for hoding seek bar styling
       document.body.appendChild(this.volumeStyle);
 
       //Divs and spans
@@ -222,7 +217,7 @@
             self.playingCallback();
 
           });
-      this.volumeSlider.addEventListener("change", function() {
+      this.volumeSlider.addEventListener("change", function() {//Chnages the style of the seek bar
             self.video.volume = self.volumeSlider.value;
             var max = self.volumeSlider.max;
             var min = self.volumeSlider.min;
@@ -382,8 +377,8 @@
           for (i = 0; i < selectedTagsArray.length; i++) {
                     
                   location.tags.push(selectedTagsArray[i]);
-            }
-            this.sendLocationToHost();
+          }
+          this.sendLocationToHost();
               
     },
     locationSelected: function(div) {
@@ -663,7 +658,20 @@
       return Math.round(this.video.currentTime * this.framerate);
     },
 
-    //Video management
+
+
+    
+    /**
+       * Video management
+       *
+       *
+       * @method initVideo
+       * Sets the src of the video
+       * @param {src} The url of the video
+       */
+    initVideo:function(src){
+        this.video.src = src;
+    },
     muteclicked: function()
     {
           if(this.video.muted)
@@ -741,14 +749,6 @@
             this.selectedTags = this.optionalTags.getSelectedTags();
           }
     },
-    videoSrcChanged: function(newValue, oldValue) { 
-
-          if(this.video)
-          {
-              this.video.src = newValue;
-
-          }
-     },
     videoClicked: function(e) {
             this.cleanAllLocationBorders(); 
             if(this.locationtype.toLowerCase() !== "area")
@@ -804,7 +804,7 @@
 </script>
 <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script> 
-<script src="js/jquery.imgareaselect.js"></script>
+<script src="/js/jquery.imgareaselect.js"></script>
 <script src="../moment/moment.js"></script>
 <script src="js/sliderstyles.js"></script>
 
