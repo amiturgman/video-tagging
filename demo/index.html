@@ -15,7 +15,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <title>Video Tagging</title>
     
     
-    
+    <script src="/bower_components/webcomponentsjs/webcomponents.js"></script>
     <link rel="import" href="video-tagging.html">
   </head>
   <body>
@@ -79,14 +79,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </div>
     
     
-    <div style="width:800px;height:600px;border-width: 0px;border-style: solid;border-color: orange;margin:50px 0px 0px 200px;">
+    <div style="width:800px;height:600px;margin:50px 0px 0px 200px;">
 
       <video-tagging id='video-tagging'>
          </video-tagging>
 
     </div>
     
-   <script src="/bower_components/webcomponentsjs/webcomponents.js"></script>
    <script>
      var jobsForUser = [];     
 
@@ -178,6 +177,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 var frames = {};
                 
                 var arr = data.frames;
+                console.log(arr)
                 for(var index = 0;index < arr.length;index++)
                 {
                     frames[arr[index].FrameIndex] = [];
@@ -189,6 +189,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                           
                     }
                 } 
+                console.log(frames)
                 videotagging.inputFrames = frames;
 
                 var jobConfig = data.job.Config;
@@ -197,9 +198,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 videotagging.multilocations = jobConfig.multilocations;
                 videotagging.locationsize = jobConfig.locationsize;
                 videotagging.inputtagsarray = jobConfig.tags;
-                
-                videotagging.src = '';
-                videotagging.src = data.video.Url;
+                //console.log(jobConfig.tags)
+                //console.log(frames)
+                videotagging.initVideo(data.video.Url);
 
             },
             error: function(err) {
@@ -246,12 +247,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
           });       
     }
-    window.addEventListener('onlocationchanged', function (e) {
+    document.getElementById('video-tagging').addEventListener('onlocationchanged', function (e) {
             
             var jobslist = document.getElementById("jobslist");
             var jobId = jobslist.options[jobslist.selectedIndex].value;
-            var inputObject = e.detail.location;
-            
+            var inputObject = e.detail.frame;
+            //console.log(e.detail);
             var msg = {};
             msg.tags = inputObject.locations;
             var json = JSON.stringify(msg)
