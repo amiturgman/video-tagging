@@ -426,7 +426,7 @@
        */
     sendLocationToHost: function() {
           var frameIndex = this.getCurrentFrame();
-          this.fire('onlocationchanged', {location: {frameIndex:frameIndex, locations:this.frames[frameIndex]}});
+          this.fire('onlocationchanged', {frame: {frameIndex:frameIndex, locations:this.frames[frameIndex]}});
     },
     /**
        * @method addDivToLocation
