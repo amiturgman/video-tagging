@@ -7,13 +7,13 @@ The control displays a selected video and allows the user to tag frames by click
 Once clicked, a **location** is created on the video screen.
 The user can select any location and add **tags** to it.
 
-There are 2 location types:
-1) Point - designates an x,y coordinate.
-2) Area - designates a rectangle (x1, y1, x2, y2)
+There are 2 location types:  
+1) Point - designates an x,y coordinate.  
+2) Area - designates a rectangle (x1, y1, x2, y2)  
 
-In addition, it is possible to define single or multiple tags per frame:
-1) Single - only one location can appear.
-2) Multiple - multiple location can be designated.
+In addition, it is possible to define single or multiple tags per frame:  
+1) Single - only one location can appear.  
+2) Multiple - multiple location can be designated.  
 
 Once a location is created, it is selectable by clicking on it.
 When a location is selected, the user can tag it by clicking on the tag buttons.
@@ -30,15 +30,15 @@ Once a video has been loaded the control is ready for use:
 
 ![Alt text](images/videocontrols.png?raw=true "Title")
 
-1) Video timebar.
-2) One frame back
-3) Play/Pause
-4) One frame forward
-5) Frame number
-6) Playback control
-7) current and remaining video time
-8) Mute button
-9) Volume slider
+1) Video timebar.  
+2) One frame back  
+3) Play/Pause  
+4) One frame forward  
+5) Frame number  
+6) Playback control  
+7) current and remaining video time  
+8) Mute button  
+9) Volume slider  
 
 To change the playback rate, click on the icon and select:
 
@@ -117,7 +117,8 @@ The following properties must be populated:
       ![Alt text](images/frames1.png?raw=true "Title")  
       Expanded- each location is an obect with coordinates and a tags array.  
       ![Alt text](images/frames3.png?raw=true "Title")
-  Call these properties on the control, for example:
+  
+Call these properties on the control, for example:
 
     var videotagging = document.getElementById('video-tagging');
                 
@@ -134,8 +135,8 @@ The following properties must be populated:
 Tagging Data -     
 When a location is created or updated, the control fires an event called "onlocationchanged". Register to this event to get the data:
 
-    window.addEventListener('onlocationchanged', function (e) {...
-The control sends **all** the locations and their tags in the current frame. The parameter e holds this data in e.detail.frame:  
+        document.getElementById('video-tagging').addEventListener('onlocationchanged', function (e) {...
+The control sends **all** the locations and their tags in the current frame. The parameter e holds this data in e.frame:  
 
 ![Alt text](images/frames4.png?raw=true "Title")
 
