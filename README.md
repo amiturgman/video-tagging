@@ -74,12 +74,13 @@ In all modes, when a location is selected, you can add/remove tags to it or dele
 
 The control is built using HTML, CSS and the <a href="https://www.polymer-project.org/1.0/" target="_blank">Polymer</a>
 framework, allowing us to create reusable web components.
-
+Area selection is credited to http://odyniec.net/projects/imgareaselect/.
 
 **Installing the control**
 
 run:
-bower install
+bower install CatalystCode/video-tagging
+bower install moment
 
 demo - public
 

@@ -202,10 +202,7 @@ input[type='range']:focus {
   position: absolute; 
   display:block;
   background-color: transparent;
-  
-  padding:  0;
   z-index: 20;
-
 }
 
 #vid {
@@ -224,7 +221,7 @@ input[type='range']:focus {
 
 /*playback*/
 
-#playbackControl  {
+#playSpeedControl  {
     
     background:black;
     z-index:20000;
@@ -301,7 +298,7 @@ input[type='range']:focus {
 #videoControls  {
     
     width:100%;
-    height:18%;
+    height:15%;
     border: rgb(38,38,38,0.25);
     background-color: black;
     
@@ -314,7 +311,7 @@ input[type='range']:focus {
     position: absolute;
     border:0px solid red;
     margin:2% 0px 0px 3%;
-    width:93%;
+    width:94%;
     z-index: 2;
     cursor: pointer;
     display: none;
@@ -323,91 +320,103 @@ input[type='range']:focus {
 #stepbwd
 {
     display: none;
-    width:7%;
+    width:6%;
     margin-top:40px;
     border: 0px solid red;
     padding-left: 2%;
     text-align: center;
+    float: left;
 }
 
 #play-pause
 {
     display: none;
-    width:4%;
+    width:7%;
     margin-top:40px;
+    margin-left: 0px;
     border: 0px solid red;
-    padding-left: 0%;
+    float: left;
+    padding-left: 10px;
     text-align: center;
 }
 
 #stepfwd
 {
     display: none;
-    width:4%;
+    width:7%;
     margin-top:40px;
     border: 0px solid red;
     text-align: center;
+    float: left;
 }
 
 #frameText
 {
     display: inline-block;
     font-family:arial;
-    width:15%;
-    
+    width:17%;
+    margin-top:40px;
     color:white;
     padding-bottom: 0px;
     text-align: center;
-    font-size: 170%;
+    font-size: 150%;
     border: 0px solid red;
     margin-bottom: 0px;
+    float: left;
+    
 }
 
 #playbackSpan
 {
     display: none;
     font-size: 150%;
+    font-family: Arial;
     width:8%;
     border: 0px solid red;
     text-align: center;
+    float: left;
+    margin-top:40px;
+    
 }
 
 #timeSpan  {
-    width: 30%;
+    width: 35%;
     display: inline-block;
     
-    margin-top: 0px;
+    margin-top:40px;
     margin-left: 0px;
     text-align: center;
     color:white;
     font-size: 150%;
-    
+    font-family: Arial;
+    float: left;
     border: 0px solid red;
 }
 
 #mute  {
-    width: 5%;
-    display: none;
+    width: 7%;
+    display: inline-block;
     
-    margin-top: 0px;
-    margin-left: 2%;
-    
+    margin-top: 40px;
+    margin-left: 0%;
+    float: left;
     color:white;
     text-align: center;
     border: 0px solid red;
 }
 
 #volumeSlider  {
-    width: 16.2%;
+    width: 10%;
     text-align: center;
-    margin-top: 0px;
-    margin-left: .5%;
+    margin-top: 40px;
+    margin-left: 0%;
     color:white;
     border: 0px solid red;
-    padding-bottom: 10px;
+    padding-top: 12px;
     background-color: black;
     cursor: pointer;
-    display:none;
+    display: inline-block;
+    float: left;
 }
 
 
@@ -492,26 +501,26 @@ input[type='range']:focus {
 }
 .cell {
   display: table-cell;
-  border: 0px solid red;
+  border: 0px solid blue;
   padding: 1em;
   width:10%;
 }
 .cell.right{
   display: table-cell;
-  border: 0px solid red;
+  border: 0px solid blue;
   padding: 1em;
-  width:20%;
+  width:18%;
 }
 .cell.empty
 {
   border: none;
-  width: 70%;
+  width: 72%;
 }
 .cell.rowspanned {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 70%;
+  width: 72%;
 }
 
 
