@@ -177,7 +177,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 var frames = {};
                 
                 var arr = data.frames;
-                console.log(arr)
+                //console.log(arr)
                 for(var index = 0;index < arr.length;index++)
                 {
                     frames[arr[index].FrameIndex] = [];
@@ -189,7 +189,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                           
                     }
                 } 
-                console.log(frames)
+                //console.log(frames)
                 videotagging.inputFrames = frames;
 
                 var jobConfig = data.job.Config;
@@ -198,8 +198,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 videotagging.multilocations = jobConfig.multilocations;
                 videotagging.locationsize = jobConfig.locationsize;
                 videotagging.inputtagsarray = jobConfig.tags;
-                //console.log(jobConfig.tags)
-                //console.log(frames)
+                
                 videotagging.initVideo(data.video.Url);
 
             },
@@ -251,13 +250,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             
             var jobslist = document.getElementById("jobslist");
             var jobId = jobslist.options[jobslist.selectedIndex].value;
-            var inputObject = e.detail.frame;
-            //console.log(e.detail);
+            var inputObject = e.detail.location;
+            //console.log(inputObject);
             var msg = {};
             msg.tags = inputObject.locations;
             var json = JSON.stringify(msg)
 
-            console.log(json);
+            //console.log(json);
             
             //POST
             $.ajax({

@@ -24,9 +24,8 @@
     "/demo/"
   ],
   "dependencies": {
-    "moment": "2.8.2",
+    "moment": "~2.10.6",
     "polymer": "Polymer/polymer#^1.0.0"
-    
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
