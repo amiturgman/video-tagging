@@ -12,19 +12,13 @@ There are 2 location types:
 2) Area - designates a rectangle (x1, y1, x2, y2)  
 
 In addition, it is possible to define single or multiple tags per frame:  
-1) Single - only one location can appear.  
-2) Multiple - multiple location can be designated.  
-
-Once a location is created, it is selectable by clicking on it.
-When a location is selected, the user can tag it by clicking on the tag buttons.
-
-The control is loaded initially with no video:
-
-![Alt text](images/empty.png?raw=true "Title")
+1) Single - only one location can appear in a frame.  
+2) Multiple - multiple location can appear in a frame. 
 
 Once a video has been loaded the control is ready for use:
 
 ![Alt text](images/loaded.png?raw=true "Title")
+
 
 **Video Controls:**
 
@@ -53,42 +47,49 @@ To change the playback rate, click on the icon and select:
 2) Tags - toggle the tags to add/remove a tag to/from a location. This is only possible when a location is selected.
    The selected tags are white.  
 3) Empty frame - designates a frame as tagged when there are no locations.    
-4) Lock Tags - automatically adds selected tags to new locations. Toggle to enable/disable.
+4) Lock Tags - automatically adds selected tags to new locations. Toggle to enable/disable. 
+     
+      
 
 **Usage**
 
-Point/single - On a certain frame, click the video screen. Every click will move the location.
+Point/single - On a certain frame, click the video screen. Every click will move the location to a new one.
 ![Alt text](images/singlepoint.png?raw=true "Title")
 
 Point/multiple - On a certain frame, click the video screen. Every click adds a new location
 ![Alt text](images/multipoints.png?raw=true "Title")
 
-Area - Click the video screen and drag. A rectangle appears. You can move it for repositioning. When done, click the video screen:
+Area - Click the video screen and drag. A rectangle appears. You can move it for repositioning. When done, click the video screen:  
+
 ![Alt text](images/area.png?raw=true "Title")
 
 ![Alt text](images/area2shapes.png?raw=true "Title")
 
 In all modes, when a location is selected, you can add/remove tags to it or delete it.
 
+Lock Tags and Auto step - When the Mode is set to "Single", the video will automatically advance 1 frame after a location has been designated, so the work flow of a user is:  
+     Create a new location - Click or drag  
+     Select Tags  
+     Click on the Lock Icon.  
+     Advance 1 frame or reselect location.   
+
 **Technical**
 
-The control is built using HTML, CSS and the <a href="https://www.polymer-project.org/1.0/" target="_blank">Polymer</a>
+The control is built using HTML, CSS based on the <a href="https://www.polymer-project.org/1.0/" target="_blank">Polymer</a>
 framework, allowing us to create reusable web components.
-Area selection is credited to http://odyniec.net/projects/imgareaselect/.
+Area selection is credited to <a href="http://odyniec.net/projects/imgareaselect/" target="_blank">ImageAreaSelect</a>
 
 **Installing the control**
 
 run:
 bower install CatalystCode/video-tagging
-bower install moment
 
-demo - public
 
 **Hosting the control**   
 The control can be hosted in an HTML page. Add these 2 references:
 
      <script src="/bower_components/webcomponentsjs/webcomponents.js"></script>
-     <link rel="import" href="video-tagging.html">
+     <link rel="import" href="/bower_components/video-tagging/video-tagging.html">
 
 
 Add the control tag in the place you want the control to appear, wrapped in a div:
@@ -96,6 +97,8 @@ Add the control tag in the place you want the control to appear, wrapped in a di
     <div style="width:800px;height:600px;margin:50px 0px 0px 200px;">
         <video-tagging id='video-tagging'></video-tagging>
     </div>
+
+There is a demo index.html page in the demo folder with an example of hosting the control and interacting with a backend service to get/persist data.
 
 **Control API**
 The control recieves and sends data from/to the host.   
@@ -129,9 +132,9 @@ Call these properties on the control, for example:
         videotagging.framerate = data.video.FramesPerSecond;
         ,,, 
       
-  Finally, to init the control, call the initVideo function, passing in the video URL as an argument: 
+  Finally, to load the control, set the src property to the URL of the video: 
  
-    videotagging.initVideo(data.video.Url);
+    videotagging.src = data.video.Url;
 
 Tagging Data -     
 When a location is created or updated, the control fires an event called "onlocationchanged". Register to this event to get the data:
