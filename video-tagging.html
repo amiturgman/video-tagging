@@ -13,30 +13,26 @@
     
     <link rel="stylesheet" href="css/video-tagging.css" />
     <link rel="stylesheet" href="css/imgareaselect-animated.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" />
     <link rel="stylesheet" href="assets/icons/style.css">
     
     <div id="controlWrapper">
-      <div id="messageDiv">Please select a video...</div>
-        <playback-control id="playSpeedControl"></playback-control>
-        <div id='videoWrapper'>
+      <playback-control id="playSpeedControl"></playback-control>
+      <div id='videoWrapper'>
           <div id = "locationLabelDiv" style="width:40px;height:20px;" >
               <span id = "locationLabelSpan"></span>
               
               <span id = "locationLabelClose" on-click="deleteLocation">X</span>
           </div>
-           
               <canvas id="overlay"  on-click='videoClicked' class = "overlaystyle" >
-                      Your browser does not support the HTML5 canvas location.</canvas>
+                      Your browser does not support the HTML5 canvas location.
+              </canvas>
               <video id='vid'>
-                         
-                       Your browser does not support the video location.</video>
-        </div>
-    
-    
+                       Your browser does not support the video location.
+              </video>
+      </div>
       <div id="videoControls">
           <input id="seekBar" class="seek" type="range" min='0' value="0" step=.01 required />
-          <div style="position:relative;display:block;">
+          <div class="relativeDiv">
                 <span id = "stepbwd" title="prev" class="icon-backward2 taggingControls" on-click='stepbwdclicked'></span>
                 <span id = "play-pause" title="play/pause" class="icon-play3 taggingControls" on-click='playclicked'></span>
                 <span id = "stepfwd" title="next" class="icon-forward3 taggingControls" on-click='stepfwdclicked'></span>
@@ -48,30 +44,30 @@
           </div>
       </div>
       <div id="videoTagControls">
-        <div class="table">
-          <div class="row">
-            <div class="cell">
-               <div style="position:relative;width:100%;">
+        <table >
+          <tr>
+            <td id = "leftCell">
+               <div class = "relativeDiv">
                   <span id = "nextuntagged" title="first untagged frame" class="icon-next2 taggingControls" on-click='nextuntaggedclicked'></span>
               </div>
-            </div>
-            <div class="rowspanned cell">
-              <optional-tags id = "optionalTags" ></optional-tags>
-            </div>
-            <div class="right cell">
-              <div style="position:relative;width:100%;">
+            </td>
+            <td rowspan="2" id="tagsDiv">
+              <div id = "tagsWrapper">
+                  <optional-tags id = "optionalTags" ></optional-tags>
+              </div>
+            </td>
+            <td id = "rightCell">
+              <div class = "relativeDiv">
                 <span id = "movenext" title="next frame"  class="icon-share taggingControls" on-click='saveAndMove'></span>
                 <span id = "lockTag" title="lock tags" class="icon-pushpin taggingControls" style="padding-left:15px" on-click='lockTagsClicked'></span>
               </div>
-            </div>
-        </div>
-        <div class="row">
-          <div class="cell">
-          </div>
-          <div class="empty cell"></div>
-          <div class=" right cell"></div>
-        </div>
-      </div>
+            </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
    </div> 
 </div> 
 </template>
@@ -113,7 +109,6 @@
 
       //Divs and spans
       this.controlWrapper= document.getElementById('controlWrapper');
-      this.messageDiv= document.getElementById('messageDiv');
       this.videoWrapper= document.getElementById('videoWrapper');
       this.videoControls = document.getElementById('videoControls');
       this.overlay = document.getElementById('overlay');
@@ -159,13 +154,13 @@
       this.video.addEventListener( "loadedmetadata", function (e) {
 
             self.controlWrapper.style.display = "block";
-            self.messageDiv.innerHTML = "";
 
             //Position canvas on video
             self.overlay.width = $('#vid').width();
             self.overlay.height = $('#vid').height();
             var offset = $(self).offset();
             self.overlay.style.top = self.video.offsetTop  + "px";
+            self.overlay.style.left = self.video.offsetLeft  + "px";
             
             //Init
             self.frames = self.inputFrames? self.inputFrames:{};
@@ -174,22 +169,11 @@
             self.enableAreaSelect(self);
             self.optionalTags.createTagControls(self.inputtagsarray);
 
-            //Show controls
-            self.stepbwd.style.display = "inline-block";
-            self.stepfwd.style.display = "inline-block";
-            self.playButton.style.display = "inline-block";
-            self.playbackSpan.style.display = "inline-block";
-            self.mute.style.display = "inline-block";
-            self.nextuntagged.style.display = "inline-block";
-            self.movenext.style.display = "inline-block";
-            self.lockTag.style.display = "inline-block";
-
             //Init sliders
             self.volumeSlider.value = .5;
             self.volumeSlider.style.display = "inline-block";
             self.volumeStyle.textContent =  '.volume::-webkit-slider-runnable-track{background-size:50% 100%}';
             self.seekBar.max = self.video.duration;
-            self.seekBar.style.display = "block";
             initSliderStyles('.seek');
 
             self.playingCallback();
@@ -244,10 +228,19 @@
           });
       //Adjusts the canvas to the video
       window.onresize = function(event) {
-          var offset = $(self).offset();
+          var topBefore = self.overlay.style.top;
           self.overlay.style.top = self.video.offsetTop  + "px";
+          //How much the canvas moved
+          var diff = parseInt(self.overlay.style.top) - parseInt(topBefore);
+
+          if(self.selectedLocationId > 0 && diff!==0)//If there is selection and movement
+          {   
+              //Adjust top according to canvas movement
+              var div = document.getElementById(self.selectedLocationId); 
+              div.style.top = parseInt(div.style.top) + diff + "px";
+              self.positionLocationNameLabel(div);
+          }
       };
-      
     },
     
 
@@ -276,7 +269,7 @@
           var areaSelected = false;
           
           $('canvas#overlay').imgAreaSelect({
-                        disable: false, //enable/disable locationging
+                        disable: false, //enable/disable 
                         handles: true, //grab handles when selecting the area
                         aspectRatio: '1:1',
                         maxWidth: self.overlay.offsetWidth, 
@@ -328,9 +321,10 @@
        */
     //Locations management
     positionLocationNameLabel: function(div){
+
         this.locationLabelDiv.style.left = (div.offsetLeft + parseFloat(div.style.width, 10) - parseFloat(this.locationLabelDiv.style.width, 10)) + "px";
 
-        this.locationLabelDiv.style.top = (div.offsetTop - parseFloat(this.locationLabelDiv.style.height, 10)) + "px" ;
+        this.locationLabelDiv.style.top = (div.offsetTop - 1 - parseFloat(this.locationLabelDiv.style.height, 10)) + "px" ;
 
         this.locationLabelSpan.innerHTML = div.id;
         this.locationLabelDiv.style.display = "block";
@@ -375,16 +369,14 @@
               
     },
     locationSelected: function(div) {
-          
+          this.cleanAllLocationBorders();
           if(div.id === this.selectedLocationId)//Unselect
           {
-              this.cleanAllLocationBorders();
               this.optionalTags.toggleEnableButtons(false);
               this.optionalTags.resetSelected();
           }
           else//select
           {
-              this.cleanAllLocationBorders();
               div.style.border = "1px solid red";
               this.selectedLocationId = div.id;
               this.locationLabelDiv.style.display = "block";
@@ -445,17 +437,17 @@
 
             if(this.locationtype.toLowerCase() === "point")
             {
-                  div.style.width = this.locationsize  +  "px";
-                  div.style.height = this.locationsize +  "px";
-                  div.style.top = y1 - this.locationsize/2 +  "px";
-                  div.style.left = x1 - this.locationsize/2 +  "px";
+                  div.style.width = this.locationsize -1 +  "px";//Compensate for 1px border
+                  div.style.height = this.locationsize -1 +  "px";
+                  div.style.top = y1 - this.locationsize/2 -1 +  "px";
+                  div.style.left = x1 - this.locationsize/2 -1 +  "px";
             }
             if(this.locationtype.toLowerCase() === "area")
             {
-                  div.style.width = x2 - x1  +  "px";
-                  div.style.height = y2 - y1 +  "px";
-                  div.style.top = y1 + "px";
-                  div.style.left = x1 + "px";
+                  div.style.width = x2 - x1 -1 +  "px";
+                  div.style.height = y2 - y1 - 1 +  "px";
+                  div.style.top = y1 - 1 + "px";
+                  div.style.left = x1 -1 + "px";
             }
             var self = this;
             $( div )
@@ -561,7 +553,8 @@
        */
     drawLocation: function(x1, y1, x2, y2, locationname) {
 
-            //this.ctx.strokeStyle = 'rgb(59,56,59)';//Gray
+            this.ctx.strokeStyle = 'rgb(0,0,0)';
+            this.ctx.lineWidth = 1;
             if(this.locationtype.toLowerCase() == "point")
             {
                var centerOffset = this.locationsize/2;
@@ -675,7 +668,7 @@
     {
           this.playSpeedControl.style.top = this.videoControls.offsetTop - $('#playSpeedControl').outerHeight()  + "px";
           this.playSpeedControl.style.left = this.videoControls.offsetLeft + this.playbackSpan.offsetLeft  + "px";
-          this.playSpeedControl.style.display = "block";
+          this.playSpeedControl.style.display = this.playSpeedControl.style.display == "none"? "block":"none";
     },
     playclicked: function() {
           this.video.paused?this.playState():this.pauseState();
@@ -720,6 +713,7 @@
               this.lockTagsEnabled = true;
               this.lockTag.className = "icon-price-tag  taggingControls";
               this.selectedTags = selTags;
+              this.stepfwdclicked();
           }
           else
           {
