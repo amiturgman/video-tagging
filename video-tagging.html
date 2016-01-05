@@ -21,7 +21,7 @@
           <div id = "locationLabelDiv" style="width:40px;height:20px;" >
               <span id = "locationLabelSpan"></span>
               
-              <span id = "locationLabelClose" on-click="deleteLocation">X</span>
+              <span id = "closeLocationImage" on-click="deleteLocation">X</span>
           </div>
               <canvas id="overlay"  on-click='videoClicked' class = "overlaystyle" >
                       Your browser does not support the HTML5 canvas location.
@@ -31,20 +31,39 @@
               </video>
       </div>
       <div id="videoControls">
-          <input id="seekBar" class="seek" type="range" min='0' value="0" step=.01 required />
-          <div class="relativeDiv">
+          <input id="seekBar" class="seek" type="range" min='0' value="0" step="any" required />
+          
+          <table id="videoControlsTable" style="margin-left:2%;margin-right:2%;">
+            <tr>
+              <td style="width:5%">
                 <span id = "stepbwd" title="prev" class="icon-backward2 taggingControls" on-click='stepbwdclicked'></span>
+              </td>
+              <td style="width:5%">
                 <span id = "play-pause" title="play/pause" class="icon-play3 taggingControls" on-click='playclicked'></span>
+              </td>
+              <td style="width:5%">
                 <span id = "stepfwd" title="next" class="icon-forward3 taggingControls" on-click='stepfwdclicked'></span>
+              </td>
+              <td style="width:20%;text-align:center">
                 <span id='frameText' title="frame#"></span>
-                <span id="playbackSpan"  class="taggingControls padLeft" on-click="playbackMouseEnter">x 1.0</span>
+              </td>
+              <td style="width:8%" id="playbackCell">
+                <span id="playbackSpan"  class="taggingControls" on-click="playbackMouseEnter">x 1.0</span>
+              </td>
+              <td nowrap="nowrap" style="width:10%">
                 <span id="timeSpan" ></span>
-                <span id = "mute" title="Mute"  class="icon-volume-mute2 taggingControls padLeft" on-click='muteclicked'></span>
+              </td>
+              <td style="width:5%">
+                <span id = "mute" title="Mute"  class="icon-volume-mute2 taggingControls" on-click='muteclicked'></span>
+              </td>
+              <td style="width:10%">
                 <input id="volumeSlider" class="volume" type="range" min=0 max = 1 value=.5 step= .1 required />
-          </div>
+              </td>
+            </tr>
+          </table>
       </div>
       <div id="videoTagControls">
-        <table >
+        <table id = "tagsTable">
           <tr>
             <td id = "leftCell">
                <div class = "relativeDiv">
@@ -105,7 +124,7 @@
       this.selectedTags = [];
       this.x1, this.y1, this.x2, this.y2 = 0;//location coordinates
       this.volumeStyle = document.createElement('style');
-      document.body.appendChild(this.volumeStyle);
+      Polymer.dom(this.root).appendChild(this.volumeStyle);
 
       //Divs and spans
       this.controlWrapper= document.getElementById('controlWrapper');
@@ -129,6 +148,8 @@
       this.stepbwd = document.getElementById("stepbwd");
       this.lockTag = document.getElementById("lockTag");
       this.playSpeedControl = document.getElementById("playSpeedControl");
+
+      this.playbackCell = document.getElementById("playbackCell");
       this.mute = document.getElementById("mute");
       this.movenext = document.getElementById("movenext");
       this.nextuntagged = document.getElementById("nextuntagged");
@@ -158,11 +179,11 @@
             //Position canvas on video
             self.overlay.width = $('#vid').width();
             self.overlay.height = $('#vid').height();
-            var offset = $(self).offset();
+            //var offset = $(self).offset();
             self.overlay.style.top = self.video.offsetTop  + "px";
             self.overlay.style.left = self.video.offsetLeft  + "px";
             
-            //Init
+            //Init variables and controls
             self.frames = self.inputFrames? self.inputFrames:{};
             self.frameTime = 1/self.framerate;
             self.lockTag.className = "icon-pushpin  taggingControls";
@@ -174,7 +195,7 @@
             self.volumeSlider.style.display = "inline-block";
             self.volumeStyle.textContent =  '.volume::-webkit-slider-runnable-track{background-size:50% 100%}';
             self.seekBar.max = self.video.duration;
-            initSliderStyles('.seek');
+            initSliderStyles('.seek', self);
 
             self.playingCallback();
 
@@ -210,7 +231,8 @@
               var arr = [];
               arr.push(e.detail.tagid)
               this.addTagsToLocation(arr);
-              
+              this.sendLocationToHost();//Persist
+
           });
       this.addEventListener("ontagdeleted", function(e) {
             
@@ -229,15 +251,19 @@
       //Adjusts the canvas to the video
       window.onresize = function(event) {
           var topBefore = self.overlay.style.top;
+          var leftBefore = self.overlay.style.left;
           self.overlay.style.top = self.video.offsetTop  + "px";
+          self.overlay.style.left = self.video.offsetLeft  + "px";
           //How much the canvas moved
-          var diff = parseInt(self.overlay.style.top) - parseInt(topBefore);
+          var diffTop = parseInt(self.overlay.style.top) - parseInt(topBefore);
+          var diffLeft = parseInt(self.overlay.style.left) - parseInt(leftBefore);
 
-          if(self.selectedLocationId > 0 && diff!==0)//If there is selection and movement
+          if(self.selectedLocationId > 0 && (diffTop!==0 || diffLeft!== 0))//If there is selection and movement
           {   
-              //Adjust top according to canvas movement
+              //Adjust div top and left according to canvas movement
               var div = document.getElementById(self.selectedLocationId); 
-              div.style.top = parseInt(div.style.top) + diff + "px";
+              div.style.top = parseInt(div.style.top) + diffTop + "px";
+              div.style.left = parseInt(div.style.left) + diffLeft + "px";
               self.positionLocationNameLabel(div);
           }
       };
@@ -324,7 +350,7 @@
 
         this.locationLabelDiv.style.left = (div.offsetLeft + parseFloat(div.style.width, 10) - parseFloat(this.locationLabelDiv.style.width, 10)) + "px";
 
-        this.locationLabelDiv.style.top = (div.offsetTop - 1 - parseFloat(this.locationLabelDiv.style.height, 10)) + "px" ;
+        this.locationLabelDiv.style.top = (div.offsetTop - 5 - parseFloat(this.locationLabelDiv.style.height, 10)) + "px" ;
 
         this.locationLabelSpan.innerHTML = div.id;
         this.locationLabelDiv.style.display = "block";
@@ -335,7 +361,7 @@
                       
         this.drawLocation(this.x1, this.y1, this.x2, this.y2, location.name);
 
-        var div = document.getElementById(location.name);
+        var div = document.getElementById(location.name);//Gets the div that was created in draw
         this.positionLocationNameLabel(div);
         this.locationSelected(div);//Select new location automatically
 
@@ -356,6 +382,7 @@
                   setTimeout(function(){ self.stepfwdclicked(); }, 500);
             }
         }
+        this.sendLocationToHost();//Persist
     },
     addTagsToLocation: function(selectedTagsArray){
           
@@ -365,7 +392,7 @@
                     
                   location.tags.push(selectedTagsArray[i]);
             }
-            this.sendLocationToHost();
+            
               
     },
     locationSelected: function(div) {
@@ -437,17 +464,17 @@
 
             if(this.locationtype.toLowerCase() === "point")
             {
-                  div.style.width = this.locationsize -1 +  "px";//Compensate for 1px border
-                  div.style.height = this.locationsize -1 +  "px";
-                  div.style.top = y1 - this.locationsize/2 -1 +  "px";
-                  div.style.left = x1 - this.locationsize/2 -1 +  "px";
+                  div.style.width = this.locationsize - 1 +  "px";//Compensate for 1px border
+                  div.style.height = this.locationsize - 1 +  "px";
+                  div.style.top = y1 - this.locationsize/2  +  "px";
+                  div.style.left = x1 - this.locationsize/2  +  "px";
             }
             if(this.locationtype.toLowerCase() === "area")
             {
-                  div.style.width = x2 - x1 -1 +  "px";
-                  div.style.height = y2 - y1 - 1 +  "px";
-                  div.style.top = y1 - 1 + "px";
-                  div.style.left = x1 -1 + "px";
+                  div.style.width = x2 - x1  +  "px";
+                  div.style.height = y2 - y1   +  "px";
+                  div.style.top = y1  + "px";
+                  div.style.left = x1  + "px";
             }
             var self = this;
             $( div )
@@ -467,7 +494,7 @@
                         }
                       });
 
-            document.getElementById('videoWrapper').appendChild(div);
+            Polymer.dom(this.$.videoWrapper).appendChild(div); 
     },
     /**
        * @method cleanAllLocationBorders
@@ -514,8 +541,6 @@
        */
     addLocation: function(x1, y1, x2, y2) {
             
-            console.log(x1 + "_" + y1 + "_" + x2 + "_" + y2)
-
             var location = {};
             location.x1 = x1;
             location.y1 = y1;
@@ -667,7 +692,7 @@
     playbackMouseEnter: function()
     {
           this.playSpeedControl.style.top = this.videoControls.offsetTop - $('#playSpeedControl').outerHeight()  + "px";
-          this.playSpeedControl.style.left = this.videoControls.offsetLeft + this.playbackSpan.offsetLeft  + "px";
+          this.playSpeedControl.style.left = this.videoControls.offsetLeft + this.playbackCell.offsetLeft + ($('#playbackCell').outerWidth()/4)  + "px";
           this.playSpeedControl.style.display = this.playSpeedControl.style.display == "none"? "block":"none";
     },
     playclicked: function() {
@@ -750,9 +775,10 @@
         this.lockTag.className = "icon-pushpin taggingControls";
         this.lockTagsEnabled = false;
         var self = this;
+        
         this.playing = setInterval(function() {
             self.playingCallback();
-        }, 10);
+        }, 1000 / this.framerate);
     },
     pauseState: function() {
             this.video.pause();
@@ -775,7 +801,7 @@
                 this.seekBar.value = this.video.currentTime;
                 //Fire event to update seek bar track
                 var evt = document.createEvent("Events");
-                evt.initEvent("change", true, false);
+                evt.initEvent("seekbarchange", true, false);
                 this.seekBar.dispatchEvent(evt);
             }
             this.showAllLocations();
