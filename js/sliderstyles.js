@@ -31,7 +31,7 @@ var initSliderStyles = function(className, self) {
         for(var i = 0; i < selectors.length; i++) {
           
           var style = document.createElement('style');
-          Polymer.dom(self.root).appendChild(style);
+          document.body.appendChild(style);
 
           styles.push(style); 
 
