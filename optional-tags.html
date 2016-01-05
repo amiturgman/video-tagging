@@ -53,7 +53,7 @@
                 });
                  
                 btn.value = tagsArray[index];
-                this.buttonsContainer.appendChild(btn);   
+                Polymer.dom(this.$.buttonsContainer).appendChild(btn);  
           }
        },
        displaySelectedTags: function(tagsArray)

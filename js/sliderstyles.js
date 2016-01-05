@@ -7,7 +7,8 @@ var styles = [];
 var getTrackStyleStr = function(el, j, className) {
   var str = '', 
       min = el.min || 0, 
-      perc = (el.max) ? (100*(el.value - min)/(el.max - min)) : el.value, 
+      //perc = (el.max) ? (100*(el.value - min)/(el.max - min)) : el.value, 
+      perc =  100 * el.value / el.max,
       val = perc + '% 100%';
 
   for(var i = 0; i < prefs.length; i++) {
@@ -23,19 +24,20 @@ var setDragStyleStr = function(evt) {
   styles[this.index].textContent = trackStyle;
 };
 
-var initSliderStyles = function(className) {
+var initSliderStyles = function(className, self) {
         
         var selectors = document.querySelectorAll(className);
 
         for(var i = 0; i < selectors.length; i++) {
           
           var style = document.createElement('style');
-          document.body.appendChild(style);
+          Polymer.dom(self.root).appendChild(style);
+
           styles.push(style); 
 
           var b = {}
           b.index =  i;
           b.type = className;
-          selectors[i].addEventListener('change', setDragStyleStr.bind(b), false);
+          selectors[i].addEventListener('seekbarchange', setDragStyleStr.bind(b), false);
         }
 };
