@@ -311,21 +311,8 @@
                                 self.y1 = selection.y1;
                                 self.x2 = selection.x2;
                                 self.y2 = selection.y2;
-                              }
-                              else
-                              {
-                                  if(self.areaSelected)
-                                  {
-                                      self.areaSelected = false;
-                                      self.createLocation();
-                                  }
-                                  else
-                                  {
-                                      self.optionalTags.toggleEnableButtons(false);
-                                      self.optionalTags.resetSelected();
-                                      self.locationLabelDiv.style.display = "none";
-                                  }
-                                  self.clearArea(); 
+                                self.createLocation();
+                                self.clearArea(); 
                               }
                          },
                          onSelectStart: function(img, selection){
