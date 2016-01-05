@@ -471,7 +471,7 @@ input[type='range']:focus {
 
 tr td{
   border:0px solid green;
-  height: 10px;
+  padding-top: 1%;
 
 }
 
