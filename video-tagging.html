@@ -2,11 +2,9 @@
 <link rel="import" href="optional-tags.html">
 <link rel="import" href="playback-control.html">
 
-
 <!--
 `<video-tagging>` control for video tagging.
 -->
-
 <dom-module id="video-tagging">
 
   <template>
@@ -33,61 +31,52 @@
       <div id="videoControls">
           <input id="seekBar" class="seek" type="range" min='0' value="0" step="any" required />
           
-          <table id="videoControlsTable" style="margin-left:2%;margin-right:2%;">
+          <table id="videoControlsTable">
             <tr>
-              <td style="width:5%">
+              <td class = "videoControlCell simpleControl">
                 <span id = "stepbwd" title="prev" class="icon-backward2 taggingControls" on-click='stepbwdclicked'></span>
               </td>
-              <td style="width:5%">
+              <td class = "videoControlCell simpleControl">
                 <span id = "play-pause" title="play/pause" class="icon-play3 taggingControls" on-click='playclicked'></span>
               </td>
-              <td style="width:5%">
+              <td class = "videoControlCell simpleControl">
                 <span id = "stepfwd" title="next" class="icon-forward3 taggingControls" on-click='stepfwdclicked'></span>
               </td>
-              <td style="width:20%;text-align:center">
-                <span id='frameText' title="frame#"></span>
+              <td class = "videoControlCell frameNumber">
+                <span id='frameText' class = "textElements" title="frame#"></span>
               </td>
-              <td style="width:8%" id="playbackCell">
-                <span id="playbackSpan"  class="taggingControls" on-click="playbackMouseEnter">x 1.0</span>
+              <td id="playbackCell" class = "videoControlCell longControl">
+                <span id="playbackSpan"  class = "textElements" on-click="playbackMouseEnter">x 1.0</span>
               </td>
-              <td nowrap="nowrap" style="width:10%">
-                <span id="timeSpan" ></span>
+              <td nowrap="nowrap" class = "videoControlCell simpleControl">
+                <span id="timeSpan" class = "textElements" ></span>
               </td>
-              <td style="width:5%">
+              <td class = "videoControlCell simpleControl">
                 <span id = "mute" title="Mute"  class="icon-volume-mute2 taggingControls" on-click='muteclicked'></span>
               </td>
-              <td style="width:10%">
-                <input id="volumeSlider" class="volume" type="range" min=0 max = 1 value=.5 step= .1 required />
+              <td class = "videoControlCell longControl">
+                  <input id="volumeSlider" class="volume" type="range" min=0 max = 1 value=.5 step= .1 required />
               </td>
             </tr>
           </table>
       </div>
       <div id="videoTagControls">
-        <table id = "tagsTable">
-          <tr>
-            <td id = "leftCell">
-               <div class = "relativeDiv">
-                  <span id = "nextuntagged" title="first untagged frame" class="icon-next2 taggingControls" on-click='nextuntaggedclicked'></span>
-              </div>
-            </td>
-            <td rowspan="2" id="tagsDiv">
-              <div id = "tagsWrapper">
-                  <optional-tags id = "optionalTags" ></optional-tags>
-              </div>
-            </td>
-            <td id = "rightCell">
-              <div class = "relativeDiv">
-                <span id = "emptyFrame" title="next frame"  class="icon-share taggingControls" on-click='emptyFrameClicked'></span>
-                <span id = "lockTag" title="lock tags" class="icon-pushpin taggingControls" style="padding-left:15px" on-click='lockTagsClicked'></span>
-              </div>
-            </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-        </tr>
-      </table>
-   </div> 
+
+        <div class = "nextUntagged">
+                <span id = "nextuntagged" title="first untagged frame" class="icon-next2 taggingControls" on-click='nextuntaggedclicked'></span>
+          </div>
+          <div class = "optionalTags">
+            <div class = "optionalTagsWrapper">
+              <optional-tags id = "optionalTags" ></optional-tags>
+            </div>
+          </div>
+          <div class = "emptyFrame">
+              <span id = "emptyFrame" title="next frame"  class="icon-share taggingControls" on-click='emptyFrameClicked'></span>
+              <span id = "lockTag" title="lock tags" class="icon-pushpin taggingControls"  on-click='lockTagsClicked'></span>
+          </div>
+          <div style="clear: both">
+          </div>
+      </div> 
 </div> 
 </template>
 
@@ -510,7 +499,7 @@
                   var location = locations[i];
                   if(Object.keys(location).length === 0)//Frame was tagged as empty
                   {
-                      this.indicateEmptyFrame();
+                      this.indicateEmptyFrame(true);
                       continue;
                   }
                   //Calculate x, y relative to current width and height          
@@ -536,6 +525,8 @@
        */
     addLocation: function(x1, y1, x2, y2) {
             
+            this.indicateEmptyFrame(false);//Clear empty frame control
+
             var location = {};
             location.x1 = x1;
             location.y1 = y1;
@@ -629,7 +620,7 @@
         if(locations === undefined || locations.length === 0)
         {
             this.frames[frameIndex] = [{}];
-            this.indicateEmptyFrame();
+            this.indicateEmptyFrame(true);
             this.sendLocationToHost();
         }
     },
@@ -656,9 +647,12 @@
     getCurrentFrame: function() {
       return Math.round(this.video.currentTime * this.framerate);
     },
-    indicateEmptyFrame : function()
+    indicateEmptyFrame : function(selected)
     {
+        if(selected)
             this.emptyFrame.style.color = "rgb(0,255,0)";
+        else
+            this.emptyFrame.style.color = "rgb(255,255,255)";
     },
 
 
@@ -778,7 +772,7 @@
         
         this.playing = setInterval(function() {
             self.playingCallback();
-        }, 1000 / this.framerate);
+        }, 10);
     },
     pauseState: function() {
 
@@ -810,8 +804,8 @@
 });
 
 </script>
-<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.3.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script> 
+<script src="../jquery/jquery.min.js"></script>
+
 <script src="js/jquery.imgareaselect.js"></script>
 <script src="../moment/moment.js"></script>
 <script src="js/sliderstyles.js"></script>
