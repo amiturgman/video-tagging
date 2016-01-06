@@ -243,6 +243,13 @@ input[type='range']:focus {
     padding-left: .2em;
 }
 
+.locationCanvas
+{
+    z-index: 100;
+    background-color: transparent;
+    position: absolute;
+}
+
 #closeLocationImage
 {
     cursor:pointer; 

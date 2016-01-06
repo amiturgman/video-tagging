@@ -339,10 +339,7 @@
         var location = this.addLocation(this.x1, this.y1, this.x2, this.y2);
                       
         this.drawLocation(this.x1, this.y1, this.x2, this.y2, location.name);
-
-        var div = document.getElementById(location.name);//Gets the div that was created in draw
-        this.positionLocationNameLabel(div);
-        this.locationSelected(div);//Select new location automatically
+        this.selectDiv(location.name);
 
         if(this.lockTagsEnabled)//
         {   
@@ -435,9 +432,6 @@
             y2 = y2 + offset.top;
 
             var div = document.createElement("div");
-            div.style.backgroundColor = "transparent";
-            div.style.zIndex = 100;
-            div.style.position = 'absolute';
             div.id = locationId;
             div.className = "locationCanvas";
 
@@ -515,8 +509,19 @@
                   x2 = (location.x2 * widthRatio);
                   y2 = (location.y2 * heightRatio);
                   this.drawLocation( x1, y1, x2, y2, location.name);
+
+                  if(locations.length === 1)//Only 1 location - select it and show tags
+                  {
+                      this.selectDiv(location.name)
+                  }
               }
             }
+    },
+    selectDiv: function(divId)
+    {
+        var div = document.getElementById(divId);//Gets the div that was created in draw
+        this.positionLocationNameLabel(div);
+        this.locationSelected(div);//Select new location automatically
     },
     /** 
        * @method addLocation
