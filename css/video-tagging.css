@@ -229,18 +229,18 @@ input[type='range']:focus {
     position:absolute; 
     z-index:50000;
     border:1px solid #000;
-    padding-top: .2em;
+    
     color:white;
     font-family: "Arial";
-    font-size: 15px;
+    
     display: none;
-    width:40px;
-    height:20px;
+    
+    
 }
 
 #locationLabelSpan
 {
-    padding-left: .2em;
+    padding-left: .3em;
 }
 
 .locationCanvas

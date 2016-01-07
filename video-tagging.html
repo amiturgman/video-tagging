@@ -46,7 +46,7 @@
                 <span id='frameText' class = "textElements" title="frame#"></span>
               </td>
               <td id="playbackCell" class = "videoControlCell longControl">
-                <span id="playbackSpan"  class = "textElements" on-click="playbackMouseEnter">x 1.0</span>
+                <span id="playbackSpan"  class = "textElements" on-click="playbackSpeedClicked">x 1.0</span>
               </td>
               <td nowrap="nowrap" class = "videoControlCell simpleControl">
                 <span id="timeSpan" class = "textElements" ></span>
@@ -329,7 +329,7 @@
 
         this.locationLabelDiv.style.left = (div.offsetLeft + parseFloat(div.style.width, 10) - parseFloat(this.locationLabelDiv.style.width, 10)) + "px";
 
-        this.locationLabelDiv.style.top = (div.offsetTop - 5 - parseFloat(this.locationLabelDiv.style.height, 10)) + "px" ;
+        this.locationLabelDiv.style.top = (div.offsetTop - parseFloat(this.locationLabelDiv.style.height, 10)) + "px" ;
 
         this.locationLabelSpan.innerHTML = div.id;
         this.locationLabelDiv.style.display = "block";
@@ -368,8 +368,6 @@
                     
                   location.tags.push(selectedTagsArray[i]);
             }
-            
-              
     },
     locationSelected: function(div) {
           this.cleanAllLocationBorders();
@@ -629,6 +627,10 @@
             this.frames[frameIndex] = [{}];
             this.indicateEmptyFrame(true);
             this.sendLocationToHost();
+            if(this.lockTagsEnabled)
+            {
+                this.stepfwdclicked();
+            }
         }
     },
     resetEmptyFrame: function()
@@ -703,11 +705,11 @@
           }
           this.playSpeedControl.style.display = "none";
     },
-    playbackMouseEnter: function()
+    playbackSpeedClicked: function()
     {
           this.playSpeedControl.style.top = this.videoControls.offsetTop - $('#playSpeedControl').outerHeight()  + "px";
           this.playSpeedControl.style.left = this.videoControls.offsetLeft + this.playbackCell.offsetLeft + ($('#playbackCell').outerWidth()/4)  + "px";
-          this.playSpeedControl.style.display = this.playSpeedControl.style.display == "none"? "block":"none";
+          this.playSpeedControl.style.display = this.playSpeedControl.style.display === "block"?"none":"block";
     },
     playclicked: function() {
           this.video.paused?this.playState():this.pauseState();
