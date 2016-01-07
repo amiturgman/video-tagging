@@ -267,7 +267,7 @@ input[type='range']:focus {
     background-color: black;
     display: block;
     position: relative;
-    margin-top: -4px;
+    margin-top: -6px;
 
 }
 
@@ -379,7 +379,7 @@ tr td{
     margin: 0px 6px 10px 5px; 
     background : rgb(59,56,56);
     color:rgb(127,127,127);
-    max-width: 100px;
+    max-width: 200px;
     font-family: Arial;
     font-size: 15px;
     border: 1px solid rgb(64,64,64);
