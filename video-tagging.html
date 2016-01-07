@@ -19,7 +19,7 @@
           <div id = "locationLabelDiv" style="width:40px;height:20px;" >
               <span id = "locationLabelSpan"></span>
               
-              <span id = "closeLocationImage" on-click="deleteLocation">X</span>
+              <span id = "closeLocationImage" on-click="deleteLocation" class = "clickableControl">X</span>
           </div>
               <canvas id="overlay"  on-click='videoClicked' class = "overlaystyle" >
                       Your browser does not support the HTML5 canvas location.
@@ -29,35 +29,35 @@
               </video>
       </div>
       <div id="videoControls">
-          <input id="seekBar" class="seek" type="range" min='0' value="0" step="any" required />
+          <input id="seekBar" class="seek clickableControl" type="range" min='0' value="0" step="any" required />
           
           <table id="videoControlsTable">
             <tr>
-              <td class = "videoControlCell simpleControl">
+              <td class = "videoControlCell simpleControl clickableControl">
                 <span id = "stepbwd" title="prev" class="icon-backward2 taggingControls" on-click='stepbwdclicked'></span>
               </td>
-              <td class = "videoControlCell simpleControl">
+              <td class = "videoControlCell simpleControl clickableControl">
                 <span id = "play-pause" title="play/pause" class="icon-play3 taggingControls" on-click='playclicked'></span>
               </td>
-              <td class = "videoControlCell simpleControl">
+              <td class = "videoControlCell simpleControl clickableControl">
                 <span id = "stepfwd" title="next" class="icon-forward3 taggingControls" on-click='stepfwdclicked'></span>
               </td>
-              <td class = "videoControlCell simpleControl">
+              <td class = "videoControlCell simpleControl clickableControl">
                 <span id = "nextuntagged"  title="first untagged frame" class="icon-next2 taggingControls" on-click='nextuntaggedclicked'></span>
               </td>
               <td class = "videoControlCell frameNumber">
                 <span id='frameText' class = "textElements" title="frame#"></span>
               </td>
-              <td id="playbackCell" title="playback speed" class = "videoControlCell longControl">
+              <td id="playbackCell" title="playback speed" class = "videoControlCell longControl clickableControl">
                 <span id="playbackSpan"  class = "textElements" on-click="playbackSpeedClicked">x 1.0</span>
               </td>
               <td nowrap="nowrap" class = "videoControlCell simpleControl">
                 <span id="timeSpan" class = "textElements" ></span>
               </td>
-              <td class = "videoControlCell simpleControl">
+              <td class = "videoControlCell simpleControl clickableControl">
                 <span id = "mute" title="Mute"  class="icon-volume-mute2 taggingControls" on-click='muteclicked'></span>
               </td>
-              <td class = "videoControlCell longControl">
+              <td class = "videoControlCell longControl clickableControl">
                   <input id="volumeSlider" class="volume" type="range" min=0 max = 1 value=.5 step= .1 required />
               </td>
             </tr>
@@ -368,6 +368,43 @@
                     
                   location.tags.push(selectedTagsArray[i]);
             }
+    },
+    nextuntaggedclicked :function()
+    {
+          var frameIndex = this.getCurrentFrame();
+          
+          var frames = this.videoduration * this.framerate;
+          var framesForward = 1;
+          for (i = frameIndex; i < frames; i++) {
+
+                if(this.frames[i + 1] === undefined)//The next frame is a first occurence of a frame with no locations
+                {
+                      this.pauseState();
+                      this.video.currentTime += (this.frameTime * framesForward);
+                      this.playingCallback();
+                      break; 
+                }
+                framesForward++;
+            }
+    },
+    lockTagsClicked: function() {
+
+          var selTags = this.optionalTags.getSelectedTags();
+          if (!this.lockTagsEnabled && selTags.length > 0)
+          {
+              this.pauseState();
+              this.lockTagsEnabled = true;
+              this.lockTag.style.color = "rgb(255,255,255)";
+              this.selectedTags = selTags;
+              this.stepfwdclicked();
+          }
+          else
+          {
+              this.lockTagsEnabled = false;
+              this.lockTag.style.color = "rgb(89,89,89)";
+              this.selectedTags = [];
+              this.optionalTags.resetSelected();
+          }
     },
     locationSelected: function(div) {
           this.cleanAllLocationBorders();
@@ -727,43 +764,7 @@
               this.playingCallback();
           }
     },
-    nextuntaggedclicked :function()
-    {
-          var frameIndex = this.getCurrentFrame();
-          
-          var frames = this.videoduration * this.framerate;
-          var framesForward = 1;
-          for (i = frameIndex; i < frames; i++) {
-
-                if(this.frames[i + 1] === undefined)//The next frame is a first occurence of a frame with no locations
-                {
-                      this.pauseState();
-                      this.video.currentTime += (this.frameTime * framesForward);
-                      this.playingCallback();
-                      break; 
-                }
-                framesForward++;
-            }
-    },
-    lockTagsClicked: function() {
-
-          var selTags = this.optionalTags.getSelectedTags();
-          if (!this.lockTagsEnabled && selTags.length > 0)
-          {
-              this.pauseState();
-              this.lockTagsEnabled = true;
-              this.lockTag.style.color = "rgb(255,255,255)";
-              this.selectedTags = selTags;
-              this.stepfwdclicked();
-          }
-          else
-          {
-              this.lockTagsEnabled = false;
-              this.lockTag.style.color = "rgb(89,89,89)";
-              this.selectedTags = [];
-              this.optionalTags.resetSelected();
-          }
-    },
+    
     videoSrcChanged: function(newValue, oldValue) { 
 
           if(this.video)
@@ -791,6 +792,7 @@
         this.playButton.className  = "icon-pause2 taggingControls";
         this.lockTag.className = "icon-pushpin taggingControls";
         this.lockTagsEnabled = false;
+        this.optionalTags.toggleEnableButtons(false);
         var self = this;
         
         this.playing = setInterval(function() {
@@ -800,7 +802,8 @@
     pauseState: function() {
 
             this.video.pause();
-            this.playButton.className  = "icon-play3 taggingControls";    
+            this.playButton.className  = "icon-play3 taggingControls"; 
+            this.optionalTags.toggleEnableButtons(false);  
             clearInterval(this.playing);
     },
     playingCallback: function() {
@@ -828,7 +831,6 @@
 
 </script>
 <script src="../jquery/jquery.min.js"></script>
-
 <script src="js/jquery.imgareaselect.js"></script>
 <script src="../moment/moment.js"></script>
 <script src="js/sliderstyles.js"></script>
