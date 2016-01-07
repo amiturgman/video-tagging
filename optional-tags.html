@@ -30,12 +30,11 @@
                 var btn = document.createElement("input");
                 btn.id = tagsArray[index];
                 btn.type = "button";
-                btn.className = "tagButtons";
-                btn.style.cursor = "pointer";
-              
+                btn.className = "tagButtons clickableControl";
+                
                 btn.onclick = this.submitTextClicked;
                 btn.selected = false;
-                btn.disabled = true;
+                btn.disabled = 'disabled';
 
                 var self = this;
                 btn.addEventListener("click", function(e) {
