@@ -42,10 +42,13 @@
               <td class = "videoControlCell simpleControl">
                 <span id = "stepfwd" title="next" class="icon-forward3 taggingControls" on-click='stepfwdclicked'></span>
               </td>
+              <td class = "videoControlCell simpleControl">
+                <span id = "nextuntagged"  title="first untagged frame" class="icon-next2 taggingControls" on-click='nextuntaggedclicked'></span>
+              </td>
               <td class = "videoControlCell frameNumber">
                 <span id='frameText' class = "textElements" title="frame#"></span>
               </td>
-              <td id="playbackCell" class = "videoControlCell longControl">
+              <td id="playbackCell" title="playback speed" class = "videoControlCell longControl">
                 <span id="playbackSpan"  class = "textElements" on-click="playbackSpeedClicked">x 1.0</span>
               </td>
               <td nowrap="nowrap" class = "videoControlCell simpleControl">
@@ -61,10 +64,7 @@
           </table>
       </div>
       <div id="videoTagControls">
-
-        <div class = "nextUntagged">
-                <span id = "nextuntagged" title="first untagged frame" class="icon-next2 taggingControls" on-click='nextuntaggedclicked'></span>
-          </div>
+        
           <div class = "optionalTags">
             <div class = "optionalTagsWrapper">
               <optional-tags id = "optionalTags" ></optional-tags>
@@ -378,7 +378,7 @@
           }
           else//select
           {
-              div.style.border = "1px solid red";
+              div.style.border = "1px solid rgb(255, 0, 0)";
               this.selectedLocationId = div.id;
               this.locationLabelDiv.style.display = "block";
 
@@ -671,9 +671,9 @@
     indicateEmptyFrame : function(selected)
     {
         if(selected)
-            this.emptyFrame.style.color = "rgb(0,255,0)";
-        else
             this.emptyFrame.style.color = "rgb(255,255,255)";
+        else
+            this.emptyFrame.style.color = "rgb(89,89,89)";
 
     },
 
@@ -752,14 +752,14 @@
           {
               this.pauseState();
               this.lockTagsEnabled = true;
-              this.lockTag.style.color = "rgb(0,255,0)";
+              this.lockTag.style.color = "rgb(255,255,255)";
               this.selectedTags = selTags;
               this.stepfwdclicked();
           }
           else
           {
               this.lockTagsEnabled = false;
-              this.lockTag.style.color = "rgb(255,255,255)";
+              this.lockTag.style.color = "rgb(89,89,89)";
               this.selectedTags = [];
               this.optionalTags.resetSelected();
           }
