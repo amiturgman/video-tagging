@@ -1,4 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="video-taggingstyles.html">
+<link rel="import" href="slider-styles.html">
 <link rel="import" href="optional-tags.html">
 <link rel="import" href="playback-control.html">
 
@@ -8,8 +10,11 @@
 <dom-module id="video-tagging">
 
   <template>
+    <style include="video-taggingstyles"></style>
     
     <link rel="stylesheet" href="css/video-tagging.css" />
+    
+    <link rel="stylesheet" href="css/sliders.css" />
     <link rel="stylesheet" href="css/imgareaselect-animated.css" />
     <link rel="stylesheet" href="assets/icons/style.css">
     
@@ -57,8 +62,8 @@
               <td class = "videoControlCell simpleControl clickableControl">
                 <span id = "mute" title="Mute"  class="icon-volume-mute2 taggingControls" on-click='muteclicked'></span>
               </td>
-              <td class = "videoControlCell longControl clickableControl">
-                  <input id="volumeSlider" class="volume" type="range" min=0 max = 1 value=.5 step= .1 required />
+              <td class = "videoControlCell longControl">
+                  <input id="volumeSlider" class="volume clickableControl" type="range" min=0 max = 1 value=.5 step= .1 required />
               </td>
             </tr>
           </table>
@@ -166,8 +171,8 @@
             self.controlWrapper.style.display = "block";
 
             //Position canvas on video
-            self.overlay.width = $('#vid').width();
-            self.overlay.height = $('#vid').height();
+            self.overlay.width = self.video.offsetWidth ;
+            self.overlay.height = self.video.offsetHeight ;
             //var offset = $(self).offset();
             self.overlay.style.top = self.video.offsetTop  + "px";
             self.overlay.style.left = self.video.offsetLeft  + "px";
@@ -244,8 +249,12 @@
       window.onresize = function(event) {
           var topBefore = self.overlay.style.top;
           var leftBefore = self.overlay.style.left;
-          self.overlay.style.top = self.video.offsetTop  + "px";
-          self.overlay.style.left = self.video.offsetLeft  + "px";
+          
+          //self.overlay.style.top = self.video.offsetTop  + "px";
+          //self.overlay.style.left = self.video.offsetLeft  + "px";
+          $('#overlay').css('top', self.video.offsetTop);
+          $('#overlay').css('left', self.video.offsetLeft);
+
           //How much the canvas moved
           var diffTop = parseInt(self.overlay.style.top) - parseInt(topBefore);
           var diffLeft = parseInt(self.overlay.style.left) - parseInt(leftBefore);
@@ -292,6 +301,7 @@
                         aspectRatio: '1:1',
                         maxWidth: self.overlay.offsetWidth, 
                         maxHeight: self.overlay.offsetHeight,
+                        minWidth:10,
                         fadeSpeed: 200,
                         
                         onSelectEnd: function(img, selection){
@@ -309,7 +319,7 @@
                          },
                          onSelectStart: function(img, selection){
 
-                              self.cleanAllLocationBorders();
+                              self.cleanSelectedElements();
                          },
                       }); 
           }
@@ -407,14 +417,7 @@
           }
     },
     locationSelected: function(div) {
-          this.cleanAllLocationBorders();
-          if(div.id === this.selectedLocationId)//Unselect
-          {
-              this.optionalTags.toggleEnableButtons(false);
-              this.optionalTags.resetSelected();
-          }
-          else//select
-          {
+              this.cleanSelectedElements();
               div.style.border = "1px solid rgb(255, 0, 0)";
               this.selectedLocationId = div.id;
               this.locationLabelDiv.style.display = "block";
@@ -428,7 +431,6 @@
                   var tags = this.frames[this.getCurrentFrame()][this.selectedLocationId - 1].tags;
                   self.optionalTags.displaySelectedTags(tags);
               }
-          }
     },
     deleteLocation: function(e) {
           
@@ -509,17 +511,19 @@
             Polymer.dom(this.$.videoWrapper).appendChild(div); 
     },
     /**
-       * @method cleanAllLocationBorders
-       * Removes all borders of locations
+       * @method cleanSelectedElements
+       * Removes all borders of locations and disables label buttons
        */
-    cleanAllLocationBorders: function()
+    cleanSelectedElements: function()
     {
           $(this.videoWrapper).children(".locationCanvas").css('border-width', "0");
           this.selectedLocationId = 0;
+          this.optionalTags.toggleEnableButtons(false);
+          this.optionalTags.resetSelected();
     },
     showAllLocations: function() {
             this.clearFrameElements();//Clear canvas
-            this.cleanAllLocationBorders();//Clear selected locations
+            this.cleanSelectedElements();//Clear selected locations
             var offset = $(this).offset();
             var frameIndex = this.getCurrentFrame();
             var locations = this.frames[frameIndex];
@@ -744,8 +748,10 @@
     },
     playbackSpeedClicked: function()
     {
-          this.playSpeedControl.style.top = this.videoControls.offsetTop - $('#playSpeedControl').outerHeight()  + "px";
-          this.playSpeedControl.style.left = this.videoControls.offsetLeft + this.playbackCell.offsetLeft + ($('#playbackCell').outerWidth()/4)  + "px";
+          var offset = $( '#playbackCell' ).offset();
+          var top = offset.top - $('#playSpeedControl').height();
+          var left = offset.left + $('#playbackCell').width() / 4;
+          $('#playSpeedControl').css({'left': left, 'top': top});
           this.playSpeedControl.style.display = this.playSpeedControl.style.display === "block"?"none":"block";
     },
     playclicked: function() {
@@ -774,7 +780,7 @@
           }
      },
     videoClicked: function(e) {
-            this.cleanAllLocationBorders(); 
+            this.cleanSelectedElements();
             if(this.locationtype.toLowerCase() !== "area")
             {
                 var offset = $(this).offset();

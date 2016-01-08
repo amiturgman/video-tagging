@@ -1,9 +1,11 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="video-taggingstyles.html">
 
 
 <dom-module id="playback-control">
 
   <template>
+    <style include="video-taggingstyles"></style>
              <div id = "container" on-mouseleave="containerMouseOut">
                <div id = "speed1" class = "playbackValues clickableControl" on-click = "playbackClicked">x 1.0  </div>
                <div id = "speed2" class = "playbackValues clickableControl" on-click = "playbackClicked">x .50</div>
