@@ -21,8 +21,8 @@
        },
        attached: function()
        {
-             this.tagsContainer = document.getElementById('tagsContainer');
-             this.buttonsContainer = document.getElementById('buttonsContainer');
+             this.tagsContainer = this.$$('#tagsContainer');
+             this.buttonsContainer = this.$$('#buttonsContainer');
        },
        createTagControls: function(tagsArray)
        {
@@ -94,17 +94,17 @@
        },
        resetSelected: function()
        {
-            for (i = 0; i < this.buttonsContainer.childNodes.length; i++) {
-
-                this.setUnselected(this.buttonsContainer.childNodes[i]);
-            }
+            var self = this;
+            $(this.buttonsContainer).children().each(function(index){
+                      self.setUnselected(this);
+            });
        },
        toggleEnableButtons: function(enable)
        {
-            for (i = 0; i < this.buttonsContainer.childNodes.length; i++) {
-
-                this.buttonsContainer.childNodes[i].disabled = !enable;
-            }
+            var self = this;
+            $(this.buttonsContainer).children().each(function(index){
+                      this.disabled = !enable;
+            });
        }
    });
 </script>

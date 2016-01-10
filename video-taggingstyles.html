@@ -3,240 +3,228 @@
 
     <style>
       	
+        /*General*/
+
+        :host {
+              display: block;
+              box-sizing: border-box;
+            }
 
 
+        .controlWrapper
+        {
+            width:100%;
+            height:100%;
+            border: 0px;
+            border-style: solid;
+            border-color: green;
+            display: none;
+            overflow: hidden;
+            background-color: rgb(64,64,64);
+        }
 
-/*General*/
+        .clickableControl
+        {
+            cursor: pointer;
+        }
 
-:host {
-      display: block;
-      box-sizing: border-box;
-    }
-
-
-#controlWrapper
-{
-    width:100%;
-    height:100%;
-    border: 0px;
-    border-style: solid;
-    border-color: green;
-    display: none;
-    overflow: hidden;
-    background-color: rgb(64,64,64)
-
-}
-
-
-
-.clickableControl
-{
-    cursor: pointer;
-}
-
-.relativeDiv
-{
-    position:relative;
-    width:100%;
-}
+        .relativeDiv
+        {
+            position:relative;
+        }
 
 
-/*Video area*/
-#video-wrapper  {
-    width:100%;
-    position: relative; 
-}
+        /*Video area*/
 
-.overlaystyle {
-  position: absolute; 
-  z-index: 20;
-  border:0px solid green;
-}
+        .overlaystyle {
+          position: absolute; 
+          z-index: 20;
+          border:0px solid green;
+        }
 
-#vid {
-  z-index: 2;
-  width: 100%;
-}
+        .videoStyle {
+          z-index: 2;
+          width: 100%;
+        }
 
-/*playback*/
+        /*playback*/
 
-#playSpeedControl  {
-    
-    background:black;
-    z-index:20000;
-    color:white;
-    position: absolute;
-    border:.08em solid white;
-    display: none;
-}
+        .playSpeedControl  {
+            
+            background:black;
+            z-index:20000;
+            color:white;
+            position: absolute;
+            border:.08em solid white;
+            display: none;
+        }
 
-.playbackValues
-{
-    padding:.2em;
-    color: rgb(191,191,191);
-    text-align: center;
-    font-family: Arial;
-}
+        .playbackValues
+        {
+            padding:.2em;
+            color: rgb(191,191,191);
+            text-align: center;
+            font-family: Arial;
+        }
 
-
-/*location label*/
-#locationLabelDiv
-{
-    background:rgb(59,56,56); 
-    position:absolute; 
-    z-index:50000;
-    color:white;
-    font-family: "Arial";
-    display: none;
-    opacity:.90;
-}
-
-.locationSelected
-{
-    border:1px solid rgb(255, 0, 0);
-}
-
-#locationLabelSpan
-{
-    padding-left: .3em;
-    color:rgb(175,171,171);
-    
-}
-
-.locationCanvas
-{
-    z-index: 100;
-    background-color: transparent;
-    position: absolute;
-}
-
-#closeLocationImage
-{
-    float:right; 
-    color: rgb(255,0,0);
-    padding-right: .2em;
-}
+        .playbackValueSelected
+        {
+            color: rgb(255,255,255);
+        }
 
 
-/*video controls*/
+        /*location div and label*/
+        .locationLabel
+        {
+            background:rgb(59,56,56); 
+            position:absolute; 
+            z-index:50000;
+            color:white;
+            font-family: "Arial";
+            display: none;
+            opacity:.90;
+        }
 
-#videoControls  {
-    
-    width:100%;
-    background-color: black;
-    display: block;
-    position: relative;
-    margin-top: -6px;
+        .locationLabelSpan
+        {
+            padding-left: .3em;
+            color:rgb(175,171,171);
+        }
 
-}
-
-#videoControlsTable
-{
-    border: 0px solid red;
-    margin-left:1%;
-    margin-right:1%;
-    
-}
-
-.videoControlCell{
-    text-align:center;
-}
-
-
-tr td{
-  padding-top: 1em;
-  padding-bottom: 1em;
-}
-
-.simpleControl
-{
-    width:5%;
-}
-
-.longControl
-{
-    width:10%;
-}
-
-.frameNumber
-{
-    width:15%;
-}
-
-.textElements
-{
-    font-family:arial;
-    color:white;
-    text-align: center;
-}
-
-#volumeSlider  {
-    width: 90%;
-    color:white;
-    background-color: black;
-    padding-right: 1em;
-}
+        .locationCanvas
+        {
+            z-index: 100;
+            background-color: transparent;
+            position: absolute;
+        }
 
 
-/*tagging controls*/
+        .closeLocation
+        {
+            float:right; 
+            color: rgb(255,0,0);
+            padding-right: .2em;
+        }
 
 
-#videoTagControls  {
-    
-    border: rgb(38,38,38,0.25);
-    background-color: black;
-    margin-top:.15em;
-    padding-bottom: .5em;
-}
+        /*video controls*/
+        .videoControls  {
+            
+            width:100%;
+            background-color: black;
+            display: block;
+            position: relative;
+            margin-top: -6px;
+
+        }
+
+        .videoControlsTable
+        {
+            border: 0px solid red;
+            margin-left:1%;
+            margin-right:1%;
+            
+        }
+
+        .videoControlCell{
+            text-align:center;
+        }
 
 
-.optionalTags
-{
-    float: left;
-    width: 85%;
-    margin: 1em 0 0 1.5em;
-}
+        tr td{
+          padding-top: 1em;
+          padding-bottom: 1em;
+        }
 
-.emptyFrame
-{
-    float:right;
-    margin: 1em 0 0 0;
-    width:10%;
-    color:rgb(89,89,89);
-}
+        .simpleControl
+        {
+            width:5%;
+        }
 
-#lockTag
-{
-    padding-left: 1em;
-    color:rgb(89,89,89);
-}
+        .longControl
+        {
+            width:10%;
+        }
 
-.lockTagOn
-{
-    color:rgb(255,255,255);
-}
+        .frameNumber
+        {
+            width:15%;
+        }
 
-.lockTagOff
-{
-    color:rgb(89,89,89);
-}
-
-.tagButtons
-{
-    margin-bottom: 10px;
-    margin-left: 5px;
-    background : rgb(59,56,56);
-    color:rgb(127,127,127);
-    max-width: 200px;
-    min-width: 20px;
-    font-family: Arial;
-    font-size: 15px;
-    border: 1px solid rgb(64,64,64);
-    border-radius: 5px;
-}
+        .textElements
+        {
+            font-family:arial;
+            color:white;
+            text-align: center;
+        }
 
 
+        /*tagging controls*/
+        .videoTagControls  {
+            
+            border: rgb(38,38,38,0.25);
+            background-color: black;
+            margin-top:.15em;
+            padding-bottom: .5em;
+        }
 
+
+        .optionalTags
+        {
+            float: left;
+            width: 85%;
+            margin: 1em 0 0 1.5em;
+        }
+
+        .labelControls
+        {
+            float:right;
+            margin: 1em 0 0 0;
+            width:10%;
+        }
+
+        .lockTag
+        {
+            padding-left: .4em;
+            
+        }
+
+        .taggingControls
+        {
+            color:rgb(255,255,255);
+            font-size: 130%;
+            cursor:pointer;
+            text-align: center; 
+        }
+
+        .controlOn
+        {
+            color:rgb(255,255,255);
+        }
+
+        .controlOff
+        {
+            color:rgb(89,89,89);
+        }
+
+        .tagButtons
+        {
+            margin-bottom: 10px;
+            margin-left: 5px;
+            background : rgb(59,56,56);
+            color:rgb(127,127,127);
+            max-width: 200px;
+            min-width: 20px;
+            font-family: Arial;
+            font-size: 15px;
+            border: 1px solid rgb(64,64,64);
+            border-radius: 5px;
+        }
+        .locationSelected
+        {
+            border-width: 1px;
+            border-color: rgb(255, 0, 0);
+        }
 
     </style> 
   </template>

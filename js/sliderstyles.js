@@ -7,7 +7,6 @@ var styles = [];
 var getTrackStyleStr = function(el, j, className) {
   var str = '', 
       min = el.min || 0, 
-      //perc = (el.max) ? (100*(el.value - min)/(el.max - min)) : el.value, 
       perc =  100 * el.value / el.max,
       val = perc + '% 100%';
 
@@ -20,21 +19,18 @@ var getTrackStyleStr = function(el, j, className) {
 var setDragStyleStr = function(evt) {
   
   var trackStyle = getTrackStyleStr(evt.target, this.index + 1, this.type);  
-  
   styles[this.index].textContent = trackStyle;
 };
 
 var initSliderStyles = function(className, self) {
         
-        var selectors = document.querySelectorAll(className);
+        var selectors = Polymer.dom(self.root).querySelectorAll(className)
 
         for(var i = 0; i < selectors.length; i++) {
           
           var style = document.createElement('style');
-          document.body.appendChild(style);
-
+          Polymer.dom(self.root).appendChild(style);
           styles.push(style); 
-
           var b = {}
           b.index =  i;
           b.type = className;
