@@ -11,32 +11,29 @@
 
   <template>
     <style include="video-taggingstyles"></style>
-    
-    <link rel="stylesheet" href="css/video-tagging.css" />
-    
     <link rel="stylesheet" href="css/sliders.css" />
     <link rel="stylesheet" href="css/imgareaselect-animated.css" />
     <link rel="stylesheet" href="assets/icons/style.css">
     
-    <div id="controlWrapper">
-      <playback-control id="playSpeedControl"></playback-control>
-      <div id='videoWrapper'>
-          <div id = "locationLabelDiv" style="width:40px;height:20px;" >
-              <span id = "locationLabelSpan"></span>
+    <div id="controlWrapper" class="controlWrapper">
+      <playback-control id="playSpeedControl" class = "playSpeedControl"></playback-control>
+      <div id='videoWrapper' class = "relativeDiv">
+          <div id = "locationLabelDiv" style="width:40px;height:20px;" class = "locationLabel" >
+              <span id = "locationLabelSpan" class = "locationLabelSpan"></span>
               
-              <span id = "closeLocationImage" on-click="deleteLocation" class = "clickableControl">X</span>
+              <span id = "closeLocationImage" on-click="deleteLocation" class = "closeLocation clickableControl">X</span>
           </div>
               <canvas id="overlay"  on-click='videoClicked' class = "overlaystyle" >
                       Your browser does not support the HTML5 canvas location.
               </canvas>
-              <video id='vid'>
+              <video id='vid' class = "videoStyle">
                        Your browser does not support the video location.
               </video>
       </div>
-      <div id="videoControls">
+      <div id="videoControls" class = "videoControls">
           <input id="seekBar" class="seek clickableControl" type="range" min='0' value="0" step="any" required />
           
-          <table id="videoControlsTable">
+          <table id="videoControlsTable" class = "videoControlsTable">
             <tr>
               <td class = "videoControlCell simpleControl clickableControl">
                 <span id = "stepbwd" title="prev" class="icon-backward2 taggingControls" on-click='stepbwdclicked'></span>
@@ -68,16 +65,16 @@
             </tr>
           </table>
       </div>
-      <div id="videoTagControls">
+      <div id="videoTagControls" class = "videoTagControls">
         
           <div class = "optionalTags">
             <div class = "optionalTagsWrapper">
               <optional-tags id = "optionalTags" ></optional-tags>
             </div>
           </div>
-          <div class = "emptyFrame">
-              <span id = "emptyFrame" title="next frame"  class="icon-share taggingControls" on-click='emptyFrameClicked'></span>
-              <span id = "lockTag" title="lock tags" class="icon-pushpin taggingControls"  on-click='lockTagsClicked'></span>
+          <div class = "labelControls">
+              <span id = "emptyFrame" title="empty frame"  class="icon-share taggingControls controlOff" on-click='emptyFrameClicked'></span>
+              <span id = "lockTag" title="lock tags" class="icon-pushpin taggingControls lockTag controlOff"  on-click='lockTagsClicked'></span>
           </div>
           <div style="clear: both">
           </div>
@@ -121,36 +118,31 @@
       Polymer.dom(this.root).appendChild(this.volumeStyle);
 
       //Divs and spans
-      this.controlWrapper= document.getElementById('controlWrapper');
-      this.videoWrapper= document.getElementById('videoWrapper');
-      this.videoControls = document.getElementById('videoControls');
-      this.overlay = document.getElementById('overlay');
-      this.video= document.getElementById('vid');
-      this.optionalTags= document.getElementById('optionalTags');
-      
-      this.locationLabelDiv = document.getElementById('locationLabelDiv');
-      this.locationLabelSpan = document.getElementById('locationLabelSpan');
-
-      this.timeSpan = document.getElementById("timeSpan");
-      this.lockTag = document.getElementById("lockTag");
-      this.frameText = document.getElementById("frameText");
-      this.playbackSpan = document.getElementById("playbackSpan");
+      this.controlWrapper= this.$$('#controlWrapper');
+      this.videoWrapper= this.$$('#videoWrapper');
+      this.overlay = this.$$('#overlay');
+      this.video= this.$$('#vid');
+      this.optionalTags= this.$$('#optionalTags');
+      this.locationLabelDiv = this.$$('#locationLabelDiv');
+      this.locationLabelSpan = this.$$('#locationLabelSpan');
+      this.timeSpan = this.$$('#timeSpan');
+      this.frameText = this.$$("#frameText");
+      this.playbackSpan = this.$$("#playbackSpan");
 
       // Buttons
-      this.playButton = document.getElementById("play-pause");
-      this.stepfwd = document.getElementById("stepfwd");
-      this.stepbwd = document.getElementById("stepbwd");
-      this.lockTag = document.getElementById("lockTag");
-      this.playSpeedControl = document.getElementById("playSpeedControl");
-
-      this.playbackCell = document.getElementById("playbackCell");
-      this.mute = document.getElementById("mute");
-      this.emptyFrame = document.getElementById("emptyFrame");
-      this.nextuntagged = document.getElementById("nextuntagged");
+      this.playButton = this.$$('#play-pause');
+      this.stepfwd = this.$$("#stepfwd");
+      this.stepbwd = this.$$("#stepbwd");
+      this.lockTag = this.$$("#lockTag");
+      this.playSpeedControl = this.$$("#playSpeedControl");
+      this.playbackCell = this.$$("#playbackCell");
+      this.mute = this.$$('#mute');
+      this.emptyFrame = this.$$("#emptyFrame");
+      this.nextuntagged = this.$$("#nextuntagged");
       
       // Sliders
-      this.seekBar = document.getElementById("seekBar");
-      this.volumeSlider = document.getElementById("volumeSlider");
+      this.seekBar = this.$$("#seekBar");
+      this.volumeSlider = this.$$("#volumeSlider");
 
       this.playing = null;
       this.ctx = this.overlay.getContext("2d");
@@ -174,19 +166,18 @@
             self.overlay.width = self.video.offsetWidth ;
             self.overlay.height = self.video.offsetHeight ;
             //var offset = $(self).offset();
-            self.overlay.style.top = self.video.offsetTop  + "px";
-            self.overlay.style.left = self.video.offsetLeft  + "px";
+            //self.overlay.style.top = self.video.offsetTop  + "px";
+            //self.overlay.style.left = self.video.offsetLeft  + "px";
             
             //Init variables and controls
             self.frames = self.inputFrames? self.inputFrames:{};
             self.frameTime = 1/self.framerate;
-            self.lockTag.className = "icon-pushpin  taggingControls";
             self.enableAreaSelect(self);
             self.optionalTags.createTagControls(self.inputtagsarray);
 
             //Init sliders
             self.volumeSlider.value = .5;
-            self.volumeSlider.style.display = "inline-block";
+            //self.volumeSlider.style.display = "inline-block";
             self.volumeStyle.textContent =  '.volume::-webkit-slider-runnable-track{background-size:50% 100%}';
             self.seekBar.max = self.video.duration;
             initSliderStyles('.seek', self);
@@ -252,8 +243,10 @@
           
           //self.overlay.style.top = self.video.offsetTop  + "px";
           //self.overlay.style.left = self.video.offsetLeft  + "px";
-          $('#overlay').css('top', self.video.offsetTop);
-          $('#overlay').css('left', self.video.offsetLeft);
+          //$('#overlay').css('position', 'relative');
+          //$('#overlay').css('top', self.video.offsetTop);
+          //$('#overlay').css('left', self.video.offsetLeft);
+          //$('#overlay').css('position', 'absolute');
 
           //How much the canvas moved
           var diffTop = parseInt(self.overlay.style.top) - parseInt(topBefore);
@@ -262,7 +255,7 @@
           if(diffTop!==0 || diffLeft!== 0)//If there is selection and movement
           {   
               //Adjust div top and left according to canvas movement
-              //var div = document.getElementById(self.selectedLocationId); 
+              //var div = this.$$(self.selectedLocationId); 
               //div.style.top = parseInt(div.offsetTop) + diffTop + "px";
               //div.style.left = parseInt(div.offsetLeft) + diffLeft + "px";
               //self.positionLocationNameLabel(div);
@@ -400,26 +393,30 @@
     lockTagsClicked: function() {
 
           var selTags = this.optionalTags.getSelectedTags();
-          if (!this.lockTagsEnabled && selTags.length > 0)
+          if (!this.lockTagsEnabled && selTags.length > 0)//There has to be selected label/s
           {
               this.pauseState();
               this.lockTagsEnabled = true;
-              this.lockTag.style.color = "rgb(255,255,255)";
               this.selectedTags = selTags;
               this.stepfwdclicked();
           }
           else
           {
               this.lockTagsEnabled = false;
-              this.lockTag.style.color = "rgb(89,89,89)";
               this.selectedTags = [];
               this.optionalTags.resetSelected();
           }
+          this.lockTag.classList.toggle("controlOn", this.lockTagsEnabled);
+          this.lockTag.classList.toggle("controlOff", !this.lockTagsEnabled);
     },
     locationSelected: function(div) {
               this.cleanSelectedElements();
+              //var div = document.getElementById(divId);//Gets the div that was created in draw
+              
               div.style.border = "1px solid rgb(255, 0, 0)";
               this.selectedLocationId = div.id;
+
+              this.positionLocationNameLabel(div);
               this.locationLabelDiv.style.display = "block";
 
               //Tags
@@ -467,10 +464,10 @@
     addDivToLocation: function(x1, y1, x2, y2, locationId)
     {
             var offset = $(this).offset();
-            x1 = x1 + offset.left;
-            y1 = y1 + offset.top;
-            x2 = x2 + offset.left;
-            y2 = y2 + offset.top;
+            //x1 = x1 + offset.left;
+            //y1 = y1 + offset.top;
+            //x2 = x2 + offset.left;
+            //y2 = y2 + offset.top;
 
             var div = document.createElement("div");
             div.id = locationId;
@@ -562,9 +559,8 @@
     },
     selectDiv: function(divId)
     {
-        var div = document.getElementById(divId);//Gets the div that was created in draw
-        this.positionLocationNameLabel(div);
-        this.locationSelected(div);//Select new location automatically
+        var div = document.getElementById(divId);//Gets the div by id
+        this.locationSelected(div);//Select location 
     },
     /** 
        * @method addLocation
@@ -711,11 +707,8 @@
     },
     indicateEmptyFrame : function(selected)
     {
-        if(selected)
-            this.emptyFrame.style.color = "rgb(255,255,255)";
-        else
-            this.emptyFrame.style.color = "rgb(89,89,89)";
-
+        this.emptyFrame.classList.toggle("controlOn", selected);
+        this.emptyFrame.classList.toggle("controlOff", !selected);
     },
 
 
@@ -727,16 +720,9 @@
        */
     muteclicked: function()
     {
-          if(this.video.muted)
-          {
-              this.video.muted = false;
-              this.mute.className = "icon-volume-mute2 taggingControls padLeft";
-          }
-          else
-          {
-              this.video.muted = true;
-              this.mute.className = "icon-volume-medium taggingControls padLeft";
-          }
+          this.mute.classList.toggle("icon-volume-medium", !this.video.muted);
+          this.mute.classList.toggle("icon-volume-mute2", this.video.muted);
+          this.video.muted = !this.video.muted;
     },
     playback: function(val, text) {
           if(val !== null)
@@ -756,6 +742,7 @@
     },
     playclicked: function() {
           this.video.paused?this.playState():this.pauseState();
+          this.playButton.classList.toggle("icon-pause2", !this.video.paused);
     },
     stepfwdclicked: function() {
           this.pauseState();
@@ -776,16 +763,15 @@
           if(this.video)
           {
               this.video.src = newValue;
-
           }
      },
     videoClicked: function(e) {
             this.cleanSelectedElements();
             if(this.locationtype.toLowerCase() !== "area")
             {
-                var offset = $(this).offset();
-                this.x1 = (e.clientX - offset.left);
-                this.y1 = (e.clientY - offset.top);
+                var rect = this.overlay.getBoundingClientRect();
+                this.x1 = (e.clientX-rect.left)/(rect.right-rect.left)*this.overlay.width,
+                this.y1 = (e.clientY-rect.top)/(rect.bottom-rect.top)*this.overlay.height
                 this.x2 = null;
                 this.y2 = null;
                 console.log(this.x1 + " " + this.y1)
@@ -794,21 +780,15 @@
     },
     playState: function() {
         this.video.play();
-        
-        this.playButton.className  = "icon-pause2 taggingControls";
-        this.lockTag.className = "icon-pushpin taggingControls";
         this.lockTagsEnabled = false;
         this.optionalTags.toggleEnableButtons(false);
         var self = this;
-        
         this.playing = setInterval(function() {
             self.playingCallback();
         }, 10);
     },
     pauseState: function() {
-
             this.video.pause();
-            this.playButton.className  = "icon-play3 taggingControls"; 
             this.optionalTags.toggleEnableButtons(false);  
             clearInterval(this.playing);
     },
@@ -837,8 +817,8 @@
 
 </script>
 <script src="../jquery/jquery.min.js"></script>
-<script src="js/jquery.imgareaselect.js"></script>
 <script src="../moment/moment.js"></script>
+<script src="js/jquery.imgareaselect.js"></script>
 <script src="js/sliderstyles.js"></script>
 
 </dom-module>

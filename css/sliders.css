@@ -37,9 +37,10 @@
 
 /*Volume slider*/
 .volume {
-  display: block;
+  display: inline-block;
   border-radius: .25em;
   background: transparent;
+  width: 90%;
 }
 
 .volume, 
