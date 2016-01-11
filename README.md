@@ -1,106 +1,113 @@
-<<<<<<< HEAD
 # VideoTagging Web Element
 A web element for tagging videos.
 
-** General **
-*** Tags & Labels ***
+**General**  
+
+***Tags & Labels***
 The element displays a selected video and allows the user to associate tags and text labels per frame.
-A **tag** is a point or area within the frame, which can then be associated with textual *labels*.
+A **tag** is a point or area within the frame, which can then be associated with textual **labels**.
 
-A **tag** is represented by a json object, with a structure which depends on the 'type' property.
-Examples:
-1) { tag: { type: 'point', x: 123, y: 54, radius: 15, labels: [ 'horse', 'brown'] }}
-2) { tag: { type: 'rectangle', topLef{ x: 123, y: 54 }, bottomRight: topLef{ x: 100, y: 10 }, labels: [ 'horse', 'brown'] }}
+A **tag** is represented by a json object, with a structure that depends on the 'type' property.
+Examples:  
+1) { tag: { type: 'point', x: 123, y: 54, radius: 15, labels: [ 'horse', 'brown'] }}  
+2) { tag: { type: 'rectangle', topLeft{ x: 123, y: 54 }, bottomRight: topLef{ x: 100, y: 10 }, labels: [ 'horse', 'brown'] 
+}}
 
-Each video can be tagged with a single tag or multiple tags per frame:  
-1) Single - At most one tag can be associated with each frame.
-2) Multiple - none or multiple tags can be associated with each frame. 
+There are 2 tag types:  
+1) Point - designates an x,y coordinate.  
+2) Area - designates a rectangle (x1, y1, x2, y2)  
+
+In addition, it is possible to define single or multiple tags per frame:  
+1) Single - only one tag can appear in a frame.  
+2) Multiple - multiple tags can appear in a frame. 
 
 Once a video has been loaded the control is ready for use:
 
-![Alt text](images/loaded.png?raw=true "Title")
+![Alt text](assets/images/loaded.png?raw=true "Title")
 
 
 **Video Controls:**
 
-![Alt text](images/videocontrols.png?raw=true "Title")
+![Alt text](assets/images/videocontrols.png?raw=true "Title")
 
 1) Video timebar.  
 2) One frame back  
 3) Play/Pause  
 4) One frame forward  
-5) Frame number  
-6) Playback speed control  
-7) current and remaining video time  
-8) Mute button  
-9) Volume slider  
+5) Go to first untagged frame   
+6) Frame number  
+7) Playback speed control  
+8) Current and remaining video time  
+9) Mute button  
+10) Volume slider  
 
 To change the playback speed, click on the icon and select:
 
-![Alt text](images/playback.png?raw=true "Title")
+![Alt text](assets/images/playback.png?raw=true "Title")
 
 
-**Tagging controls:**
+**tagging controls:**
 
-![Alt text](images/taggingcontrols.png?raw=true "Title")
-
-1) Next untagged - jumps to the first frame that conatins no locations/tags.  
-2) Tags - toggle the tags to add/remove a tag to/from a location. This is only possible when a location is selected.
-   The selected tags are white.  
-3) Empty frame - designates a frame as tagged when there are no locations.    
-4) Lock Tags - automatically adds selected tags to new locations. Toggle to enable/disable. 
+![Alt text](assets/images/taggingcontrols.png?raw=true "Title")
+  
+1) Labels - toggle the labels to add/remove a label to/from a tag. This is only possible when a tag is selected.
+   The selected labels are white.  
+2) Empty frame - designates a frame as tagged when there are no tags.    
+3) Lock labels - automatically adds selected labels to new tags. Toggle to enable/disable. 
      
       
 
 **Usage**
 
-Point/single - On a certain frame, click the video screen. Every click will move the location to a new one.
-![Alt text](images/singlepoint.png?raw=true "Title")
+Point/single - On a certain frame, click the video screen. Every click will move the tag to a new one:
+![Alt text](assets/images/singlepoint.png?raw=true "Title")
 
-Point/multiple - On a certain frame, click the video screen. Every click adds a new location
-![Alt text](images/multipoints.png?raw=true "Title")
+Point/multiple - On a certain frame, click the video screen. Every click adds a new tag:
+![Alt text](assets/images/multipoints.png?raw=true "Title")
 
-Area - Click the video screen and drag. A rectangle appears. 
+Area - Click the video screen and drag. A rectangle appears: 
 
-![Alt text](images/area2shapes.png?raw=true "Title")
+![Alt text](assets/images/area.png?raw=true "Title")
 
-In all modes, when a location is selected, you can add/remove tags to it or delete it.
+To select a tag, click on it.  
+In all modes, when a tag is selected, you can add/remove labels to it or delete it.
 
-Lock Tags and Auto step - When the Mode is set to "Single", the video will automatically advance 1 frame after a location has been designated, so the work flow of a user is:  
-     Create a new location - Click or drag  
-     Select Tags  
-     Click on the Lock Icon - turns to green.  
-     Advance 1 frame or reselect location.
-     Click the icon again to exit.   
+Lock labels and Auto step - When the Mode is set to Single ("multitags="0"), the video will automatically advance 1 frame 
+after a tag has been designated, so the work flow of a user is:  
+     Create a new tag - Click or drag  
+     Select labels  
+     Click on the Lock Icon - turns to white.
+     Create a tag  
+     Click the icon again to exit this mode.   
 
 **Technical**
 
-The control is built using HTML5, CSS3 based on the <a href="https://www.polymer-project.org/1.0/" target="_blank">Polymer</a>
+The control is built using HTML5, CSS3 based on the <a href="https://www.polymer-project.org/1.0/" 
+target="_blank">Polymer</a>
 framework, allowing us to create reusable web components.
 Area selection is credited to <a href="http://odyniec.net/projects/imgareaselect/" target="_blank">ImageAreaSelect</a>
 
 **Installing the control**
 
-run:
 bower install CatalystCode/video-tagging
 
 
 **Hosting the control**   
 The control can be hosted in an HTML page. Add these 2 references:
 
-     <script src="/bower_components/webcomponentsjs/webcomponents.js"></script>
      <link rel="import" href="/bower_components/video-tagging/video-tagging.html">
 
 
-Add the control tag in the place you want the control to appear, wrapped in a div:
+Add the control label in the place you want the control to appear, wrapped in a div:
 
-    <div style="width:800px;height:600px;margin:50px 0px 0px 200px;">
+    <div style="width:800px">
         <video-tagging id='video-tagging'></video-tagging>
     </div>
 
-There is a demo index.html page in the demo folder with an example of hosting the control and interacting with a backend service to get/persist data.
+A host project can be found in <a href="https://github.com/CatalystCode/VideoTaggingTool.git" 
+target="_blank">VideoTaggingTool</a>
 
-**Control API**
+**Control API**  
 The control recieves and sends data from/to the host.   
 
 Initial Data -   
@@ -110,183 +117,36 @@ The following properties must be populated:
    2) videowidth - number, for example 420  
    3) videoheight - number, for example 240  
    4) framerate - number, for example 29.97  
-   5) locationshape - string, can be "x", "rectangle" or "circle"  
-   6) locationtype - string, can be "point" or "area"  
-   7) locationsize - number, for example 20 (in pixels)  
-   8) multilocations - string, can be "0" or "1" 
-   9) inputtagsarray - a string array of the possible tags, for example - ["horse", "bird]
-  10) inputFrames - an object containg all the locations of this video (That have been created at an earlier time).
-      Example: The object is a dictionary, the frame number is the key. Each frame has a collection of locations.  
+   5) tagshape - string, can be "x", "rectangle" or "circle"  
+   6) tagtype - string, can be "point" or "area"  
+   7) tagsize - number, for example 20 (in pixels)  
+   8) multitags - string, can be "0" or "1" 
+   9) inputlabelsarray - a string array of the possible labels, for example - ["horse", "bird]
+  10) inputFrames - an object containg all the tags of this video (That have been created at an earlier time).
+      Example: The object is a dictionary, the frame number is the key. Each frame has a collection of tags.  
       In this example we see data for frames 17, 23 and 41.  
-      ![Alt text](images/frames1.png?raw=true "Title")  
-      Expanded- each location is an obect with coordinates and a tags array.  
-      ![Alt text](images/frames3.png?raw=true "Title")
+      ![Alt text](assets/images/frames1.png?raw=true "Title")  
+      Expanded- each tag is an obect with coordinates and a labels array.  
+      ![Alt text](assets/images/frames3.png?raw=true "Title")
   
 Call these properties on the control, for example:
 
-    var videotagging = document.getElementById('video-tagging');
+    var videolabelging = document.getElementById('video-labelging');
                 
-        videotagging.videoduration = data.video.DurationSeconds;
-        videotagging.videowidth = data.video.Width;
-        videotagging.videoheight = data.video.Height;
-        videotagging.framerate = data.video.FramesPerSecond;
+        videolabelging.videoduration = data.video.DurationSeconds;
+        videolabelging.videowidth = data.video.Width;
+        videolabelging.videoheight = data.video.Height;
+        videolabelging.framerate = data.video.FramesPerSecond;
         ,,, 
       
   Finally, to load the control, set the src property to the URL of the video: 
  
-    videotagging.src = data.video.Url;
+    videolabelging.src = data.video.Url;
 
-Tagging Data -     
-When a location is created or updated, the control fires an event called "onlocationchanged". Register to this event to get the data:
+tagging Data -     
+When a tag is created or updated, the control fires an event called "ontagchanged". Register to this event to get the data:
 
-        document.getElementById('video-tagging').addEventListener('onlocationchanged', function (e) {...
-The control sends **all** the locations and their tags in the current frame. The parameter e holds this data in e.frame:  
+        document.getElementById('video-labelging').addEventListener('ontagchanged', function (e) {...
+The control sends **all** the tags and their labels in the current frame. The parameter e holds this data in e.frame:  
 
-![Alt text](images/frames4.png?raw=true "Title")
-=======
-# VideoTagging Web Element
-A web element for tagging videos.
-
-** General **
-*** Tags & Labels ***
-The element displays a selected video and allows the user to associate tags and text labels per frame.
-A **tag** is a point or area within the frame, which can then be associated with textual *labels*.
-
-A **tag** is represented by a json object, with a structure which depends on the 'type' property.
-Examples:
-1) { tag: { type: 'point', x: 123, y: 54, radius: 15, labels: [ 'horse', 'brown'] }}
-2) { tag: { type: 'rectangle', topLef{ x: 123, y: 54 }, bottomRight: topLef{ x: 100, y: 10 }, labels: [ 'horse', 'brown'] }}
-
-Each video can be tagged with a single tag or multiple tags per frame:  
-1) Single - At most one tag can be associated with each frame.
-2) Multiple - none or multiple tags can be associated with each frame.
-
-Once a video has been loaded the control is ready for use:
-
-![Alt text](images/loaded.png?raw=true "Title")
-
-
-**Video Controls:**
-
-![Alt text](images/videocontrols.png?raw=true "Title")
-
-1) Video timebar.  
-2) One frame back  
-3) Play/Pause  
-4) One frame forward  
-5) Frame number  
-6) Playback speed control  
-7) current and remaining video time  
-8) Mute button  
-9) Volume slider  
-
-To change the playback speed, click on the icon and select:
-
-![Alt text](images/playback.png?raw=true "Title")
-
-
-**Tagging controls:**
-
-![Alt text](images/taggingcontrols.png?raw=true "Title")
-
-1) Next untagged - jumps to the first frame that conatins no locations/tags.  
-2) Tags - toggle the tags to add/remove a tag to/from a location. This is only possible when a location is selected.
-   The selected tags are white.  
-3) Empty frame - designates a frame as tagged when there are no locations.    
-4) Lock Tags - automatically adds selected tags to new locations. Toggle to enable/disable. 
-     
-      
-
-**Usage**
-
-Point/single - On a certain frame, click the video screen. Every click will move the location to a new one.
-![Alt text](images/singlepoint.png?raw=true "Title")
-
-Point/multiple - On a certain frame, click the video screen. Every click adds a new location
-![Alt text](images/multipoints.png?raw=true "Title")
-
-Area - Click the video screen and drag. A rectangle appears. 
-
-![Alt text](images/area2shapes.png?raw=true "Title")
-
-In all modes, when a location is selected, you can add/remove tags to it or delete it.
-
-Lock Tags and Auto step - When the Mode is set to "Single", the video will automatically advance 1 frame after a location has been designated, so the work flow of a user is:  
-     Create a new location - Click or drag  
-     Select Tags  
-     Click on the Lock Icon - turns to green.  
-     Advance 1 frame or reselect location.
-     Click the icon again to exit.   
-
-**Technical**
-
-The control is built using HTML5, CSS3 based on the <a href="https://www.polymer-project.org/1.0/" target="_blank">Polymer</a>
-framework, allowing us to create reusable web components.
-Area selection is credited to <a href="http://odyniec.net/projects/imgareaselect/" target="_blank">ImageAreaSelect</a>
-
-**Installing the control**
-
-run:
-bower install CatalystCode/video-tagging
-
-
-**Hosting the control**   
-The control can be hosted in an HTML page. Add these 2 references:
-
-     <script src="/bower_components/webcomponentsjs/webcomponents.js"></script>
-     <link rel="import" href="/bower_components/video-tagging/video-tagging.html">
-
-
-Add the control tag in the place you want the control to appear, wrapped in a div:
-
-    <div style="width:800px;height:600px;margin:50px 0px 0px 200px;">
-        <video-tagging id='video-tagging'></video-tagging>
-    </div>
-
-There is a demo index.html page in the demo folder with an example of hosting the control and interacting with a backend service to get/persist data.
-
-**Control API**
-The control recieves and sends data from/to the host.   
-
-Initial Data -   
-The following properties must be populated:
-
-   1) videoduration - number, for example 30.07  
-   2) videowidth - number, for example 420  
-   3) videoheight - number, for example 240  
-   4) framerate - number, for example 29.97  
-   5) locationshape - string, can be "x", "rectangle" or "circle"  
-   6) locationtype - string, can be "point" or "area"  
-   7) locationsize - number, for example 20 (in pixels)  
-   8) multilocations - string, can be "0" or "1" 
-   9) inputtagsarray - a string array of the possible tags, for example - ["horse", "bird]
-  10) inputFrames - an object containg all the locations of this video (That have been created at an earlier time).
-      Example: The object is a dictionary, the frame number is the key. Each frame has a collection of locations.  
-      In this example we see data for frames 17, 23 and 41.  
-      ![Alt text](images/frames1.png?raw=true "Title")  
-      Expanded- each location is an obect with coordinates and a tags array.  
-      ![Alt text](images/frames3.png?raw=true "Title")
-  
-Call these properties on the control, for example:
-
-    var videotagging = document.getElementById('video-tagging');
-                
-        videotagging.videoduration = data.video.DurationSeconds;
-        videotagging.videowidth = data.video.Width;
-        videotagging.videoheight = data.video.Height;
-        videotagging.framerate = data.video.FramesPerSecond;
-        ,,, 
-      
-  Finally, to load the control, set the src property to the URL of the video: 
- 
-    videotagging.src = data.video.Url;
-
-Tagging Data -     
-When a location is created or updated, the control fires an event called "onlocationchanged". Register to this event to get the data:
-
-        document.getElementById('video-tagging').addEventListener('onlocationchanged', function (e) {...
-The control sends **all** the locations and their tags in the current frame. The parameter e holds this data in e.frame:  
-
-![Alt text](images/frames4.png?raw=true "Title")
-
->>>>>>> c1a2d09eb167bdbd645f07b1334e9b65f7c37939
+![Alt text](assets/images/frames4.png?raw=true "Title")
