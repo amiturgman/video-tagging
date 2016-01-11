@@ -1,19 +1,19 @@
-# VideoTaggingControl
-A control for video tagging
+# VideoTagging Web Element
+A web element for tagging videos.
 
-**General**
+** General **
+*** Tags & Labels ***
+The element displays a selected video and allows the user to associate tags and text labels per frame.
+A **tag** is a point or area within the frame, which can then be associated with textual *labels*.
 
-The control displays a selected video and allows the user to tag frames by clicking on the video screen.
-Once clicked, a **location** is created on the video screen.
-The user can select any location and add **tags** to it.
+A **tag** is represented by a json object, with a structure which depends on the 'type' property.
+Examples:
+1) { tag: { type: 'point', x: 123, y: 54, radius: 15, labels: [ 'horse', 'brown'] }}
+2) { tag: { type: 'rectangle', topLef{ x: 123, y: 54 }, bottomRight: topLef{ x: 100, y: 10 }, labels: [ 'horse', 'brown'] }}
 
-There are 2 location types:  
-1) Point - designates an x,y coordinate.  
-2) Area - designates a rectangle (x1, y1, x2, y2)  
-
-In addition, it is possible to define single or multiple tags per frame:  
-1) Single - only one location can appear in a frame.  
-2) Multiple - multiple locations can appear in a frame. 
+Each video can be tagged with a single tag or multiple tags per frame:  
+1) Single - At most one tag can be associated with each frame.
+2) Multiple - none or multiple tags can be associated with each frame.
 
 Once a video has been loaded the control is ready for use:
 
