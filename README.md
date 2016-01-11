@@ -13,7 +13,7 @@ Examples:
 
 Each video can be tagged with a single tag or multiple tags per frame:  
 1) Single - At most one tag can be associated with each frame.
-2) Multiple - none or multiple tags can be associated with each frame.
+2) Multiple - none or multiple tags can be associated with each frame. 
 
 Once a video has been loaded the control is ready for use:
 
