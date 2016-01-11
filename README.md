@@ -142,5 +142,3 @@ When a location is created or updated, the control fires an event called "onloca
 The control sends **all** the locations and their tags in the current frame. The parameter e holds this data in e.frame:  
 
 ![Alt text](images/frames4.png?raw=true "Title")
-
-
