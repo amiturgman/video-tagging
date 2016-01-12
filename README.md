@@ -1,27 +1,20 @@
-# VideoTagging Web Element
-A web element for tagging videos.
+# Video Tagging Web Element
+This web element can be used to annotate videos frame by frame. It is useful when building solutions for video processing and there's a need to curate labeled videos for training or testing the computer vision algorithm used.
 
-**General**  
-
-***Tags & Labels***
+### Tags & Labels
 The element displays a selected video and allows the user to associate tags and text labels per frame.
 A **tag** is a point or area within the frame, which can then be associated with textual **labels**.
 
 A **tag** is represented by a json object, with a structure that depends on the 'type' property.
 Examples:  
 1) { tag: { type: 'point', x: 123, y: 54, radius: 15, labels: [ 'horse', 'brown'] }}  
-2) { tag: { type: 'rectangle', topLeft{ x: 123, y: 54 }, bottomRight: topLef{ x: 100, y: 10 }, labels: [ 'horse', 'brown'] 
-}}
+2) { tag: { type: 'rectangle', topLeft{ x: 123, y: 54 }, bottomRight: topLef{ x: 100, y: 10 }, labels: [ 'horse', 'brown'] }}
 
-There are 2 tag types:  
-1) Point - designates an x,y coordinate.  
-2) Area - designates a rectangle (x1, y1, x2, y2)  
-
-In addition, it is possible to define single or multiple tags per frame:  
+You can use single or multiple tags:
 1) Single - only one tag can appear in a frame.  
 2) Multiple - multiple tags can appear in a frame. 
 
-Once a video has been loaded the control is ready for use:
+### Element controls 
 
 ![Alt text](assets/images/loaded.png?raw=true "Title")
 
@@ -72,7 +65,8 @@ Area - Click the video screen and drag. A rectangle appears:
 To select a tag, click on it.  
 In all modes, when a tag is selected, you can add/remove labels to it or delete it.
 
-Lock labels and Auto step - When the Mode is set to Single ("multitags="0"), the video will automatically advance 1 frame 
+Lock labels and Auto step - When the Mode is set to Single ("multitags="0"), the video will automatically advance 1 frame 
+
 after a tag has been designated, so the work flow of a user is:  
      Create a new tag - Click or drag  
      Select labels  
@@ -82,7 +76,8 @@ after a tag has been designated, so the work flow of a user is:
 
 **Technical**
 
-The control is built using HTML5, CSS3 based on the <a href="https://www.polymer-project.org/1.0/" 
+The control is built using HTML5, CSS3 based on the <a href="https://www.polymer-project.org/1.0/" 
+
 target="_blank">Polymer</a>
 framework, allowing us to create reusable web components.
 Area selection is credited to <a href="http://odyniec.net/projects/imgareaselect/" target="_blank">ImageAreaSelect</a>
@@ -104,7 +99,8 @@ Add the control label in the place you want the control to appear, wrapped in a 
         <video-tagging id='video-tagging'></video-tagging>
     </div>
 
-A host project can be found in <a href="https://github.com/CatalystCode/VideoTaggingTool.git" 
+A host project can be found in <a href="https://github.com/CatalystCode/VideoTaggingTool.git" 
+
 target="_blank">VideoTaggingTool</a>
 
 **Control API**  
