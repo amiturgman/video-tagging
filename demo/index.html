@@ -74,6 +74,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       <select id="jobslist" onChange="jobSelectionChanged()">
             <option>Select Job...</option>
+            <option value="Job1">Job1</option>
+            <option value="Job2">Job2</option>
       </select>
     </div>
     
@@ -84,40 +86,45 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </div>
         </div>
    <script>
-     var jobsForUser = [];     
 
-      $(window).load(function() {
+    
 
-            getJobsForUser();
-            populateVideos();
-      });
+
+    var jobList = [];
+    var job1 = {};
+    job1.Config = {"locationshape":"Rectangle", "locationtype":"Area", "locationsize":"40", "multilocations":"0"};
+    job1.Config.tags = ["horse","bird","brown","white"];
+    job1.DurationSeconds = 30.07;
+    job1.FramesPerSecond = 29.97;
+    job1.Height = 480;
+    job1.Width = 640;
+    job1.Description = "Job1";
+    job1.id = 1;
+
+    var job2 = {};
+    job2.Config = {"locationshape":"Rectangle", "locationtype":"Point", "locationsize":"40", "multilocations":"1"};
+    job2.Config.tags = ["horse","bird","brown","white"];
+    job2.DurationSeconds = 30.07;
+    job2.FramesPerSecond = 29.97;
+    job2.Height = 480;
+    job2.Width = 640;
+    job2.Description = "Job2";
+    job2.id = 2;
+    jobList.push(job1)
+    jobList.push(job2)
 
     function getJobsForUser()
     {
+        
+        
         var jobsList = $('#jobslist');
-        jobsList.find('option:gt(0)').remove();//Reset
-        //GET jobs by userid
-        jobsList = document.getElementById("jobslist");
-        $.ajax({
-
-            type: "GET",
-            url: "http://videotagging.azurewebsites.net/users/2/jobs",
-            
-            success: function(data) {
-                
-                var arr = data.jobs;
-                for(var index = 0;index < arr.length;index++)
-                {
-                      var option = document.createElement("option");
-                      option.text = arr[index].Description;
-                      option.value = arr[index].Id;
-                      jobsList.add(option);
-                }
-            },
-            error: function(err) {
-                console.log(err); 
-            }
-        });     
+        for(var index = 0;index < jobList.length;index++){
+              var option = document.createElement("option");
+              option.text = jobList[index].Description;
+              option.value = jobList[index].id;
+              console.log(option)
+              jobsList.add(option);
+        }   
     }
 
     function populateVideos()
@@ -127,7 +134,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         $.ajax({
 
             type: "GET",
-            url: "http://videotagging.azurewebsites.net/videos",
+            url: "http://uzi-video-tagging.azurewebsites.net/api/jobs",
             
             success: function(data) {
                 
@@ -159,7 +166,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         $.ajax({
 
             type: "GET",
-            url: "http://videotagging.azurewebsites.net/jobs/" + jobId,
+            url: "http://uzi-video-tagging.azurewebsites.net/api/jobs" + jobId,
             
             success: function(data) {
                 
@@ -229,7 +236,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         $.ajax({
 
             type: "POST",
-            url: "http://videotagging.azurewebsites.net/job",
+            url: "http://uzi-video-tagging.azurewebsites.net/api/jobs",
             dataType: "json",
             data: JSON.stringify(job),
             contentType: "application/json; charset=utf-8",
@@ -259,7 +266,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             $.ajax({
 
                 type: "POST",
-                url: "http://videotagging.azurewebsites.net/jobs/" + jobId + "/frames/" + inputObject.frameIndex,
+                url: "http://uzi-video-tagging.azurewebsites.net/api/jobs" + jobId + "/frames/" + inputObject.frameIndex,
                 dataType: "json",
                 data: json,
                 contentType: "application/json; charset=utf-8",

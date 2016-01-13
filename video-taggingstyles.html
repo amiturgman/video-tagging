@@ -2,7 +2,7 @@
   <template>
 
     <style>
-      	
+        
         /*General*/
 
         :host {
@@ -59,7 +59,7 @@
             display: none;
         }
 
-        .playbackValues
+        .playSpeedValues
         {
             padding:.2em;
             color: rgb(191,191,191);
@@ -67,10 +67,13 @@
             font-family: Arial;
         }
 
-        .playbackValueSelected
+        .playSpeedValueSelected
         {
             color: rgb(255,255,255);
+            
         }
+
+        
 
 
         /*location div and label*/
@@ -207,6 +210,9 @@
             color:rgb(89,89,89);
         }
 
+        
+        
+
         .tagButtons
         {
             margin-bottom: 10px;
@@ -220,11 +226,21 @@
             border: 1px solid rgb(64,64,64);
             border-radius: 5px;
         }
+
+        .tagOn{
+            background:rgb(217,217,217);
+        }
+
+        .tagOff{
+            background:rgb(59,56,56);
+        }
+
         .locationSelected
         {
             border-width: 1px;
             border-color: rgb(255, 0, 0);
         }
+        
 
     </style> 
   </template>

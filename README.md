@@ -59,7 +59,8 @@ To change the playback speed, click on the icon and select:
 
 **Usage**
 
-Point/single - On a certain frame, click the video screen. Every click will move the tag to a new one:
+Point/single - On a certain frame, click the video screen. Every click will move the tag to a new one.  
+Select tags for this location by clicking the tags below.:
 ![Alt text](assets/images/singlepoint.png?raw=true "Title")
 
 Point/multiple - On a certain frame, click the video screen. Every click adds a new tag:
@@ -74,18 +75,17 @@ In all modes, when a tag is selected, you can add/remove labels to it or delete 
 
 Lock labels and Auto step - When the Mode is set to Single ("multitags="0"), the video will automatically advance 1 frame 
 after a tag has been designated, so the work flow of a user is:  
-     Create a new tag - Click or drag  
-     Select labels  
-     Click on the Lock Icon - turns to white.
-     Create a tag  
-     Click the icon again to exit this mode.   
+     * Create a new tag - Click or drag  
+     * Select labels  
+     * Click on the Lock Icon - turns to white.
+     * Create a tag  
+     * Click the icon again to exit this mode.   
 
 **Technical**
 
-The control is built using HTML5, CSS3 based on the <a href="https://www.polymer-project.org/1.0/" 
-target="_blank">Polymer</a>
+The control is built using HTML5, CSS3 based on the [Polymer](https://www.polymer-project.org/1.0/) 
 framework, allowing us to create reusable web components.
-Area selection is credited to <a href="http://odyniec.net/projects/imgareaselect/" target="_blank">ImageAreaSelect</a>
+Area selection is credited to [ImageAreaSelect](http://odyniec.net/projects/imgareaselect/)
 
 **Installing the control**
 
@@ -100,12 +100,11 @@ The control can be hosted in an HTML page. Add these 2 references:
 
 Add the control label in the place you want the control to appear, wrapped in a div:
 
-    <div style="width:800px">
+    <div style="width:50%">
         <video-tagging id='video-tagging'></video-tagging>
     </div>
 
-A host project can be found in <a href="https://github.com/CatalystCode/VideoTaggingTool.git" 
-target="_blank">VideoTaggingTool</a>
+A host project can be found in [VideoTaggingTool](https://github.com/CatalystCode/VideoTaggingTool.git) 
 
 **Control API**  
 The control recieves and sends data from/to the host.   
