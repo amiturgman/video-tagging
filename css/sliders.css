@@ -3,11 +3,10 @@
 .seek {
   display: block;
   
-  width:94%;
+  width:92.6%;
   padding-left: 2em;
   padding-right: 2em;
   padding-top: 1em;
-  
   border-radius: .25em;
   background-color: transparent;
   
@@ -42,7 +41,7 @@
   display: inline-block;
   border-radius: .25em;
   background: transparent;
-  width: 90%;
+  width: 80%;
 }
 
 .volume, 

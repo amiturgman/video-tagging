@@ -5,21 +5,21 @@ A web element for tagging videos.
 
 ***Tags & Labels***
 The element displays a selected video and allows the user to associate tags and text labels per frame.
-A **tag** is a point or area within the frame, which can then be associated with textual **labels**.
+A **region** is a point or area within the frame, which can then be associated with textual **tags**.
 
-A **tag** is represented by a json object, with a structure that depends on the 'type' property.
+A **region** is represented by a json object, with a structure that depends on the 'type' property.
 Examples:  
-1) { tag: { type: 'point', x: 123, y: 54, radius: 15, labels: [ 'horse', 'brown'] }}  
-2) { tag: { type: 'rectangle', topLeft{ x: 123, y: 54 }, bottomRight: topLef{ x: 100, y: 10 }, labels: [ 'horse', 'brown'] 
+1) { region: { type: 'point', x: 123, y: 54, radius: 15, tags: [ 'horse', 'brown'] }}  
+2) { region: { type: 'rectangle', topLeft{ x: 123, y: 54 }, bottomRight: topLef{ x: 100, y: 10 }, tags: [ 'horse', 'brown'] 
 }}
 
-There are 2 tag types:  
-1) Point - designates an x,y coordinate.  
-2) Area - designates a rectangle (x1, y1, x2, y2)  
+There are 2 region types:  
+1) Point - designates an x,y coordinate (can be x or square).  
+2) Rectangle - designates a rectangle (x1, y1, x2, y2)  
 
-In addition, it is possible to define single or multiple tags per frame:  
-1) Single - only one tag can appear in a frame.  
-2) Multiple - multiple tags can appear in a frame. 
+In addition, it is possible to define single or multiple regions per frame:  
+1) Single - only one region can appear in a frame.  
+2) Multiple - multiple regions can appear in a frame. 
 
 Once a video has been loaded the control is ready for use:
 
@@ -36,7 +36,7 @@ Once a video has been loaded the control is ready for use:
 4) One frame forward  
 5) Go to first untagged frame   
 6) Frame number  
-7) Playback speed control  
+7) Play speed  
 8) Current and remaining video time  
 9) Mute button  
 10) Volume slider  
@@ -50,35 +50,35 @@ To change the playback speed, click on the icon and select:
 
 ![Alt text](assets/images/taggingcontrols.png?raw=true "Title")
   
-1) Labels - toggle the labels to add/remove a label to/from a tag. This is only possible when a tag is selected.
-   The selected labels are white.  
-2) Empty frame - designates a frame as tagged when there are no tags.    
-3) Lock labels - automatically adds selected labels to new tags. Toggle to enable/disable. 
+1) Tags - toggle the tags to add/remove a tag to/from a region. This is only possible when a region is selected.
+   The selected tags are white.  
+2) Empty frame - designates a frame as tagged when there are no regions.    
+3) Lock tags - automatically adds selected tags to new regions. Toggle to enable/disable. 
      
       
 
 **Usage**
 
-Point/single - On a certain frame, click the video screen. Every click will move the tag to a new one.  
-Select tags for this location by clicking the tags below.:
+Point/single - On a certain frame, click the video screen. Every click will move the region to a new one.  
+Select tags for this region by clicking the tags below.:
 ![Alt text](assets/images/singlepoint.png?raw=true "Title")
 
-Point/multiple - On a certain frame, click the video screen. Every click adds a new tag:
+Point/multiple - On a certain frame, click the video screen. Every click adds a new region:
 ![Alt text](assets/images/multipoints.png?raw=true "Title")
 
-Area - Click the video screen and drag. A rectangle appears: 
+Rectangle single/multiple - Click the video screen and drag. A rectangle appears: 
 
 ![Alt text](assets/images/area.png?raw=true "Title")
 
-To select a tag, click on it.  
-In all modes, when a tag is selected, you can add/remove labels to it or delete it.
+To select a region, click on it.  
+In all modes, when a region is selected, you can add/remove tags to it or delete it altogether.
 
-Lock labels and Auto step - When the Mode is set to Single ("multitags="0"), the video will automatically advance 1 frame 
-after a tag has been designated, so the work flow of a user is:  
-     * Create a new tag - Click or drag  
-     * Select labels  
+Lock tags and Auto step - When the Mode is set to Single ("multitags="0"), the video will automatically advance 1 frame 
+after a region has been created, so the work flow of a user is:  
+     * Create a new region - Click or drag  
+     * Select tags  
      * Click on the Lock Icon - turns to white.
-     * Create a tag  
+     * Create a region  
      * Click the icon again to exit this mode.   
 
 **Technical**
@@ -116,8 +116,8 @@ The following properties must be populated:
    2) videowidth - number, for example 420  
    3) videoheight - number, for example 240  
    4) framerate - number, for example 29.97  
-   5) tagshape - string, can be "x", "rectangle" or "circle"  
-   6) tagtype - string, can be "point" or "area"  
+   5) tagshape - string, can be "x" or "square"  
+   6) tagtype - string, can be "point" or "square"  
    7) tagsize - number, for example 20 (in pixels)  
    8) multitags - string, can be "0" or "1" 
    9) inputlabelsarray - a string array of the possible labels, for example - ["horse", "bird]
@@ -142,10 +142,10 @@ Call these properties on the control, for example:
  
     videolabelging.src = data.video.Url;
 
-tagging Data -     
-When a tag is created or updated, the control fires an event called "ontagchanged". Register to this event to get the data:
+Data from the control -     
+When a region is created or updated, the control fires an event called "onregionchanged". Register to this event to get the data:
 
-        document.getElementById('video-labelging').addEventListener('ontagchanged', function (e) {...
-The control sends **all** the tags and their labels in the current frame. The parameter e holds this data in e.frame:  
+        document.getElementById('video-labelging').addEventListener('onregionchanged', function (e) {...
+The control sends **all** the regions and their tags in the current frame. The parameter e holds this data in e.detail:  
 
 ![Alt text](assets/images/frames4.png?raw=true "Title")
