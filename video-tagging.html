@@ -16,65 +16,62 @@
     <link rel="stylesheet" href="assets/icons/style.css">
     
     <div id="controlWrapper" class="controlWrapper">
-      <playback-control id="playSpeedControl" class = "playSpeedControl"></playback-control>
-      <div id='videoWrapper' class = "relativeDiv">
-          <div id = "locationLabelDiv" style="width:40px;height:20px;" class = "locationLabel" >
-              <span id = "locationLabelSpan" class = "locationLabelSpan"></span>
-              
-              <span id = "closeLocationImage" on-click="deleteLocation" class = "closeLocation clickableControl">X</span>
+      <playback-control id="playSpeedControl" class="playSpeedControl"></playback-control>
+      <div id='videoWrapper' class="relativeDiv">
+          <div id = "regionLabelDiv" style="width:40px;height:20px;" class="regionLabel" >
+              <span id="regionLabelSpan" class="regionLabelSpan"></span>
+              <span id="closeRegionImage" on-click="deleteRegion" class="closeRegion clickableControl">X</span>
           </div>
-              <canvas id="overlay"  on-click='videoClicked' class = "overlaystyle" >
+              <canvas id="overlay"  on-click='videoClicked' class="overlaystyle" >
                       Your browser does not support the HTML5 canvas location.
               </canvas>
-              <video id='vid' class = "videoStyle">
+              <video id='vid' class="videoStyle">
                        Your browser does not support the video location.
               </video>
       </div>
-      <div id="videoControls" class = "videoControls">
+      <div id="videoControls" class="videoControls">
           <input id="seekBar" class="seek clickableControl" type="range" min='0' value="0" step="any" required />
-          
-          <table id="videoControlsTable" class = "videoControlsTable">
+          <table id="videoControlsTable" class="videoControlsTable">
             <tr>
-              <td class = "videoControlCell simpleControl clickableControl">
-                <span id = "stepbwd" title="prev" class="icon-backward2 taggingControls" on-click='stepbwdclicked'></span>
+              <td class="videoControlCell simpleControl clickableControl">
+                <span id="stepbwd" title="prev" class="icon-backward2 taggingControls" on-click='stepBwdClicked'></span>
               </td>
-              <td class = "videoControlCell simpleControl clickableControl">
-                <span id = "play-pause" title="play/pause" class="icon-play3 taggingControls" on-click='playclicked'></span>
+              <td class="videoControlCell simpleControl clickableControl">
+                <span id="play-pause" title="play/pause" class="icon-play3 taggingControls" on-click='playPauseClicked'></span>
               </td>
-              <td class = "videoControlCell simpleControl clickableControl">
-                <span id = "stepfwd" title="next" class="icon-forward3 taggingControls" on-click='stepfwdclicked'></span>
+              <td class="videoControlCell simpleControl clickableControl">
+                <span id="stepfwd" title="next" class="icon-forward3 taggingControls" on-click='stepFwdClicked'></span>
               </td>
-              <td class = "videoControlCell simpleControl clickableControl">
-                <span id = "nextuntagged"  title="first untagged frame" class="icon-next2 taggingControls" on-click='nextuntaggedclicked'></span>
+              <td class="videoControlCell simpleControl clickableControl">
+                <span id="nextuntagged"  title="first untagged frame" class="icon-next2 taggingControls" on-click='nextUntaggedClicked'></span>
               </td>
-              <td class = "videoControlCell frameNumber">
-                <span id='frameText' class = "textElements" title="frame#"></span>
+              <td class="videoControlCell frameNumber">
+                <span id='frameText' class="textElements" title="frame#"></span>
               </td>
-              <td id="playbackCell" title="playback speed" class = "videoControlCell longControl clickableControl">
-                <span id="playbackSpan"  class = "textElements" on-click="playbackSpeedClicked">x 1.0</span>
+              <td id="playSpeedCell" title="play speed" class="videoControlCell longControl clickableControl">
+                <span id="playbackSpan"  class="textElements" on-click="playbackSpeedClicked">x 1.0</span>
               </td>
-              <td nowrap="nowrap" class = "videoControlCell simpleControl">
-                <span id="timeSpan" class = "textElements" ></span>
+              <td nowrap="nowrap" class="videoControlCell simpleControl">
+                <span id="timeSpan" class="textElements"></span>
               </td>
-              <td class = "videoControlCell simpleControl clickableControl">
-                <span id = "mute" title="Mute"  class="icon-volume-mute2 taggingControls" on-click='muteclicked'></span>
+              <td class ="videoControlCell simpleControl clickableControl">
+                <span id="mute" title="Mute" class="icon-volume-mute2 taggingControls" on-click='muteClicked'></span>
               </td>
-              <td class = "videoControlCell longControl">
+              <td class="volumeControlCell longControl">
                   <input id="volumeSlider" class="volume clickableControl" type="range" min=0 max = 1 value=.5 step= .1 required />
               </td>
             </tr>
           </table>
       </div>
-      <div id="videoTagControls" class = "videoTagControls">
-        
-          <div class = "optionalTags">
-            <div class = "optionalTagsWrapper">
-              <optional-tags id = "optionalTags" ></optional-tags>
+      <div id="videoTagControls" class="videoTagControls">
+          <div class="optionalTags">
+            <div class="optionalTagsWrapper">
+              <optional-tags id="optionalTags"></optional-tags>
             </div>
           </div>
-          <div class = "labelControls">
-              <span id = "emptyFrame" title="empty frame"  class="icon-share taggingControls controlOff" on-click='emptyFrameClicked'></span>
-              <span id = "lockTag" title="lock tags" class="icon-pushpin taggingControls lockTag controlOff"  on-click='lockTagsClicked'></span>
+          <div class="labelControls">
+              <span id="emptyFrame" title="empty frame"  class="icon-share taggingControls controlOff" on-click='emptyFrameClicked'></span>
+              <span id="lockTag" title="lock tags" class="icon-pushpin taggingControls lockTag controlOff"  on-click='lockTagsClicked'></span>
           </div>
           <div style="clear: both">
           </div>
@@ -94,10 +91,10 @@
       videoduration: Number,
       videowidth: Number,
       videoheight: Number,
-      locationshape: String,
-      locationtype: String,
-      multilocations: Number,
-      locationsize: Number, 
+      regionshape: String,
+      regiontype: String,
+      multiregions: Number,
+      regionsize: Number, 
       inputtagsarray:Object, 
       inputFrames: Object,   
       src: {
@@ -108,14 +105,16 @@
     },
     // Element Lifecycle
     ready: function() {
-      this.frames = {}; // Holds the data of the locations and their tags
+      this.frames = {}; // Holds the data of the regions and their tags
       this.seeking = false;//Flag for enabling control over the seek bar while the video is playing, see playingCallback function
-      this.selectedLocationId = 0;//Holds the current selected location number
+      this.selectedRegionId = 0;//Holds the current selected region number
       this.lockTagsEnabled = false;
       this.selectedTags = [];
-      this.x1, this.y1, this.x2, this.y2 = 0;//location coordinates
       this.volumeStyle = document.createElement('style');
       Polymer.dom(this.root).appendChild(this.volumeStyle);
+
+      this.seekStyle = document.createElement('style');
+      Polymer.dom(this.root).appendChild(this.seekStyle);
 
       //Divs and spans
       this.controlWrapper= this.$$('#controlWrapper');
@@ -123,8 +122,8 @@
       this.overlay = this.$$('#overlay');
       this.video= this.$$('#vid');
       this.optionalTags= this.$$('#optionalTags');
-      this.locationLabelDiv = this.$$('#locationLabelDiv');
-      this.locationLabelSpan = this.$$('#locationLabelSpan');
+      this.regionLabelDiv = this.$$('#regionLabelDiv');
+      this.regionLabelSpan = this.$$('#regionLabelSpan');
       this.timeSpan = this.$$('#timeSpan');
       this.frameText = this.$$("#frameText");
       this.playbackSpan = this.$$("#playbackSpan");
@@ -135,7 +134,7 @@
       this.stepbwd = this.$$("#stepbwd");
       this.lockTag = this.$$("#lockTag");
       this.playSpeedControl = this.$$("#playSpeedControl");
-      this.playbackCell = this.$$("#playbackCell");
+      this.playSpeedCell = this.$$("#playSpeedCell");
       this.mute = this.$$('#mute');
       this.emptyFrame = this.$$("#emptyFrame");
       this.nextuntagged = this.$$("#nextuntagged");
@@ -162,12 +161,9 @@
 
             self.controlWrapper.style.display = "block";
 
-            //Position canvas on video
+            //Size canvas as video
             self.overlay.width = self.video.offsetWidth ;
             self.overlay.height = self.video.offsetHeight ;
-            //var offset = $(self).offset();
-            //self.overlay.style.top = self.video.offsetTop  + "px";
-            //self.overlay.style.left = self.video.offsetLeft  + "px";
             
             //Init variables and controls
             self.frames = self.inputFrames? self.inputFrames:{};
@@ -177,18 +173,20 @@
 
             //Init sliders
             self.volumeSlider.value = .5;
-            //self.volumeSlider.style.display = "inline-block";
             self.volumeStyle.textContent =  '.volume::-webkit-slider-runnable-track{background-size:50% 100%}';
             self.seekBar.max = self.video.duration;
-            initSliderStyles('.seek', self);
-
-            //lock tags is shown only in single location mode
-            self.lockTag.style.display = self.multilocations === "0"?"inline-block":"none";
+            self.seekStyle.textContent =  '.seek::-webkit-slider-runnable-track{background-size: 0% 100%}';
 
             self.playingCallback();
 
       }, false );
-      
+
+      this.video.onended = function(){
+           
+
+           self.pauseState();
+      }
+
       this.seekBar.addEventListener("mousedown", function() {
             
             self.seeking = true;
@@ -197,70 +195,37 @@
             
             self.seeking = false;
           });
-
       this.seekBar.addEventListener("input", function() {
             self.seeking = false;
             self.video.currentTime = self.seekBar.value;
             self.playingCallback();
-
           });
       this.volumeSlider.addEventListener("change", function() {
             self.video.volume = self.volumeSlider.value;
-            var max = self.volumeSlider.max;
-            var min = self.volumeSlider.min;
-            var currentValue = (max) ? (100*(self.volumeSlider.value - min)/(max - min)) : self.volumeSlider.value;
-            self.volumeStyle.textContent = '.volume::-webkit-slider-runnable-track{background-size:'+ currentValue +'% 100%} ';
-
+            var perc =  100 * self.volumeSlider.value / self.volumeSlider.max;
+            self.volumeStyle.textContent = '.volume::-webkit-slider-runnable-track{background-size:'+ perc +'% 100%} ';
           });
-      this.addEventListener("playbackSelected", function(e) {
+      this.addEventListener("playSpeedSelected", function(e) {
             self.playback(e.detail.playbackValue, e.detail.playbackText);
           });
       this.addEventListener("ontagsubmitted", function(e) {
               var arr = [];
               arr.push(e.detail.tagid)
-              this.addTagsToLocation(arr);
-              this.sendLocationToHost();//Persist
-
+              this.addTagsToRegion(arr);
+              this.emitRegionToHost();//Persist
           });
       this.addEventListener("ontagdeleted", function(e) {
             
-              var locationId = this.selectedLocationId -1;//Revert to zero-based array
-              var location = this.frames[this.getCurrentFrame()][locationId];
-              for(var index = 0;index < location.tags.length;index++)
-              {
-                    if(location.tags[index] === e.detail.tagid)
-                    {
-                        location.tags.splice(index, 1);
+              var regionId = this.selectedRegionId -1;//Revert to zero-based array
+              var region = this.frames[this.getCurrentFrame()][regionId];
+              for(var index = 0;index < region.tags.length;index++){
+                    if(region.tags[index] === e.detail.tagid){
+                        region.tags.splice(index, 1);
                         break;
                     }
               }
-              this.sendLocationToHost();
+              this.emitRegionToHost();
           });
-      //Adjusts the canvas to the video
-      window.onresize = function(event) {
-          var topBefore = self.overlay.style.top;
-          var leftBefore = self.overlay.style.left;
-          
-          //self.overlay.style.top = self.video.offsetTop  + "px";
-          //self.overlay.style.left = self.video.offsetLeft  + "px";
-          //$('#overlay').css('position', 'relative');
-          //$('#overlay').css('top', self.video.offsetTop);
-          //$('#overlay').css('left', self.video.offsetLeft);
-          //$('#overlay').css('position', 'absolute');
-
-          //How much the canvas moved
-          var diffTop = parseInt(self.overlay.style.top) - parseInt(topBefore);
-          var diffLeft = parseInt(self.overlay.style.left) - parseInt(leftBefore);
-
-          if(diffTop!==0 || diffLeft!== 0)//If there is selection and movement
-          {   
-              //Adjust div top and left according to canvas movement
-              //var div = this.$$(self.selectedLocationId); 
-              //div.style.top = parseInt(div.offsetTop) + diffTop + "px";
-              //div.style.left = parseInt(div.offsetLeft) + diffLeft + "px";
-              //self.positionLocationNameLabel(div);
-          }
-      };
     },
     
 
@@ -285,7 +250,7 @@
             show:false,
             hide:true
       });
-      if(this.locationtype.toLowerCase() === "area"){
+      if(this.regiontype.toLowerCase() === "rectangle"){
           var areaSelected = false;
           
           $('canvas#overlay').imgAreaSelect({
@@ -300,13 +265,8 @@
                         onSelectEnd: function(img, selection){
                       
                               if (selection.width !== 0 && selection.height !== 0) {
-
                                 self.areaSelected = true;
-                                self.x1 = selection.x1;
-                                self.y1 = selection.y1;
-                                self.x2 = selection.x2;
-                                self.y2 = selection.y2;
-                                self.createLocation();
+                                self.createRegion(selection.x1, selection.y1, selection.x2, selection.y2);
                                 self.clearArea(); 
                               }
                          },
@@ -321,68 +281,66 @@
 
 
     /**
-       * All functions related to locations management
+       * All functions related to regions management
        * 
-       * @method positionLocationNameLabel
-       * Positions the div with the location number next to the location div.
-       * @param {div} The location div
+       * @method positionRegionNameLabel
+       * Positions the div with the region number next to the region div.
+       * @param {div} The region div
        */
-    //Locations management
-    positionLocationNameLabel: function(div){
+    //Regions management
+    positionRegionNameLabel: function(div){
 
-        this.locationLabelDiv.style.left = (div.offsetLeft + parseFloat(div.style.width, 10) - parseFloat(this.locationLabelDiv.style.width, 10)) + "px";
+        this.regionLabelDiv.style.left = (div.offsetLeft + parseFloat(div.style.width, 10) - parseFloat(this.regionLabelDiv.style.width, 10)) + "px";
 
-        this.locationLabelDiv.style.top = (div.offsetTop - parseFloat(this.locationLabelDiv.style.height, 10)) + "px" ;
+        this.regionLabelDiv.style.top = (div.offsetTop - parseFloat(this.regionLabelDiv.style.height, 10)) + "px" ;
 
-        this.locationLabelSpan.innerHTML = div.id;
-        this.locationLabelDiv.style.display = "block";
+        this.regionLabelSpan.innerHTML = div.id;
+        this.regionLabelDiv.style.display = "block";
     },
-    createLocation: function(){
+    createRegion: function(x1, y1, x2, y2){
 
-        var location = this.addLocation(this.x1, this.y1, this.x2, this.y2);
-                      
-        this.drawLocation(this.x1, this.y1, this.x2, this.y2, location.name);
-        this.selectDiv(location.name);
+        var region = this.addRegion(x1, y1, x2, y2);
+        this.drawRegion(x1, y1, x2, y2, region.name);
+        this.selectDiv(region.name);
 
-        if(this.lockTagsEnabled)
-        {   
-            //Get all selected tags and add them to current location automatically
+        if(this.lockTagsEnabled) {   
+            //Get all selected tags and add them to current region automatically
             //this.selectedTags was populated in this.lockTagsClicked
             var arr = [];
-            for (i = 0; i < this.selectedTags.length; i++) {
+            for (var i = 0; i < this.selectedTags.length; i++) {
               
               this.optionalTags.setSelected(this.selectedTags[i]);
               arr.push(this.selectedTags[i].id)
             }
-            this.addTagsToLocation(arr);
+            this.addTagsToRegion(arr);
             var self = this;
-            if(this.multilocations === "0")//Auto step functionality - Goes to next frame automatically
-            {
-                  setTimeout(function(){ self.stepfwdclicked(); }, 500);
+            //Auto step functionality - Goes to next frame automatically
+            if(this.multiregions === "0"){
+                  setTimeout(function(){ self.stepFwdClicked(); }, 500);
             }
         }
-        this.sendLocationToHost();//Persist
+        this.emitRegionToHost();//Persist
     },
-    addTagsToLocation: function(selectedTagsArray){
+    addTagsToRegion: function(selectedTagsArray){
           
-          var locationId = this.selectedLocationId -1;//Revert to zero-based array
-          var location = this.frames[this.getCurrentFrame()][locationId];
-          for (i = 0; i < selectedTagsArray.length; i++) {
+          var regionId = this.selectedRegionId -1;//Revert to zero-based array
+          var region = this.frames[this.getCurrentFrame()][regionId];
+          for (var i = 0; i < selectedTagsArray.length; i++) {
                     
-                  location.tags.push(selectedTagsArray[i]);
+                  region.tags.push(selectedTagsArray[i]);
             }
     },
-    nextuntaggedclicked :function()
-    {
+    nextUntaggedClicked :function() {
           var frameIndex = this.getCurrentFrame();
-          
           var frames = this.videoduration * this.framerate;
           var framesForward = 1;
-          for (i = frameIndex; i < frames; i++) {
+          for (var i = frameIndex; i < frames; i++) {
 
-                if(this.frames[i + 1] === undefined)//The next frame is a first occurence of a frame with no locations
-                {
-                      this.pauseState();
+                //The next frame is a first occurence of a frame with no regions
+                if(!this.frames[i + 1]){
+                      if(!this.video.paused){
+                          this.playPauseClicked();//Will pause the video
+                      }
                       this.video.currentTime += (this.frameTime * framesForward);
                       this.playingCallback();
                       break; 
@@ -393,15 +351,13 @@
     lockTagsClicked: function() {
 
           var selTags = this.optionalTags.getSelectedTags();
-          if (!this.lockTagsEnabled && selTags.length > 0)//There has to be selected label/s
-          {
-              this.pauseState();
+          //There has to be selected label/s
+          if (!this.lockTagsEnabled && selTags.length > 0) {
               this.lockTagsEnabled = true;
               this.selectedTags = selTags;
-              this.stepfwdclicked();
+              if(this.multiregions === "0"){this.stepFwdClicked()};
           }
-          else
-          {
+          else{
               this.lockTagsEnabled = false;
               this.selectedTags = [];
               this.optionalTags.resetSelected();
@@ -409,79 +365,67 @@
           this.lockTag.classList.toggle("controlOn", this.lockTagsEnabled);
           this.lockTag.classList.toggle("controlOff", !this.lockTagsEnabled);
     },
-    locationSelected: function(div) {
+    regionSelected: function(div) {
               this.cleanSelectedElements();
-              //var div = document.getElementById(divId);//Gets the div that was created in draw
               
               div.style.border = "1px solid rgb(255, 0, 0)";
-              this.selectedLocationId = div.id;
+              this.selectedRegionId = div.id;
 
-              this.positionLocationNameLabel(div);
-              this.locationLabelDiv.style.display = "block";
+              this.positionRegionNameLabel(div);
+              this.regionLabelDiv.style.display = "block";
 
               //Tags
               this.optionalTags.toggleEnableButtons(true);
               this.optionalTags.resetSelected();
-              var locations = this.frames[this.getCurrentFrame()];
-              if(locations !== undefined)
-              {
-                  var tags = this.frames[this.getCurrentFrame()][this.selectedLocationId - 1].tags;
+              var regions = this.frames[this.getCurrentFrame()];
+              if(regions){
+                  var tags = this.frames[this.getCurrentFrame()][this.selectedRegionId - 1].tags;
                   self.optionalTags.displaySelectedTags(tags);
               }
     },
-    deleteLocation: function(e) {
+    deleteRegion: function(e) {
           
-          var locations = this.frames[this.getCurrentFrame()];
-          locations.splice(this.selectedLocationId - 1, 1);
-          //Shift array left to cover removed item - Rename all locations which are higher than the deleted one,  
-          for (i = 0; i < locations.length; i++) {
-              var id = Number(locations[i].name)
-              if(id > this.selectedLocationId)
-              {
-                  locations[i].name = id - 1;
+          var regions = this.frames[this.getCurrentFrame()];
+          regions.splice(this.selectedRegionId - 1, 1);
+          //Shift array left to cover removed item - Rename all regions which are higher than the deleted one,  
+          for (var i = 0; i < regions.length; i++) {
+              var id = Number(regions[i].name)
+              if(id > this.selectedRegionId){
+                  regions[i].name = id - 1;
               }
           }
           this.clearFrameElements();
-          this.showAllLocations();
-          this.sendLocationToHost();
+          this.showAllRegions();
+          this.emitRegionToHost();
     },
     /**
-       * @method sendLocationToHost
-       * Fires an event to send the array of locations.
+       * @method emitRegionToHost
+       * Fires an event to send the array of regions.
        * The host html page can listen to this event.
        */
-    sendLocationToHost: function() {
+    emitRegionToHost: function() {
           var frameIndex = this.getCurrentFrame();
-          this.fire('onlocationchanged', {location: {frameIndex:frameIndex, locations:this.frames[frameIndex]}});
+          this.fire('onregionchanged', {frame: {frameIndex:frameIndex, regions:this.frames[frameIndex]}});
     },
     /**
-       * @method addDivToLocation
-       * Adds a transparent div to the location, the size of the location.
+       * @method addDivToRegion
+       * Adds a transparent div to the region, the size of the region.
        * Used for click events, hover, etc..
-       * @params {x1, y1, x2, y2} location coordinates.
-       * @param {locationId} The location id, which is the location index + 1.
+       * @params {x1, y1, x2, y2} region coordinates.
+       * @param {regionId} The region id, which is the region index + 1.
        */
-    addDivToLocation: function(x1, y1, x2, y2, locationId)
-    {
-            var offset = $(this).offset();
-            //x1 = x1 + offset.left;
-            //y1 = y1 + offset.top;
-            //x2 = x2 + offset.left;
-            //y2 = y2 + offset.top;
-
+    addDivToRegion: function(x1, y1, x2, y2, regionId){
             var div = document.createElement("div");
-            div.id = locationId;
-            div.className = "locationCanvas";
+            div.id = regionId;
+            div.className = "regionCanvas";
 
-            if(this.locationtype.toLowerCase() === "point")
-            {
-                  div.style.width = this.locationsize - 1 +  "px";//Compensate for 1px border
-                  div.style.height = this.locationsize - 1 +  "px";
-                  div.style.top = y1 - this.locationsize/2  +  "px";
-                  div.style.left = x1 - this.locationsize/2  +  "px";
+            if(this.regiontype.toLowerCase() === "point"){
+                  div.style.width = this.regionsize - 1 +  "px";//Compensate for 1px border
+                  div.style.height = this.regionsize - 1 +  "px";
+                  div.style.top = y1 - this.regionsize/2  +  "px";
+                  div.style.left = x1 - this.regionsize/2  +  "px";
             }
-            if(this.locationtype.toLowerCase() === "area")
-            {
+            if(this.regiontype.toLowerCase() === "rectangle"){
                   div.style.width = x2 - x1  +  "px";
                   div.style.height = y2 - y1   +  "px";
                   div.style.top = y1  + "px";
@@ -490,18 +434,18 @@
             var self = this;
             $( div )
                       .click(function(e) {
-                         self.locationSelected(div);
+                         self.regionSelected(div);
                       })
             $( div )
                       .mouseenter(function(e) {
                           
-                          self.positionLocationNameLabel(this);
+                          self.positionRegionNameLabel(this);
                       })
                       .mouseleave(function() {
 
-                        self.locationLabelDiv.style.display = "none";
-                        if(self.selectedLocationId === div.id){
-                              self.locationLabelDiv.style.display = "block";
+                        self.regionLabelDiv.style.display = "none";
+                        if(self.selectedRegionId === div.id){
+                              self.regionLabelDiv.style.display = "block";
                         }
                       });
 
@@ -509,122 +453,105 @@
     },
     /**
        * @method cleanSelectedElements
-       * Removes all borders of locations and disables label buttons
+       * Removes all borders of regions and disables label buttons
        */
-    cleanSelectedElements: function()
-    {
-          $(this.videoWrapper).children(".locationCanvas").css('border-width', "0");
-          this.selectedLocationId = 0;
+    cleanSelectedElements: function(){
+          $(this.videoWrapper).children(".regionCanvas").css('border-width', "0");
+          this.selectedRegionId = 0;
           this.optionalTags.toggleEnableButtons(false);
           this.optionalTags.resetSelected();
     },
-    showAllLocations: function() {
-            this.clearFrameElements();//Clear canvas
-            this.cleanSelectedElements();//Clear selected locations
-            var offset = $(this).offset();
+    showAllRegions: function() {
+            this.clearFrameElements();//Clear canvas and tags
+            this.cleanSelectedElements();//Clear selected regions
             var frameIndex = this.getCurrentFrame();
-            var locations = this.frames[frameIndex];
+            var regions = this.frames[frameIndex];
             
-            if(locations && locations.length > 0)
-            {
-              //Draw all locations for this frame
-              for (i = 0; i < locations.length; i++) {
+            if(regions && regions.length > 0){
+              //Draw all regions for this frame
+              for (var i = 0; i < regions.length; i++) {
 
-                  var location = locations[i];
-                  if(Object.keys(location).length === 0)//Frame was tagged as empty
-                  {
+                  var region = regions[i];
+                  //Frame was tagged as empty?
+                  if(Object.keys(region).length === 0){
                       this.indicateEmptyFrame(true);
                       continue;
                   }
                   //Calculate x, y relative to current width and height          
-                  var widthRatio =  $('#vid').width() / location.width;
-                  var heightRatio =  $('#vid').height() / location.height ;
-                  var x1 = (location.x1 * widthRatio);
-                  var y1 = (location.y1 * heightRatio);
-                  var x2 = (location.x2 * widthRatio);
-                  var y2 = (location.y2 * heightRatio);
+                  var widthRatio =  $('#vid').width() / region.width;
+                  var heightRatio =  $('#vid').height() / region.height ;
+                  var x1 = (region.x1 * widthRatio);
+                  var y1 = (region.y1 * heightRatio);
+                  var x2 = (region.x2 * widthRatio);
+                  var y2 = (region.y2 * heightRatio);
 
-                  x1 = (location.x1 * widthRatio);
-                  y1 = (location.y1 * heightRatio);
-                  x2 = (location.x2 * widthRatio);
-                  y2 = (location.y2 * heightRatio);
-                  this.drawLocation( x1, y1, x2, y2, location.name);
-
-                  if(locations.length === 1)//Only 1 location - select it and show tags
-                  {
-                      this.selectDiv(location.name)
+                  x1 = (region.x1 * widthRatio);
+                  y1 = (region.y1 * heightRatio);
+                  x2 = (region.x2 * widthRatio);
+                  y2 = (region.y2 * heightRatio);
+                  this.drawRegion( x1, y1, x2, y2, region.name);
+                  //Only 1 region - select it and show tags
+                  if(regions.length === 1){
+                      this.selectDiv(region.name)
                   }
               }
             }
     },
-    selectDiv: function(divId)
-    {
+    selectDiv: function(divId){
         var div = document.getElementById(divId);//Gets the div by id
-        this.locationSelected(div);//Select location 
+        this.regionSelected(div);//Select region 
     },
     /** 
-       * @method addLocation
-       * Adds a location to the array of locations per current frame.
-       * @params {x1, y1, x2, y2} location coordinates.
+       * @method addRegion
+       * Adds a region to the array of regions per current frame.
+       * @params {x1, y1, x2, y2} region coordinates.
        */
-    addLocation: function(x1, y1, x2, y2) {
+    addRegion: function(x1, y1, x2, y2) {
             
             this.resetEmptyFrame();//Clear empty frame logic
 
-            var location = {};
-            location.x1 = x1;
-            location.y1 = y1;
-            location.x2 = x2;
-            location.y2 = y2;
-            location.width = $('#vid').width();
-            location.height = $('#vid').height();
-            location.type = this.locationtype;
-            location.locationshape = this.locationshape;
-            location.tags = [];
+            var region = {};
+            region.x1 = x1;
+            region.y1 = y1;
+            region.x2 = x2;
+            region.y2 = y2;
+            region.width = $('#vid').width();
+            region.height = $('#vid').height();
+            region.type = this.regiontype;
+            region.regionshape = this.regionshape;
+            region.tags = [];
             
             var frameIndex = this.getCurrentFrame();      
-            var locations = this.frames[frameIndex];
-
-            if(this.multilocations == 1 && locations !== undefined)//The array is populated and can contain multiple locations
-            {
-                location.name = locations.length + 1;
-                this.frames[frameIndex].push(location);
+            var regions = this.frames[frameIndex];
+            //The array is populated and can contain multiple regions
+            if(this.multiregions == 1 && regions){
+                region.name = regions.length + 1;
+                this.frames[frameIndex].push(region);
             }
-            else//Only one location allowed
-            {
+            else{//Only one region allowed
                 this.clearFrameElements();
-                location.name = 1;
+                region.name = 1;
                 this.frames[frameIndex] = [];
-                this.frames[frameIndex].push(location);
+                this.frames[frameIndex].push(region);
             }
-            return location; 
+            return region; 
     },
     /** 
-       * @method drawLocation
+       * @method drawRegion
        * Uses HTML5 canvas to draw.
-       * @params {x1, y1, x2, y2} locationname.
+       * @params {x1, y1, x2, y2} regionname.
        */
-    drawLocation: function(x1, y1, x2, y2, locationname) {
+    drawRegion: function(x1, y1, x2, y2, regionname) {
 
             this.ctx.strokeStyle = 'rgb(0,0,0)';
             this.ctx.lineWidth = 1;
-            if(this.locationtype.toLowerCase() == "point")
-            {
-               var centerOffset = this.locationsize/2;
+            if(this.regiontype.toLowerCase() === "point"){
+               var centerOffset = this.regionsize/2;
 
-                if(this.locationshape.toLowerCase() == "rectangle")
-                {
-                    this.ctx.strokeRect(x1 - centerOffset, y1 - centerOffset, this.locationsize, this.locationsize);
+                if(this.regionshape.toLowerCase() === "square"){
+                    this.ctx.strokeRect(x1 - centerOffset, y1 - centerOffset, this.regionsize, this.regionsize);
                 }
-                else if(this.locationshape.toLowerCase() == "circle")
-                {
-                    this.ctx.beginPath();
-                    this.ctx.arc(x1 , y1, this.locationsize, 0, 2*Math.PI, false);
-                    this.ctx.stroke();
-                    this.ctx.closePath();
-                }
-                else if(this.locationshape.toLowerCase() == "x")
-                {
+                else if(this.regionshape.toLowerCase() === "x"){
 
                     this.ctx.beginPath();
                     this.ctx.moveTo(x1 + centerOffset, y1 + centerOffset);
@@ -635,8 +562,7 @@
                     this.ctx.closePath();
                 }
             }        
-            else if(this.locationtype.toLowerCase() == "area")
-            {
+            else if(this.regiontype.toLowerCase() === "rectangle"){
                 this.ctx.beginPath();
                 this.ctx.moveTo(x1, y1);
                 this.ctx.lineTo(x2 , y1);
@@ -649,33 +575,28 @@
                 this.ctx.stroke();
                 this.ctx.closePath();
             }
-            this.addDivToLocation(x1, y1, x2 , y2, locationname);
+            this.addDivToRegion(x1, y1, x2 , y2, regionname);
     },
     /** 
        * @method emptyFrameClicked
-       * Creates an empty location array for the current frame, meaning that the frame is not * tagged, but has been reviewed.
+       * Creates an empty region array for the current frame, meaning that the frame is not * tagged, but has been reviewed.
        */
-    emptyFrameClicked: function()
-    {
+    emptyFrameClicked: function(){
         var frameIndex = this.getCurrentFrame();      
-        var locations = this.frames[frameIndex];
-        if(locations === undefined || locations.length === 0)
-        {
+        var regions = this.frames[frameIndex];
+        if(!regions || regions.length === 0){
             this.frames[frameIndex] = [{}];
             this.indicateEmptyFrame(true);
-            this.sendLocationToHost();
-            if(this.lockTagsEnabled)
-            {
-                this.stepfwdclicked();
+            this.emitRegionToHost();
+            if(this.lockTagsEnabled){
+                this.stepFwdClicked();
             }
         }
     },
-    resetEmptyFrame: function()
-    {
-        var locations = this.frames[this.getCurrentFrame()];
-        //If there is an empty location
-        if(locations !== undefined && locations.length === 1 && Object.keys(locations[0]).length === 0)
-        {
+    resetEmptyFrame: function(){
+        var regions = this.frames[this.getCurrentFrame()];
+        //If there is an empty region
+        if(regions && regions.length === 1 && Object.keys(regions[0]).length === 0){
             //reset all for this frame
             this.frames[this.getCurrentFrame()] = [];
             this.clearFrameElements();
@@ -694,19 +615,18 @@
       //Clear drawings
       this.ctx.clearRect(0, 0, this.overlay.width, this.overlay.height);
       //Clear divs
-      $(this.videoWrapper).children(".locationCanvas").remove();
+      $(this.videoWrapper).children(".regionCanvas").remove();
       //reset tag buttons to not selected
       this.optionalTags.resetSelected();
-      //hide location number
-      self.locationLabelDiv.style.display = "none";
+      //hide region number
+      self.regionLabelDiv.style.display = "none";
       //Clears the empty frame icon
       this.indicateEmptyFrame(false);
     },
     getCurrentFrame: function() {
       return Math.round(this.video.currentTime * this.framerate);
     },
-    indicateEmptyFrame : function(selected)
-    {
+    indicateEmptyFrame : function(selected){
         this.emptyFrame.classList.toggle("controlOn", selected);
         this.emptyFrame.classList.toggle("controlOff", !selected);
     },
@@ -718,68 +638,65 @@
        * Video management
        *
        */
-    muteclicked: function()
-    {
+    muteClicked: function(){
           this.mute.classList.toggle("icon-volume-medium", !this.video.muted);
           this.mute.classList.toggle("icon-volume-mute2", this.video.muted);
           this.video.muted = !this.video.muted;
     },
     playback: function(val, text) {
-          if(val !== null)
-          {
+          if(val !== null){
               this.video.playbackRate = val;
               this.playbackSpan.innerHTML = text;
           }
           this.playSpeedControl.style.display = "none";
     },
-    playbackSpeedClicked: function()
-    {
-          var offset = $( '#playbackCell' ).offset();
+    playbackSpeedClicked: function(){
+          var offset = $('#playSpeedCell').offset();
           var top = offset.top - $('#playSpeedControl').height();
-          var left = offset.left + $('#playbackCell').width() / 4;
+          var left = offset.left + $('#playSpeedCell').width() / 4;
           $('#playSpeedControl').css({'left': left, 'top': top});
           this.playSpeedControl.style.display = this.playSpeedControl.style.display === "block"?"none":"block";
     },
-    playclicked: function() {
+    playPauseClicked: function() {
           this.video.paused?this.playState():this.pauseState();
-          this.playButton.classList.toggle("icon-pause2", !this.video.paused);
+          
     },
-    stepfwdclicked: function() {
-          this.pauseState();
+    stepFwdClicked: function() {
+          
           this.video.currentTime = Math.min(this.video.duration, this.video.currentTime + this.frameTime);
+          if(!this.video.paused){
+              this.pauseState();
+          }
           this.playingCallback();
     },
-    stepbwdclicked: function() {
-          this.pauseState();
+    stepBwdClicked: function() {
+          
           if (this.video.currentTime > 0) {
-              //one frame back
               this.video.currentTime -= this.frameTime;
+              if(!this.video.paused){
+                  this.playPauseClicked();
+              }
               this.playingCallback();
           }
     },
-    
     videoSrcChanged: function(newValue, oldValue) { 
 
-          if(this.video)
-          {
+          if(this.video){
               this.video.src = newValue;
           }
      },
     videoClicked: function(e) {
             this.cleanSelectedElements();
-            if(this.locationtype.toLowerCase() !== "area")
-            {
+            if(this.regiontype.toLowerCase() !== "rectangle") {
                 var rect = this.overlay.getBoundingClientRect();
-                this.x1 = (e.clientX-rect.left)/(rect.right-rect.left)*this.overlay.width,
-                this.y1 = (e.clientY-rect.top)/(rect.bottom-rect.top)*this.overlay.height
-                this.x2 = null;
-                this.y2 = null;
-                console.log(this.x1 + " " + this.y1)
-                this.createLocation();
+                var x1 = (e.clientX-rect.left)/(rect.right-rect.left)*this.overlay.width;
+                var y1 = (e.clientY-rect.top)/(rect.bottom-rect.top)*this.overlay.height;
+                this.createRegion(x1, y1, null, null);
             }            
     },
     playState: function() {
         this.video.play();
+        this.playButton.classList.toggle("icon-pause2", !this.video.paused);
         this.lockTagsEnabled = false;
         this.optionalTags.toggleEnableButtons(false);
         var self = this;
@@ -789,36 +706,40 @@
     },
     pauseState: function() {
             this.video.pause();
+            this.playButton.classList.toggle("icon-pause2", !this.video.paused);
             this.optionalTags.toggleEnableButtons(false);  
             clearInterval(this.playing);
     },
     playingCallback: function() {
             
             this.frameText.innerHTML = this.getCurrentFrame();
-
+            this.displayVideoTime();
+            if(!this.seeking){
+                this.updateSeekBar();
+            }
+            this.showAllRegions();
+    },
+    displayVideoTime: function()
+    {
             var currentTime = Math.round(this.video.currentTime);
             var remainingtTime = Math.round(this.video.duration - this.video.currentTime);
 
             //Format using moment.js
-            currentTime = moment(currentTime, "seconds").format("HH:mm:ss");
-            remainingtTime = moment(remainingtTime, "seconds").format("HH:mm:ss");
+            currentTime = moment().startOf('day').seconds(currentTime).format('HH:mm:ss');
+            remainingtTime = moment().startOf('day').seconds(remainingtTime).format('HH:mm:ss');
             this.timeSpan.innerHTML = currentTime + "  /  " + remainingtTime;
-            if(!this.seeking)
-            {
-                this.seekBar.value = this.video.currentTime;
-                //Fire event to update seek bar track
-                var evt = document.createEvent("Events");
-                evt.initEvent("seekbarchange", true, false);
-                this.seekBar.dispatchEvent(evt);
-            }
-            this.showAllLocations();
+    },
+    updateSeekBar: function()
+    {
+            this.seekBar.value = this.video.currentTime;
+            var perc =  100 * this.seekBar.value / this.seekBar.max;
+            this.seekStyle.textContent =  '.seek::-webkit-slider-runnable-track{background-size:'+perc+'% 100%}';
     },
 });
 
 </script>
-<script src="../jquery/jquery.min.js"></script>
+<script src="../jquery/dist/jquery.min.js"></script>
 <script src="../moment/moment.js"></script>
 <script src="js/jquery.imgareaselect.js"></script>
-<script src="js/sliderstyles.js"></script>
 
 </dom-module>

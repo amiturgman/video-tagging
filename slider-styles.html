@@ -8,7 +8,7 @@
 .seek {
   display: block;
   
-  width:94%;
+  width:92.5%;
   padding-left: 2em;
   padding-right: 2em;
   padding-top: 1em;
@@ -28,8 +28,6 @@
   height: 3px;
 }
 
-
-
 .seek::-webkit-slider-thumb {
   
   border: none;
@@ -40,11 +38,16 @@
   display: block;
 }
 
+.seek::-webkit-slider-thumb:active {
+  background: white;
+}
+
 /*Volume slider*/
 .volume {
-  display: block;
+  display: inline-block;
   border-radius: .25em;
   background: transparent;
+  width: 80%;
 }
 
 .volume, 
@@ -123,6 +126,7 @@ input[type='range']:focus {
   outline: none;
   
 }
+
 
     </style> 
   </template>

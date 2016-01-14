@@ -59,15 +59,18 @@
        },
        displaySelectedTags: function(tagsArray)
        {
-            for(var index = 0;index < tagsArray.length;index++)
-            {
-                  for (i = 0; i < this.buttonsContainer.childNodes.length; i++) {
-                    
-                      if(tagsArray[index] === this.buttonsContainer.childNodes[i].value)
-                      {
-                            this.setSelected(this.buttonsContainer.childNodes[i]);
-                      }
-                  }
+            if(tagsArray && tagsArray !== null){
+              
+              for(var index = 0;index < tagsArray.length;index++)
+              {
+                    for (var i = 0; i < this.buttonsContainer.childNodes.length; i++) {
+                      
+                        if(tagsArray[index] === this.buttonsContainer.childNodes[i].value)
+                        {
+                              this.setSelected(this.buttonsContainer.childNodes[i]);
+                        }
+                    }
+              }
             }
        },
        setSelected: function(btn)
@@ -83,7 +86,7 @@
        getSelectedTags :function()
        { 
             var selectedTags = [];
-            for (i = 0; i < this.buttonsContainer.childNodes.length; i++) {
+            for (var i = 0; i < this.buttonsContainer.childNodes.length; i++) {
                     
                       if(this.buttonsContainer.childNodes[i].selected)
                       {
