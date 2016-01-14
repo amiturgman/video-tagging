@@ -1,27 +1,20 @@
-# VideoTagging Web Element
-A web element for tagging videos.
+# Video Tagging Web Element
+This web element can be used to annotate videos frame by frame. It is useful when building solutions for video processing and there's a need to curate labeled videos for training or testing the computer vision algorithm used.
 
-**General**  
-
-***Tags & Labels***
+### Tags & Labels
 The element displays a selected video and allows the user to associate tags and text labels per frame.
-A **region** is a point or area within the frame, which can then be associated with textual **tags**.
+A **tag** is a point or area within the frame, which can then be associated with textual **labels**.
 
-A **region** is represented by a json object, with a structure that depends on the 'type' property.
+A **tag** is represented by a json object, with a structure that depends on the 'type' property.
 Examples:  
-1) { region: { type: 'point', x: 123, y: 54, radius: 15, tags: [ 'horse', 'brown'] }}  
-2) { region: { type: 'rectangle', topLeft{ x: 123, y: 54 }, bottomRight: topLef{ x: 100, y: 10 }, tags: [ 'horse', 'brown'] 
-}}
+1) { tag: { type: 'point', x: 123, y: 54, radius: 15, labels: [ 'horse', 'brown'] }}  
+2) { tag: { type: 'rectangle', topLeft{ x: 123, y: 54 }, bottomRight: topLef{ x: 100, y: 10 }, labels: [ 'horse', 'brown'] }}
 
-There are 2 region types:  
-1) Point - designates an x,y coordinate (can be x or square).  
-2) Rectangle - designates a rectangle (x1, y1, x2, y2)  
+You can use single or multiple tags:
+1) Single - only one tag can appear in a frame.  
+2) Multiple - multiple tags can appear in a frame. 
 
-In addition, it is possible to define single or multiple regions per frame:  
-1) Single - only one region can appear in a frame.  
-2) Multiple - multiple regions can appear in a frame. 
-
-Once a video has been loaded the control is ready for use:
+### Element controls 
 
 ![Alt text](assets/images/loaded.png?raw=true "Title")
 
@@ -36,7 +29,7 @@ Once a video has been loaded the control is ready for use:
 4) One frame forward  
 5) Go to first untagged frame   
 6) Frame number  
-7) Play speed  
+7) Playback speed control  
 8) Current and remaining video time  
 9) Mute button  
 10) Volume slider  
@@ -50,42 +43,44 @@ To change the playback speed, click on the icon and select:
 
 ![Alt text](assets/images/taggingcontrols.png?raw=true "Title")
   
-1) Tags - toggle the tags to add/remove a tag to/from a region. This is only possible when a region is selected.
-   The selected tags are white.  
-2) Empty frame - designates a frame as tagged when there are no regions.    
-3) Lock tags - automatically adds selected tags to new regions. Toggle to enable/disable. 
+1) Labels - toggle the labels to add/remove a label to/from a tag. This is only possible when a tag is selected.
+   The selected labels are white.  
+2) Empty frame - designates a frame as tagged when there are no tags.    
+3) Lock labels - automatically adds selected labels to new tags. Toggle to enable/disable. 
      
       
 
 **Usage**
 
-Point/single - On a certain frame, click the video screen. Every click will move the region to a new one.  
-Select tags for this region by clicking the tags below.:
+Point/single - On a certain frame, click the video screen. Every click will move the tag to a new one:
 ![Alt text](assets/images/singlepoint.png?raw=true "Title")
 
-Point/multiple - On a certain frame, click the video screen. Every click adds a new region:
+Point/multiple - On a certain frame, click the video screen. Every click adds a new tag:
 ![Alt text](assets/images/multipoints.png?raw=true "Title")
 
-Rectangle single/multiple - Click the video screen and drag. A rectangle appears: 
+Area - Click the video screen and drag. A rectangle appears: 
 
 ![Alt text](assets/images/area.png?raw=true "Title")
 
-To select a region, click on it.  
-In all modes, when a region is selected, you can add/remove tags to it or delete it altogether.
+To select a tag, click on it.  
+In all modes, when a tag is selected, you can add/remove labels to it or delete it.
 
-Lock tags and Auto step - When the Mode is set to Single ("multitags="0"), the video will automatically advance 1 frame 
-after a region has been created, so the work flow of a user is:  
-     * Create a new region - Click or drag  
-     * Select tags  
-     * Click on the Lock Icon - turns to white.
-     * Create a region  
-     * Click the icon again to exit this mode.   
+Lock labels and Auto step - When the Mode is set to Single ("multitags="0"), the video will automatically advance 1 frame 
+
+after a tag has been designated, so the work flow of a user is:  
+     Create a new tag - Click or drag  
+     Select labels  
+     Click on the Lock Icon - turns to white.
+     Create a tag  
+     Click the icon again to exit this mode.   
 
 **Technical**
 
-The control is built using HTML5, CSS3 based on the [Polymer](https://www.polymer-project.org/1.0/) 
+The control is built using HTML5, CSS3 based on the <a href="https://www.polymer-project.org/1.0/" 
+
+target="_blank">Polymer</a>
 framework, allowing us to create reusable web components.
-Area selection is credited to [ImageAreaSelect](http://odyniec.net/projects/imgareaselect/)
+Area selection is credited to <a href="http://odyniec.net/projects/imgareaselect/" target="_blank">ImageAreaSelect</a>
 
 **Installing the control**
 
@@ -100,11 +95,13 @@ The control can be hosted in an HTML page. Add these 2 references:
 
 Add the control label in the place you want the control to appear, wrapped in a div:
 
-    <div style="width:50%">
+    <div style="width:800px">
         <video-tagging id='video-tagging'></video-tagging>
     </div>
 
-A host project can be found in [VideoTaggingTool](https://github.com/CatalystCode/VideoTaggingTool.git) 
+A host project can be found in <a href="https://github.com/CatalystCode/VideoTaggingTool.git" 
+
+target="_blank">VideoTaggingTool</a>
 
 **Control API**  
 The control recieves and sends data from/to the host.   
@@ -116,8 +113,8 @@ The following properties must be populated:
    2) videowidth - number, for example 420  
    3) videoheight - number, for example 240  
    4) framerate - number, for example 29.97  
-   5) tagshape - string, can be "x" or "square"  
-   6) tagtype - string, can be "point" or "square"  
+   5) tagshape - string, can be "x", "rectangle" or "circle"  
+   6) tagtype - string, can be "point" or "area"  
    7) tagsize - number, for example 20 (in pixels)  
    8) multitags - string, can be "0" or "1" 
    9) inputlabelsarray - a string array of the possible labels, for example - ["horse", "bird]
@@ -142,10 +139,10 @@ Call these properties on the control, for example:
  
     videolabelging.src = data.video.Url;
 
-Data from the control -     
-When a region is created or updated, the control fires an event called "onregionchanged". Register to this event to get the data:
+tagging Data -     
+When a tag is created or updated, the control fires an event called "ontagchanged". Register to this event to get the data:
 
-        document.getElementById('video-labelging').addEventListener('onregionchanged', function (e) {...
-The control sends **all** the regions and their tags in the current frame. The parameter e holds this data in e.detail:  
+        document.getElementById('video-labelging').addEventListener('ontagchanged', function (e) {...
+The control sends **all** the tags and their labels in the current frame. The parameter e holds this data in e.frame:  
 
 ![Alt text](assets/images/frames4.png?raw=true "Title")
