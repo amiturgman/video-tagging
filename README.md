@@ -82,6 +82,7 @@ after a region has been created, so the work flow of a user is:
      * Create a region  
      * Click the icon again to exit this mode.   
 
+
 **Technical**
 
 The control is built using HTML5, CSS3 based on the [Polymer](https://www.polymer-project.org/1.0/) 
@@ -106,6 +107,9 @@ Add the control label in the place you want the control to appear, wrapped in a 
     </div>
 
 A host project can be found in [VideoTaggingTool](https://github.com/CatalystCode/VideoTaggingTool.git) 
+
+An additional demo can be found in the control library in demo/index.html,   
+run with your favorite server.
 
 **Control API**  
 The control recieves and sends data from/to the host.   

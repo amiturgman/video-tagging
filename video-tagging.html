@@ -8,7 +8,6 @@
 `<video-tagging>` control for video tagging.
 -->
 <dom-module id="video-tagging">
-
   <template>
     <style include="video-taggingstyles"></style>
     <link rel="stylesheet" href="css/sliders.css" />
@@ -78,7 +77,6 @@
       </div> 
 </div> 
 </template>
-
 <script>
 
   Polymer({
@@ -96,7 +94,7 @@
       multiregions: Number,
       regionsize: Number, 
       inputtagsarray:Object, 
-      inputFrames: Object,   
+      inputframes: Object,   
       src: {
         type: String,
         value: '',
@@ -105,12 +103,12 @@
     },
     // Element Lifecycle
     ready: function() {
-      this.frames = {}; // Holds the data of the regions and their tags
+      this.frames = {}; // Holds the data of the tagged frames, their regions and tags
       this.seeking = false;//Flag for enabling control over the seek bar while the video is playing, see playingCallback function
       this.selectedRegionId = 0;//Holds the current selected region number
       this.lockTagsEnabled = false;
       this.selectedTags = [];
-      this.volumeStyle = document.createElement('style');
+      this.volumeStyle = document.createElement('style');//dynamic styles for sliders
       Polymer.dom(this.root).appendChild(this.volumeStyle);
 
       this.seekStyle = document.createElement('style');
@@ -166,7 +164,7 @@
             self.overlay.height = self.video.offsetHeight ;
             
             //Init variables and controls
-            self.frames = self.inputFrames? self.inputFrames:{};
+            self.frames = self.inputframes? self.inputframes:{};
             self.frameTime = 1/self.framerate;
             self.enableAreaSelect(self);
             self.optionalTags.createTagControls(self.inputtagsarray);
