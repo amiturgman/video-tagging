@@ -36,6 +36,10 @@
   background: white;
 }
 
+.seek::-webkit-slider-thumb:hover {
+  background: white;
+}
+
 /*Volume slider*/
 .volume {
   display: inline-block;

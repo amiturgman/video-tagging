@@ -703,10 +703,10 @@
         }, 10);
     },
     pauseState: function() {
+            clearInterval(this.playing);
             this.video.pause();
             this.playButton.classList.toggle("icon-pause2", !this.video.paused);
             this.optionalTags.toggleEnableButtons(false);  
-            clearInterval(this.playing);
     },
     playingCallback: function() {
             
