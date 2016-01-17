@@ -1,7 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="video-taggingstyles.html">
 
-
 <dom-module id="optional-tags">
 
   <template>
@@ -10,7 +9,6 @@
              <div id = "buttonsContainer"></div>
            </div>
    </template>
-
    <script>
 
   Polymer({
@@ -19,16 +17,13 @@
 
        properties: { 
        },
-       attached: function()
-       {
+       attached: function() {
              this.tagsContainer = this.$$('#tagsContainer');
              this.buttonsContainer = this.$$('#buttonsContainer');
        },
-       createTagControls: function(tagsArray)
-       {
+       createTagControls: function(tagsArray)  {
           $('#buttonsContainer').empty();
-          for(var index = 0;index < tagsArray.length;index++)
-          {
+          for(var index = 0;index < tagsArray.length;index++){
                 var btn = document.createElement("input");
                 btn.id = tagsArray[index];
                 btn.type = "button";
@@ -41,13 +36,11 @@
                 var self = this;
                 btn.addEventListener("click", function(e) {
                   
-                  if(e.srcElement.selected)
-                  {
+                  if(e.srcElement.selected){
                       self.setUnselected(e.srcElement);
                       self.fire('ontagdeleted', {tagid:e.srcElement.id});
                   }
-                  else
-                  {
+                  else {
                       self.setSelected(e.srcElement);
                       self.fire('ontagsubmitted', {tagid:e.srcElement.id});
                   }
@@ -57,34 +50,30 @@
                 Polymer.dom(this.$.buttonsContainer).appendChild(btn);  
           }
        },
-       displaySelectedTags: function(tagsArray)
-       {
+       displaySelectedTags: function(tagsArray){
             if(tagsArray && tagsArray !== null){
               
-              for(var index = 0;index < tagsArray.length;index++)
-              {
+              for(var index = 0;index < tagsArray.length;index++){
                     for (var i = 0; i < this.buttonsContainer.childNodes.length; i++) {
                       
-                        if(tagsArray[index] === this.buttonsContainer.childNodes[i].value)
-                        {
+                        if(tagsArray[index] === this.buttonsContainer.childNodes[i].value){
                               this.setSelected(this.buttonsContainer.childNodes[i]);
                         }
                     }
               }
             }
        },
-       setSelected: function(btn)
-       {
-            btn.style.background = "rgb(217,217,217)"; 
+       setSelected: function(btn){
+            btn.classList.remove('tagOff');
+            btn.classList.add('tagOn');
             btn.selected = true;           
        },
-       setUnselected: function(btn)
-       {
-            btn.style.background =  "rgb(59,56,56)"; 
+       setUnselected: function(btn){
+            btn.classList.remove('tagOn');
+            btn.classList.add('tagOff');
             btn.selected = false;           
        },
-       getSelectedTags :function()
-       { 
+       getSelectedTags :function(){ 
             var selectedTags = [];
             for (var i = 0; i < this.buttonsContainer.childNodes.length; i++) {
                     
@@ -95,15 +84,13 @@
             }
             return selectedTags;
        },
-       resetSelected: function()
-       {
+       resetSelected: function(){
             var self = this;
             $(this.buttonsContainer).children().each(function(index){
                       self.setUnselected(this);
             });
        },
-       toggleEnableButtons: function(enable)
-       {
+       toggleEnableButtons: function(enable){
             var self = this;
             $(this.buttonsContainer).children().each(function(index){
                       this.disabled = !enable;
@@ -111,5 +98,4 @@
        }
    });
 </script>
-
 </dom-module>

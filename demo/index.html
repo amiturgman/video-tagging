@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
     <title>Video Tagging</title>
+    <script src="../bower_components/webcomponentsjs/webcomponents.min.js"></script>
     <link rel="import" href="video-tagging.html">
   </head>
   <body>
@@ -48,29 +49,38 @@
     jobList.push(job2)
 
     function jobSelectionChanged(){
+
         var sel = document.getElementById("jobslist");
         if(sel.options[sel.selectedIndex].value == "Select Job..."){
             return;
         }
         //Get job by id 
         var jobId = sel.options[sel.selectedIndex].value;
-        var job = $.grep(jobList, function(e){ return e.id === parseInt(jobId)})
-
+        var job;
+        jobId = parseInt(jobId);
+        jobList.forEach(function(item){
+            
+            if(item.id === jobId) {
+                job = item;
+                //break;
+            }
+        });
+        
         var videotagging = document.getElementById('video-tagging');
-        var jobx =  job[0];       
-        videotagging.videoduration = jobx.DurationSeconds;
-        videotagging.videowidth = jobx.Width;
-        videotagging.videoheight = jobx.Height;
-        videotagging.framerate = jobx.FramesPerSecond;
 
-        var jobConfig = jobx.Config;
+        videotagging.videoduration = job.DurationSeconds;
+        videotagging.videowidth = job.Width;
+        videotagging.videoheight = job.Height;
+        videotagging.framerate = job.FramesPerSecond;
+
+        var jobConfig = job.Config;
         videotagging.regionshape = jobConfig.regionshape;
         videotagging.regiontype = jobConfig.regiontype;
         videotagging.multiregions = jobConfig.multiregions;
         videotagging.regionsize = jobConfig.regionsize;
         videotagging.inputtagsarray = jobConfig.tags;
         
-        videotagging.src = jobx.video;//load
+        videotagging.src = job.video;//load
     }
     
     document.getElementById('video-tagging').addEventListener('onregionchanged', function (e) {
@@ -78,5 +88,6 @@
             //Persist
         });
    </script>
+   
   </body>
 </html>
