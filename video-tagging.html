@@ -1,12 +1,15 @@
+
+<!--
+       * video-tagging control for video tagging
+       * Main file of the video-tagging module.
+-->
+
+
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="video-taggingstyles.html">
-<link rel="import" href="slider-styles.html">
 <link rel="import" href="optional-tags.html">
 <link rel="import" href="playback-control.html">
 
-<!--
-`<video-tagging>` control for video tagging.
--->
 <dom-module id="video-tagging">
   <template>
     <style include="video-taggingstyles"></style>
@@ -29,8 +32,9 @@
               </video>
       </div>
       <div id="videoControls" class="videoControls">
-          <input id="seekBar" class="seek clickableControl" type="range" min='0' value="0" step="any" required />
+        <input id="seekBar" class="seek clickableControl" type="range" min='0' value="0" step="any" required />
           <table id="videoControlsTable" class="videoControlsTable">
+            
             <tr>
               <td class="videoControlCell simpleControl clickableControl">
                 <span id="stepbwd" title="prev" class="icon-backward2 taggingControls" on-click='stepBwdClicked'></span>
@@ -160,8 +164,8 @@
             self.controlWrapper.style.display = "block";
 
             //Size canvas as video
-            self.overlay.width = self.video.offsetWidth ;
-            self.overlay.height = self.video.offsetHeight ;
+            self.overlay.width = self.video.offsetWidth;
+            self.overlay.height = self.video.offsetHeight;
             
             //Init variables and controls
             self.frames = self.inputframes? self.inputframes:{};
@@ -171,17 +175,13 @@
 
             //Init sliders
             self.volumeSlider.value = .5;
-            self.volumeStyle.textContent =  '.volume::-webkit-slider-runnable-track{background-size:50% 100%}';
             self.seekBar.max = self.video.duration;
-            self.seekStyle.textContent =  '.seek::-webkit-slider-runnable-track{background-size: 0% 100%}';
-
             self.playingCallback();
 
       }, false );
 
       this.video.onended = function(){
            
-
            self.pauseState();
       }
 
@@ -193,7 +193,7 @@
             
             self.seeking = false;
           });
-      this.seekBar.addEventListener("input", function() {
+      this.seekBar.addEventListener("change", function() {
             self.seeking = false;
             self.video.currentTime = self.seekBar.value;
             self.playingCallback();
@@ -202,6 +202,7 @@
             self.video.volume = self.volumeSlider.value;
             var perc =  100 * self.volumeSlider.value / self.volumeSlider.max;
             self.volumeStyle.textContent = '.volume::-webkit-slider-runnable-track{background-size:'+ perc +'% 100%} ';
+            self.volumeStyle.textContent += '.volume::-moz-range-track{background-size:'+ perc +'% 100%} ';
           });
       this.addEventListener("playSpeedSelected", function(e) {
             self.playback(e.detail.playbackValue, e.detail.playbackText);
@@ -305,7 +306,7 @@
             //Get all selected tags and add them to current region automatically
             //this.selectedTags was populated in this.lockTagsClicked
             var arr = [];
-            for (var i = 0; i < this.selectedTags.length; i++) {
+            for (var i=0; i<this.selectedTags.length;i++) {
               
               this.optionalTags.setSelected(this.selectedTags[i]);
               arr.push(this.selectedTags[i].id)
@@ -332,7 +333,7 @@
           var frameIndex = this.getCurrentFrame();
           var frames = this.videoduration * this.framerate;
           var framesForward = 1;
-          for (var i = frameIndex; i < frames; i++) {
+          for (var i=frameIndex;i<frames;i++) {
 
                 //The next frame is a first occurence of a frame with no regions
                 if(!this.frames[i + 1]){
@@ -378,7 +379,7 @@
               var regions = this.frames[this.getCurrentFrame()];
               if(regions){
                   var tags = this.frames[this.getCurrentFrame()][this.selectedRegionId - 1].tags;
-                  self.optionalTags.displaySelectedTags(tags);
+                  this.optionalTags.displaySelectedTags(tags);
               }
     },
     deleteRegion: function(e) {
@@ -386,13 +387,12 @@
           var regions = this.frames[this.getCurrentFrame()];
           regions.splice(this.selectedRegionId - 1, 1);
           //Shift array left to cover removed item - Rename all regions which are higher than the deleted one,  
-          for (var i = 0; i < regions.length; i++) {
+          for (var i=0;i<regions.length;i++) {
               var id = Number(regions[i].name)
               if(id > this.selectedRegionId){
                   regions[i].name = id - 1;
               }
           }
-          this.clearFrameElements();
           this.showAllRegions();
           this.emitRegionToHost();
     },
@@ -467,7 +467,7 @@
             
             if(regions && regions.length > 0){
               //Draw all regions for this frame
-              for (var i = 0; i < regions.length; i++) {
+              for (var i=0; i<regions.length;i++) {
 
                   var region = regions[i];
                   //Frame was tagged as empty?
@@ -575,33 +575,8 @@
             }
             this.addDivToRegion(x1, y1, x2 , y2, regionname);
     },
-    /** 
-       * @method emptyFrameClicked
-       * Creates an empty region array for the current frame, meaning that the frame is not * tagged, but has been reviewed.
-       */
-    emptyFrameClicked: function(){
-        var frameIndex = this.getCurrentFrame();      
-        var regions = this.frames[frameIndex];
-        if(!regions || regions.length === 0){
-            this.frames[frameIndex] = [{}];
-            this.indicateEmptyFrame(true);
-            this.emitRegionToHost();
-            if(this.lockTagsEnabled){
-                this.stepFwdClicked();
-            }
-        }
-    },
-    resetEmptyFrame: function(){
-        var regions = this.frames[this.getCurrentFrame()];
-        //If there is an empty region
-        if(regions && regions.length === 1 && Object.keys(regions[0]).length === 0){
-            //reset all for this frame
-            this.frames[this.getCurrentFrame()] = [];
-            this.clearFrameElements();
-        }
-    },
 
-
+    
     /**
        * All functions related to frames management
        * 
@@ -625,8 +600,43 @@
       return Math.round(this.video.currentTime * this.framerate);
     },
     indicateEmptyFrame : function(selected){
-        this.emptyFrame.classList.toggle("controlOn", selected);
-        this.emptyFrame.classList.toggle("controlOff", !selected);
+        if(selected){
+            this.emptyFrame.classList.remove("controlOff");
+            this.emptyFrame.classList.add("controlOn");
+        }
+        else{
+            this.emptyFrame.classList.remove("controlOn");
+            this.emptyFrame.classList.add("controlOff");
+        }
+    },
+    /** 
+       * @method emptyFrameClicked
+       * Creates an empty region array for the current frame, meaning that the frame is not tagged, but has been reviewed.
+       */
+    emptyFrameClicked: function(){
+        var frameIndex = this.getCurrentFrame();      
+        var regions = this.frames[frameIndex];
+        if(!regions || regions.length === 0){
+            this.frames[frameIndex] = [{}];
+            this.indicateEmptyFrame(true);
+            this.emitRegionToHost();
+            if(this.lockTagsEnabled){
+                this.stepFwdClicked();
+            }
+        }
+    },
+    /** 
+       * @method resetEmptyFrame
+       * If the frame has been marked as empty - reset that.
+       */
+    resetEmptyFrame: function(){
+        var regions = this.frames[this.getCurrentFrame()];
+        //If there is an empty region
+        if(regions && regions.length === 1 && Object.keys(regions[0]).length === 0){
+            //reset all for this frame
+            this.frames[this.getCurrentFrame()] = [];
+            this.clearFrameElements();
+        }
     },
 
 
@@ -703,10 +713,10 @@
         }, 10);
     },
     pauseState: function() {
+            clearInterval(this.playing);
             this.video.pause();
             this.playButton.classList.toggle("icon-pause2", !this.video.paused);
             this.optionalTags.toggleEnableButtons(false);  
-            clearInterval(this.playing);
     },
     playingCallback: function() {
             
@@ -732,12 +742,11 @@
             this.seekBar.value = this.video.currentTime;
             var perc =  100 * this.seekBar.value / this.seekBar.max;
             this.seekStyle.textContent =  '.seek::-webkit-slider-runnable-track{background-size:'+perc+'% 100%}';
+            this.seekStyle.textContent += '.seek::-moz-range-track{background-size:'+perc+'% 100%}';
     },
 });
-
 </script>
 <script src="../jquery/dist/jquery.min.js"></script>
 <script src="../moment/moment.js"></script>
 <script src="js/jquery.imgareaselect.js"></script>
-
 </dom-module>
