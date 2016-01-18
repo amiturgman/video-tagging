@@ -1,3 +1,8 @@
+<!--
+   Demo html page for an example of hosting the 
+       video-tagging control.
+-->
+
 <!doctype html>
 <html>
   <head>
@@ -37,10 +42,10 @@
     var job2 = {};
     job2.Config = {"regionshape":"square", "regiontype":"Point", "regionsize":"40", "multiregions":"1"};
     job2.Config.tags = ["horse","bird","brown","white"];
-    job2.DurationSeconds = 643;
-    job2.FramesPerSecond = 29;
-    job2.Height = 576;
-    job2.Width = 1024;
+    job2.DurationSeconds = 30.07;
+    job2.FramesPerSecond = 29.97;
+    job2.Height = 480;
+    job2.Width = 640;
     job2.Description = "Job2";
     job2.id = 2;
     job2.video = "WF1.mp4";
@@ -62,7 +67,6 @@
             
             if(item.id === jobId) {
                 job = item;
-                //break;
             }
         });
         
@@ -88,6 +92,5 @@
             //Persist
         });
    </script>
-   
   </body>
 </html>

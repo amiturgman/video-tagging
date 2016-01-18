@@ -1,3 +1,8 @@
+<!--
+   playback-control control for play speed of video
+       of the video-tagging control
+-->
+
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="video-taggingstyles.html">
 
@@ -37,15 +42,13 @@
        },
        playbackClicked: function(e){
            //Reset
-           var tagButtons = this.container.children;
-           for (var i = 0; i < tagButtons.length; i++) {
-             tagButtons[i].selected = false;
-             tagButtons[i].classList.remove('playSpeedValueSelected');
+           var playSpeeds = this.container.children;
+           for (var i=0;i<playSpeeds.length;i++) {
+             playSpeeds[i].classList.remove('playSpeedValueSelected');
            };
            //Highlight selected
-           var div = this.$$('#' + e.srcElement.id);
+           var div = this.$$('#' + e.target.id);
            div.classList.add('playSpeedValueSelected');
-           div.selected = true;
            this.fire("playSpeedSelected",{playbackValue:div.value, playbackText:div.innerHTML});
        },
        containerMouseOut: function(e){  
