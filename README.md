@@ -78,7 +78,7 @@ Lock tags and Auto step - When the Mode is set to Single ("multitags="0"), the v
 after a region has been created, so the work flow of a user is:  
      * Create a new region - Click or drag  
      * Select tags  
-     * Click on the Lock Icon - turns to white.
+     * Click on the Lock Icon - turns to white.  
      * Create a region  
      * Click the icon again to exit this mode.   
 
@@ -95,12 +95,12 @@ bower install CatalystCode/video-tagging
 
 
 **Hosting the control**   
-The control can be hosted in an HTML page. Add these 2 references:
+The control can be hosted in an HTML page. Add a reference to the element:
 
      <link rel="import" href="/bower_components/video-tagging/video-tagging.html">
 
 
-Add the control label in the place you want the control to appear, wrapped in a div:
+Add the element tag in the place you want the control to appear, wrapped in a div:
 
     <div style="width:50%">
         <video-tagging id='video-tagging'></video-tagging>
@@ -114,7 +114,7 @@ run with your favorite server.
 **Control API**  
 The control recieves and sends data from/to the host.   
 
-Initial Data -   
+**Input Data**   
 The following properties must be populated:
 
    1) videoduration - number, for example 30.07  
@@ -127,13 +127,14 @@ The following properties must be populated:
    8) multitags - string, can be "0" or "1" 
    9) inputlabelsarray - a string array of the possible labels, for example - ["horse", "bird]
   10) inputFrames - an object containg all the tags of this video (That have been created at an earlier time).
-      Example: The object is a dictionary, the frame number is the key. Each frame has a collection of tags.  
+      Example: The object is a dictionary, the frame number is the key. Each frame has a collection of regions  
+      and each region has a collection of tags.    
       In this example we see data for frames 17, 23 and 41.  
       ![Alt text](assets/images/frames1.png?raw=true "Title")  
-      Expanded- each tag is an obect with coordinates and a labels array.  
+      Expanded- each region is an obect with coordinates and a tags array.  
       ![Alt text](assets/images/frames3.png?raw=true "Title")
   
-Call these properties on the control, for example:
+   Assign these properties on the element, for example:
 
     var videolabelging = document.getElementById('video-labelging');
                 
@@ -147,8 +148,8 @@ Call these properties on the control, for example:
  
     videolabelging.src = data.video.Url;
 
-Data from the control -     
-When a region is created or updated, the control fires an event called "onregionchanged". Register to this event to get the 
+**Output Data**     
+When a region is created or updated and when tags are added/removed, the element fires an event called "onregionchanged". Register to this event to get the 
 data:
 
         document.getElementById('video-labelging').addEventListener('onregionchanged', function (e) {...

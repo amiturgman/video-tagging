@@ -705,7 +705,7 @@
     playState: function() {
         this.video.play();
         this.playButton.classList.toggle("icon-pause2", !this.video.paused);
-        this.lockTagsEnabled = false;
+        this.lockTagsClicked();
         this.optionalTags.toggleEnableButtons(false);
         var self = this;
         this.playing = setInterval(function() {
