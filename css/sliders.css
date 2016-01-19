@@ -1,4 +1,6 @@
-/*sliders*/
+
+
+        /*sliders*/
 input[type='range']:focus {
   outline: none;
 }
@@ -51,6 +53,10 @@ input[type='range']:focus {
   padding-right: 25px;
 }
 
+.seek::-webkit-slider-runnable-track {
+  background-size: 0% 100%;
+}
+
 .volume::-webkit-slider-runnable-track {
   background-size: 50% 100%;
 }
@@ -76,8 +82,6 @@ input[type='range']:focus {
 .seek::--ms-track {
   background-size: 0% 100%;
 }
-
-
 
 .volume::-ms-track {
   background: linear-gradient(#595959, #595959) no-repeat rgb(89,89,89);

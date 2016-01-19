@@ -112,11 +112,6 @@
       this.selectedRegionId = 0;//Holds the current selected region number
       this.lockTagsEnabled = false;
       this.selectedTags = [];
-      this.volumeStyle = document.createElement('style');//dynamic styles for sliders
-      Polymer.dom(this.root).appendChild(this.volumeStyle);
-
-      this.seekStyle = document.createElement('style');
-      Polymer.dom(this.root).appendChild(this.seekStyle);
 
       //Divs and spans
       this.controlWrapper= this.$$('#controlWrapper');
@@ -144,6 +139,12 @@
       // Sliders
       this.seekBar = this.$$("#seekBar");
       this.volumeSlider = this.$$("#volumeSlider");
+      //dynamic styles for sliders
+      this.volumeStyle = document.createElement('style');
+      Polymer.dom(this.root).appendChild(this.volumeStyle);
+
+      this.seekStyle = document.createElement('style');
+      Polymer.dom(this.root).appendChild(this.seekStyle);
 
       this.playing = null;
       this.ctx = this.overlay.getContext("2d");
@@ -651,6 +652,9 @@
           this.mute.classList.toggle("icon-volume-mute2", this.video.muted);
           this.video.muted = !this.video.muted;
     },
+    /**
+       * Handler for setting the video play speed
+       */
     playback: function(val, text) {
           if(val !== null){
               this.video.playbackRate = val;
@@ -658,6 +662,9 @@
           }
           this.playSpeedControl.style.display = "none";
     },
+    /**
+       * Shows the play speed control
+       */
     playbackSpeedClicked: function(){
           var offset = $('#playSpeedCell').offset();
           var top = offset.top - $('#playSpeedControl').height();
@@ -667,7 +674,6 @@
     },
     playPauseClicked: function() {
           this.video.paused?this.playState():this.pauseState();
-          
     },
     stepFwdClicked: function() {
           
@@ -705,6 +711,8 @@
     playState: function() {
         this.video.play();
         this.playButton.classList.toggle("icon-pause2", !this.video.paused);
+        //Reset lock tags to off
+        this.lockTagsEnabled = true;
         this.lockTagsClicked();
         this.optionalTags.toggleEnableButtons(false);
         var self = this;

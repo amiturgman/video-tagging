@@ -1,11 +1,11 @@
 # VideoTagging Web Element
 This web element can be used to annotate videos frame by frame. It is useful when building solutions for video processing  
-and there's a need to curate labeled videos for training or testing the computer vision algorithm used.
+and there's a need to curate labeled videos for training or testing a computer vision algorithm.
 
 **General**  
 
 ***Regions & Tags***
-The element displays a selected video and allows the user to associate tags and text labels per frame.
+The element displays a selected video and allows the user to associate regions and text tags per frame.
 A **region** is a point or area within the frame, which can then be associated with textual **tags**.
 
 A **region** is represented by a json object, with a structure that depends on the 'type' property.
@@ -15,7 +15,7 @@ Examples:
 }}
 
 There are 2 region types:  
-1) Point - designates an x,y coordinate (can be x or square).  
+1) Point - designates an x,y coordinate (The shape can be x or square).  
 2) Rectangle - designates a rectangle (x1, y1, x2, y2)  
 
 In addition, it is possible to define single or multiple regions per frame:  
@@ -74,12 +74,13 @@ Rectangle single/multiple - Click the video screen and drag. A rectangle appears
 To select a region, click on it.  
 In all modes, when a region is selected, you can add/remove tags to it or delete it altogether.
 
-Lock tags and Auto step - When the Mode is set to Single ("multitags="0"), the video will automatically advance 1 frame 
+Lock tags and Auto step - When the Mode is set to Single ("multitags="0"), the video will automatically advance 1 frame 
 after a region has been created, so the work flow of a user is:  
      * Create a new region - Click or drag  
      * Select tags  
      * Click on the Lock Icon - turns to white.  
-     * Create a region  
+     * Create a region   
+     * Repeat   
      * Click the icon again to exit this mode.   
 
 
@@ -112,7 +113,7 @@ An additional demo can be found in the control library in demo/index.html,
 run with your favorite server.
 
 **Control API**  
-The control recieves and sends data from/to the host.   
+The control receives and sends data from/to the host.   
 
 **Input Data**   
 The following properties must be populated:
@@ -121,38 +122,44 @@ The following properties must be populated:
    2) videowidth - number, for example 420  
    3) videoheight - number, for example 240  
    4) framerate - number, for example 29.97  
-   5) tagshape - string, can be "x" or "square"  
-   6) tagtype - string, can be "point" or "square"  
-   7) tagsize - number, for example 20 (in pixels)  
-   8) multitags - string, can be "0" or "1" 
-   9) inputlabelsarray - a string array of the possible labels, for example - ["horse", "bird]
-  10) inputFrames - an object containg all the tags of this video (That have been created at an earlier time).
-      Example: The object is a dictionary, the frame number is the key. Each frame has a collection of regions  
+   5) regionshape - string, can be "x" or "square"  
+   6) regiontype - string, can be "point" or "rectangle"  
+   7) regionsize - number, for example 20 (in pixels) for point regions.  
+   8) multitags - string, can be "0" or "1"   
+   9) inputtagsarray - a string array of the possible tags, for example - ["horse", "bird]  
+  10) inputFrames - an object containing all the tagged frames of this video (That have been created at an earlier time).
+      The object is a dictionary, the frame number is the key. Each frame has a collection of regions 
       and each region has a collection of tags.    
-      In this example we see data for frames 17, 23 and 41.  
+      In this example we see data for frames 434, 442 and 628.  
       ![Alt text](assets/images/frames1.png?raw=true "Title")  
-      Expanded- each region is an obect with coordinates and a tags array.  
-      ![Alt text](assets/images/frames3.png?raw=true "Title")
+      Expanded- each region is an object with coordinates and a tags array.  
+      ![Alt text](assets/images/frames2.png?raw=true "Title")
   
    Assign these properties on the element, for example:
 
-    var videolabelging = document.getElementById('video-labelging');
+        var videotagging = document.getElementById('video-tagging');
                 
-        videolabelging.videoduration = data.video.DurationSeconds;
-        videolabelging.videowidth = data.video.Width;
-        videolabelging.videoheight = data.video.Height;
-        videolabelging.framerate = data.video.FramesPerSecond;
-        ,,, 
+        videotagging.videoduration = data.video.DurationSeconds;
+        videotagging.videowidth = data.video.Width;
+        videotagging.videoheight = data.video.Height;
+        videotagging.framerate = data.video.FramesPerSecond;
+       
       
   Finally, to load the control, set the src property to the URL of the video: 
  
-    videolabelging.src = data.video.Url;
+        videotagging.src = data.video.Url;
 
 **Output Data**     
-When a region is created or updated and when tags are added/removed, the element fires an event called "onregionchanged". Register to this event to get the 
-data:
+When a region is created or updated and when tags are added/removed, the element fires an event called "onregionchanged". Register to this event to get thedata:
 
-        document.getElementById('video-labelging').addEventListener('onregionchanged', function (e) {...
+        document.getElementById('video-tegging').addEventListener('onregionchanged', function (e) {...
 The control sends **all** the regions and their tags in the current frame. The parameter e holds this data in e.detail:  
 
-![Alt text](assets/images/frames4.png?raw=true "Title")
+![Alt text](assets/images/frames3.png?raw=true "Title")
+
+**Browser Support**
+
+![Alt text](assets/images/chrome.png?raw=true "Title")  Chrome 47  
+![Alt text](assets/images/edge.jpg?raw=true "Title")    Edge 20  
+![Alt text](assets/images/ff.png?raw=true "Title")      Firefox 43  
+Best results were observed in Edge and Firefox.
