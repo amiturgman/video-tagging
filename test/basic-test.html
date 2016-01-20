@@ -29,12 +29,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       suite('<video-tagging>', function() {
 
-        test('defines the "author" property', function() {
-          assert.equal(myEl.authors, 'OzGitele');
+        test('addTagsToRegion', function() {
+          myEl.createRegion(20, 100, 30, 150)
+          myEl.addTagsToRegion(['horse','bird']);
+          
+          var region = myEl.frames[myEl.getCurrentFrame()][0];
+
+          assert.equal(region.tags.length, 2);
           
         });
-
-        
 
       });
     </script>

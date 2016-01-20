@@ -291,17 +291,19 @@
     positionRegionNameLabel: function(div){
 
         this.regionLabelDiv.style.left = (div.offsetLeft + parseFloat(div.style.width, 10) - parseFloat(this.regionLabelDiv.style.width, 10)) + "px";
-
         this.regionLabelDiv.style.top = (div.offsetTop - parseFloat(this.regionLabelDiv.style.height, 10)) + "px" ;
-
+        //Out of bounds top - show regionLabel below div
+        if(parseFloat(this.regionLabelDiv.style.top) < 0){
+             this.regionLabelDiv.style.top = (div.offsetTop + parseFloat(div.style.height, 10)) + "px" ;
+        }
         this.regionLabelSpan.innerHTML = div.id;
         this.regionLabelDiv.style.display = "block";
     },
     createRegion: function(x1, y1, x2, y2){
 
-        var region = this.addRegion(x1, y1, x2, y2);
-        this.drawRegion(x1, y1, x2, y2, region.name);
-        this.selectDiv(region.name);
+        var region = this.addRegion(x1, y1, x2, y2);//Add to in-memory collection
+        this.drawRegion(x1, y1, x2, y2, region.name);//Draw
+        this.regionSelected(region.name);//Select it by default
 
         if(this.lockTagsEnabled) {   
             //Get all selected tags and add them to current region automatically
@@ -365,16 +367,17 @@
           this.lockTag.classList.toggle("controlOn", this.lockTagsEnabled);
           this.lockTag.classList.toggle("controlOff", !this.lockTagsEnabled);
     },
-    regionSelected: function(div) {
+    regionSelected: function(divId) {
               this.cleanSelectedElements();
-              
-              div.style.border = "1px solid rgb(255, 0, 0)";
-              this.selectedRegionId = div.id;
 
+              var div = document.getElementById(divId);
+
+              div.classList.add("regionCanvasSelected");
+              this.selectedRegionId = div.id;
               this.positionRegionNameLabel(div);
               this.regionLabelDiv.style.display = "block";
 
-              //Tags
+              //Tags - display the tags of the region and enable editing
               this.optionalTags.toggleEnableButtons(true);
               this.optionalTags.resetSelected();
               var regions = this.frames[this.getCurrentFrame()];
@@ -416,7 +419,7 @@
     addDivToRegion: function(x1, y1, x2, y2, regionId){
             var div = document.createElement("div");
             div.id = regionId;
-            div.className = "regionCanvas";
+            div.classList.add("regionCanvas");
 
             if(this.regiontype.toLowerCase() === "point"){
                   div.style.width = this.regionsize - 1 +  "px";//Compensate for 1px border
@@ -433,7 +436,7 @@
             var self = this;
             $( div )
                       .click(function(e) {
-                         self.regionSelected(div);
+                         self.regionSelected(div.id);
                       })
             $( div )
                       .mouseenter(function(e) {
@@ -455,7 +458,12 @@
        * Removes all borders of regions and disables label buttons
        */
     cleanSelectedElements: function(){
-          $(this.videoWrapper).children(".regionCanvas").css('border-width', "0");
+          //Remove selected style
+          var regionCanvases = Polymer.dom(this.root).querySelectorAll('.regionCanvas');
+          for (var i=0;i<regionCanvases.length;i++) {
+            regionCanvases[i].classList.remove('regionCanvasSelected')
+          };
+          //reset
           this.selectedRegionId = 0;
           this.optionalTags.toggleEnableButtons(false);
           this.optionalTags.resetSelected();
@@ -491,14 +499,10 @@
                   this.drawRegion( x1, y1, x2, y2, region.name);
                   //Only 1 region - select it and show tags
                   if(regions.length === 1){
-                      this.selectDiv(region.name)
+                      this.regionSelected(region.name)
                   }
               }
             }
-    },
-    selectDiv: function(divId){
-        var div = document.getElementById(divId);//Gets the div by id
-        this.regionSelected(div);//Select region 
     },
     /** 
        * @method addRegion
