@@ -161,5 +161,4 @@ The control sends **all** the regions and their tags in the current frame. The p
 
 ![Alt text](assets/images/chrome.png?raw=true "Title")  Chrome 47  
 ![Alt text](assets/images/edge.jpg?raw=true "Title")    Edge 20  
-![Alt text](assets/images/ff.png?raw=true "Title")      Firefox 43  
-Best results were observed in Edge and Firefox.
+![Alt text](assets/images/ff.png?raw=true "Title")      Firefox 43 

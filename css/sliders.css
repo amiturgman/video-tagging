@@ -36,7 +36,6 @@ input[type='range']:focus {
 .volume::-webkit-slider-thumb{
   
   margin-top: -0.125em;
-  border: none;
   width: 0.6em;
   height: 0.6em;
   border-radius: 50%;

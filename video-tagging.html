@@ -292,7 +292,7 @@
 
         this.regionLabelDiv.style.left = (div.offsetLeft + parseFloat(div.style.width, 10) - parseFloat(this.regionLabelDiv.style.width, 10)) + "px";
         this.regionLabelDiv.style.top = (div.offsetTop - parseFloat(this.regionLabelDiv.style.height, 10)) + "px" ;
-        //Out of bounds top - show regionLabel below div
+        //Out of bounds top - move it below div
         if(parseFloat(this.regionLabelDiv.style.top) < 0){
              this.regionLabelDiv.style.top = (div.offsetTop + parseFloat(div.style.height, 10)) + "px" ;
         }
@@ -369,13 +369,10 @@
     },
     regionSelected: function(divId) {
               this.cleanSelectedElements();
-
               var div = document.getElementById(divId);
-
               div.classList.add("regionCanvasSelected");
               this.selectedRegionId = div.id;
               this.positionRegionNameLabel(div);
-              this.regionLabelDiv.style.display = "block";
 
               //Tags - display the tags of the region and enable editing
               this.optionalTags.toggleEnableButtons(true);
@@ -725,8 +722,8 @@
         }, 10);
     },
     pauseState: function() {
-            clearInterval(this.playing);
             this.video.pause();
+            clearInterval(this.playing);
             this.playButton.classList.toggle("icon-pause2", !this.video.paused);
             this.optionalTags.toggleEnableButtons(false);  
     },
