@@ -681,6 +681,7 @@
           if(!this.video.paused) {
               this.pauseState();
           }
+          
           this.video.currentTime = Math.min(this.video.duration, this.video.currentTime + this.frameTime);
           this.playingCallback();
     },
