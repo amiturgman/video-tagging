@@ -250,7 +250,7 @@
             show:false,
             hide:true
       });
-      if(this.regiontype.toLowerCase() === "rectangle"){
+      if(this.regiontype.toLowerCase() === "rectangle") {
           var areaSelected = false;
           
           $('canvas#overlay').imgAreaSelect({
@@ -288,18 +288,18 @@
        * @param {div} The region div
        */
     //Regions management
-    positionRegionNameLabel: function(div){
+    positionRegionNameLabel: function(div) {
 
         this.regionLabelDiv.style.left = (div.offsetLeft + parseFloat(div.style.width, 10) - parseFloat(this.regionLabelDiv.style.width, 10)) + "px";
         this.regionLabelDiv.style.top = (div.offsetTop - parseFloat(this.regionLabelDiv.style.height, 10)) + "px" ;
         //Out of bounds top - move it below div
-        if(parseFloat(this.regionLabelDiv.style.top) < 0){
+        if(parseFloat(this.regionLabelDiv.style.top) < 0) {
              this.regionLabelDiv.style.top = (div.offsetTop + parseFloat(div.style.height, 10)) + "px" ;
         }
         this.regionLabelSpan.innerHTML = div.id;
         this.regionLabelDiv.style.display = "block";
     },
-    createRegion: function(x1, y1, x2, y2){
+    createRegion: function(x1, y1, x2, y2) {
 
         var region = this.addRegion(x1, y1, x2, y2);//Add to in-memory collection
         this.drawRegion(x1, y1, x2, y2, region.name);//Draw
@@ -317,13 +317,13 @@
             this.addTagsToRegion(arr);
             var self = this;
             //Auto step functionality - Goes to next frame automatically
-            if(this.multiregions === "0"){
+            if(this.multiregions === "0") {
                   setTimeout(function(){ self.stepFwdClicked(); }, 500);
             }
         }
         this.emitRegionToHost();//Persist
     },
-    addTagsToRegion: function(selectedTagsArray){
+    addTagsToRegion: function(selectedTagsArray) {
           
           var regionId = this.selectedRegionId -1;//Revert to zero-based array
           var region = this.frames[this.getCurrentFrame()][regionId];
@@ -334,13 +334,13 @@
     },
     nextUntaggedClicked :function() {
           var frameIndex = this.getCurrentFrame();
-          var frames = this.videoduration * this.framerate;
+          var frames = this.video.duration * this.framerate;
           var framesForward = 1;
           for (var i=frameIndex;i<frames;i++) {
 
                 //The next frame is a first occurence of a frame with no regions
-                if(!this.frames[i + 1]){
-                      if(!this.video.paused){
+                if(!this.frames[i + 1]) {
+                      if(!this.video.paused) {
                           this.playPauseClicked();//Will pause the video
                       }
                       this.video.currentTime += (this.frameTime * framesForward);
@@ -359,7 +359,7 @@
               this.selectedTags = selTags;
               if(this.multiregions === "0"){this.stepFwdClicked()};
           }
-          else{
+          else {
               this.lockTagsEnabled = false;
               this.selectedTags = [];
               this.optionalTags.resetSelected();
@@ -378,7 +378,7 @@
               this.optionalTags.toggleEnableButtons(true);
               this.optionalTags.resetSelected();
               var regions = this.frames[this.getCurrentFrame()];
-              if(regions){
+              if(regions) {
                   var tags = this.frames[this.getCurrentFrame()][this.selectedRegionId - 1].tags;
                   this.optionalTags.displaySelectedTags(tags);
               }
@@ -413,18 +413,18 @@
        * @params {x1, y1, x2, y2} region coordinates.
        * @param {regionId} The region id, which is the region index + 1.
        */
-    addDivToRegion: function(x1, y1, x2, y2, regionId){
+    addDivToRegion: function(x1, y1, x2, y2, regionId) {
             var div = document.createElement("div");
             div.id = regionId;
             div.classList.add("regionCanvas");
 
-            if(this.regiontype.toLowerCase() === "point"){
+            if(this.regiontype.toLowerCase() === "point") {
                   div.style.width = this.regionsize - 1 +  "px";//Compensate for 1px border
                   div.style.height = this.regionsize - 1 +  "px";
                   div.style.top = y1 - this.regionsize/2  +  "px";
                   div.style.left = x1 - this.regionsize/2  +  "px";
             }
-            if(this.regiontype.toLowerCase() === "rectangle"){
+            if(this.regiontype.toLowerCase() === "rectangle") {
                   div.style.width = x2 - x1  +  "px";
                   div.style.height = y2 - y1   +  "px";
                   div.style.top = y1  + "px";
@@ -443,7 +443,7 @@
                       .mouseleave(function() {
 
                         self.regionLabelDiv.style.display = "none";
-                        if(self.selectedRegionId === div.id){
+                        if(self.selectedRegionId === div.id) {
                               self.regionLabelDiv.style.display = "block";
                         }
                       });
@@ -454,7 +454,7 @@
        * @method cleanSelectedElements
        * Removes all borders of regions and disables label buttons
        */
-    cleanSelectedElements: function(){
+    cleanSelectedElements: function() {
           //Remove selected style
           var regionCanvases = Polymer.dom(this.root).querySelectorAll('.regionCanvas');
           for (var i=0;i<regionCanvases.length;i++) {
@@ -471,13 +471,13 @@
             var frameIndex = this.getCurrentFrame();
             var regions = this.frames[frameIndex];
             
-            if(regions && regions.length > 0){
+            if(regions && regions.length > 0) {
               //Draw all regions for this frame
               for (var i=0; i<regions.length;i++) {
 
                   var region = regions[i];
                   //Frame was tagged as empty?
-                  if(Object.keys(region).length === 0){
+                  if(Object.keys(region).length === 0) {
                       this.indicateEmptyFrame(true);
                       continue;
                   }
@@ -495,7 +495,7 @@
                   y2 = (region.y2 * heightRatio);
                   this.drawRegion( x1, y1, x2, y2, region.name);
                   //Only 1 region - select it and show tags
-                  if(regions.length === 1){
+                  if(regions.length === 1) {
                       this.regionSelected(region.name)
                   }
               }
@@ -524,11 +524,11 @@
             var frameIndex = this.getCurrentFrame();      
             var regions = this.frames[frameIndex];
             //The array is populated and can contain multiple regions
-            if(this.multiregions == 1 && regions){
+            if(this.multiregions == 1 && regions) {
                 region.name = regions.length + 1;
                 this.frames[frameIndex].push(region);
             }
-            else{//Only one region allowed
+            else {//Only one region allowed
                 this.clearFrameElements();
                 region.name = 1;
                 this.frames[frameIndex] = [];
@@ -545,13 +545,13 @@
 
             this.ctx.strokeStyle = 'rgb(0,0,0)';
             this.ctx.lineWidth = 1;
-            if(this.regiontype.toLowerCase() === "point"){
+            if(this.regiontype.toLowerCase() === "point") {
                var centerOffset = this.regionsize/2;
 
-                if(this.regionshape.toLowerCase() === "square"){
+                if(this.regionshape.toLowerCase() === "square") {
                     this.ctx.strokeRect(x1 - centerOffset, y1 - centerOffset, this.regionsize, this.regionsize);
                 }
-                else if(this.regionshape.toLowerCase() === "x"){
+                else if(this.regionshape.toLowerCase() === "x") {
 
                     this.ctx.beginPath();
                     this.ctx.moveTo(x1 + centerOffset, y1 + centerOffset);
@@ -562,7 +562,7 @@
                     this.ctx.closePath();
                 }
             }        
-            else if(this.regiontype.toLowerCase() === "rectangle"){
+            else if(this.regiontype.toLowerCase() === "rectangle") {
                 this.ctx.beginPath();
                 this.ctx.moveTo(x1, y1);
                 this.ctx.lineTo(x2 , y1);
@@ -599,14 +599,14 @@
       this.indicateEmptyFrame(false);
     },
     getCurrentFrame: function() {
-      return Math.round(this.video.currentTime * this.framerate);
+      return this.video.currentTime === 0 ? 1 : Math.round((this.video.currentTime * this.framerate)) + 1;
     },
-    indicateEmptyFrame : function(selected){
-        if(selected){
+    indicateEmptyFrame : function(selected) {
+        if(selected) {
             this.emptyFrame.classList.remove("controlOff");
             this.emptyFrame.classList.add("controlOn");
         }
-        else{
+        else {
             this.emptyFrame.classList.remove("controlOn");
             this.emptyFrame.classList.add("controlOff");
         }
@@ -615,10 +615,10 @@
        * @method emptyFrameClicked
        * Creates an empty region array for the current frame, meaning that the frame is not tagged, but has been reviewed.
        */
-    emptyFrameClicked: function(){
+    emptyFrameClicked: function() {
         var frameIndex = this.getCurrentFrame();      
         var regions = this.frames[frameIndex];
-        if(!regions || regions.length === 0){
+        if(!regions || regions.length === 0) {
             this.frames[frameIndex] = [{}];
             this.indicateEmptyFrame(true);
             this.emitRegionToHost();
@@ -631,10 +631,10 @@
        * @method resetEmptyFrame
        * If the frame has been marked as empty - reset that.
        */
-    resetEmptyFrame: function(){
+    resetEmptyFrame: function() {
         var regions = this.frames[this.getCurrentFrame()];
         //If there is an empty region
-        if(regions && regions.length === 1 && Object.keys(regions[0]).length === 0){
+        if(regions && regions.length === 1 && Object.keys(regions[0]).length === 0) {
             //reset all for this frame
             this.frames[this.getCurrentFrame()] = [];
             this.clearFrameElements();
@@ -648,7 +648,7 @@
        * Video management
        *
        */
-    muteClicked: function(){
+    muteClicked: function() {
           this.mute.classList.toggle("icon-volume-medium", !this.video.muted);
           this.mute.classList.toggle("icon-volume-mute2", this.video.muted);
           this.video.muted = !this.video.muted;
@@ -666,7 +666,7 @@
     /**
        * Shows the play speed control
        */
-    playbackSpeedClicked: function(){
+    playbackSpeedClicked: function() {
           var offset = $('#playSpeedCell').offset();
           var top = offset.top - $('#playSpeedControl').height();
           var left = offset.left + $('#playSpeedCell').width() / 4;
@@ -678,19 +678,19 @@
     },
     stepFwdClicked: function() {
           
-          this.video.currentTime = Math.min(this.video.duration, this.video.currentTime + this.frameTime);
-          if(!this.video.paused){
+          if(!this.video.paused) {
               this.pauseState();
           }
+          this.video.currentTime = Math.min(this.video.duration, this.video.currentTime + this.frameTime);
           this.playingCallback();
     },
     stepBwdClicked: function() {
           
           if (this.video.currentTime > 0) {
-              this.video.currentTime -= this.frameTime;
-              if(!this.video.paused){
-                  this.playPauseClicked();
+              if(!this.video.paused) {
+                  this.pauseState();
               }
+              this.video.currentTime -= this.frameTime;
               this.playingCallback();
           }
     },
@@ -736,8 +736,7 @@
             }
             this.showAllRegions();
     },
-    displayVideoTime: function()
-    {
+    displayVideoTime: function() {
             var currentTime = Math.round(this.video.currentTime);
             var remainingtTime = Math.round(this.video.duration - this.video.currentTime);
 
@@ -746,8 +745,7 @@
             remainingtTime = moment().startOf('day').seconds(remainingtTime).format('HH:mm:ss');
             this.timeSpan.innerHTML = currentTime + "  /  " + remainingtTime;
     },
-    updateSeekBar: function()
-    {
+    updateSeekBar: function() {
             this.seekBar.value = this.video.currentTime;
             var perc =  100 * this.seekBar.value / this.seekBar.max;
             this.seekStyle.textContent =  '.seek::-webkit-slider-runnable-track{background-size:'+perc+'% 100%}';

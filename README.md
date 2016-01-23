@@ -159,6 +159,8 @@ The control sends **all** the regions and their tags in the current frame. The p
 
 **Browser Support**
 
-![Alt text](assets/images/chrome.png?raw=true "Title")  Chrome 47  
-![Alt text](assets/images/edge.jpg?raw=true "Title")    Edge 20  
+![Alt text](assets/images/chrome.png?raw=true "Title")  Chrome 47   
 ![Alt text](assets/images/ff.png?raw=true "Title")      Firefox 43 
+
+It is recommended to use the same browser consistently as there are differences between them regarding video time calculations.
+Better precision was observed in Firefox.
