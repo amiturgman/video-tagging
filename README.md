@@ -2,9 +2,8 @@
 This web element can be used to annotate videos frame by frame. It is useful when building solutions for video processing  
 and there's a need to curate labeled videos for training or testing a computer vision algorithm.
 
-**General**  
-
-***Regions & Tags***
+###General
+  
 The element displays a selected video and allows the user to associate regions and text tags per frame.
 A **region** is a point or area within the frame, which can then be associated with textual **tags**.
 
@@ -27,7 +26,7 @@ Once a video has been loaded the control is ready for use:
 ![Alt text](assets/images/loaded.png?raw=true "Title")
 
 
-**Video Controls:**
+###Video Controls:  
 
 ![Alt text](assets/images/videocontrols.png?raw=true "Title")
 
@@ -47,7 +46,7 @@ To change the playback speed, click on the icon and select:
 ![Alt text](assets/images/playback.png?raw=true "Title")
 
 
-**tagging controls:**
+###Tagging controls    
 
 ![Alt text](assets/images/taggingcontrols.png?raw=true "Title")
   
@@ -58,7 +57,7 @@ To change the playback speed, click on the icon and select:
      
       
 
-**Usage**
+###Usage  
 
 Point/single - On a certain frame, click the video screen. Every click will move the region to a new one.  
 Select tags for this region by clicking the tags below.:
@@ -84,38 +83,40 @@ after a region has been created, so the work flow of a user is:
      * Click the icon again to exit this mode.   
 
 
-**Technical**
+###Technical  
 
 The control is built using HTML5, CSS3 based on the [Polymer](https://www.polymer-project.org/1.0/) 
 framework, allowing us to create reusable web components.
 Area selection is credited to [ImageAreaSelect](http://odyniec.net/projects/imgareaselect/)
 
-**Installing the control**
+####Installing the control  
+```
+    bower install CatalystCode/video-tagging
+```
 
-bower install CatalystCode/video-tagging
 
 
-**Hosting the control**   
+####Hosting the control    
 The control can be hosted in an HTML page. Add a reference to the element:
-
+```
      <link rel="import" href="/bower_components/video-tagging/video-tagging.html">
-
-
+```
 Add the element tag in the place you want the control to appear, wrapped in a div:
-
+```
     <div style="width:50%">
         <video-tagging id='video-tagging'></video-tagging>
     </div>
+```
 
 A host project can be found in [VideoTaggingTool](https://github.com/CatalystCode/VideoTaggingTool.git) 
 
 An additional demo can be found in the control library in demo/index.html,   
 run with your favorite server.
 
-**Control API**  
+####Control API    
 The control receives and sends data from/to the host.   
 
-**Input Data**   
+#####Input Data     
 The following properties must be populated:
 
    1) videoduration - number, for example 30.07  
@@ -136,20 +137,23 @@ The following properties must be populated:
       ![Alt text](assets/images/frames2.png?raw=true "Title")
   
    Assign these properties on the element, for example:
-
+```
         var videotagging = document.getElementById('video-tagging');
                 
         videotagging.videoduration = data.video.DurationSeconds;
         videotagging.videowidth = data.video.Width;
         videotagging.videoheight = data.video.Height;
         videotagging.framerate = data.video.FramesPerSecond;
-       
+```
+
       
   Finally, to load the control, set the src property to the URL of the video: 
- 
+```
         videotagging.src = data.video.Url;
+```
+        
 
-**Output Data**     
+#####Output Data      
 When a region is created or updated and when tags are added/removed, the element fires an event called "onregionchanged". Register to this event to get thedata:
 
         document.getElementById('video-tegging').addEventListener('onregionchanged', function (e) {...
@@ -157,7 +161,7 @@ The control sends **all** the regions and their tags in the current frame. The p
 
 ![Alt text](assets/images/frames3.png?raw=true "Title")
 
-**Browser Support**
+####Browser Support  
 
 ![Alt text](assets/images/chrome.png?raw=true "Title")  Chrome 47   
 ![Alt text](assets/images/ff.png?raw=true "Title")      Firefox 43 
