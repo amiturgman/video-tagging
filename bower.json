@@ -1,6 +1,6 @@
 {
   "name": "video-tagging",
-  "version": "1.0.0",
+  "version": "v0.0.24",
   "authors": [
     "OzGitele"
   ],
@@ -14,7 +14,7 @@
     "tagging"
   ],
   "main": "video-tagging.html",
-  "license": "http://polymer.github.io/LICENSE.txt",
+  "license": "MIT",
   "homepage": "https://github.com/CatalystCode/video-tagging.git",
   "ignore": [
     "/.*",
