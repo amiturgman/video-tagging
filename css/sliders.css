@@ -1,4 +1,6 @@
-/*sliders*/
+
+
+        /*sliders*/
 input[type='range']:focus {
   outline: none;
 }
@@ -14,6 +16,7 @@ input[type='range']:focus {
   border-radius: .25em;
   background-color: transparent;
 }
+
 .seek,
 .seek::-webkit-slider-runnable-track, 
 .seek::-webkit-slider-thumb,
@@ -33,7 +36,6 @@ input[type='range']:focus {
 .volume::-webkit-slider-thumb{
   
   margin-top: -0.125em;
-  border: none;
   width: 0.6em;
   height: 0.6em;
   border-radius: 50%;
@@ -48,6 +50,10 @@ input[type='range']:focus {
   background: transparent;
   width: 70%;
   padding-right: 25px;
+}
+
+.seek::-webkit-slider-runnable-track {
+  background-size: 0% 100%;
 }
 
 .volume::-webkit-slider-runnable-track {
@@ -75,8 +81,6 @@ input[type='range']:focus {
 .seek::--ms-track {
   background-size: 0% 100%;
 }
-
-
 
 .volume::-ms-track {
   background: linear-gradient(#595959, #595959) no-repeat rgb(89,89,89);
