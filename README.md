@@ -5,21 +5,21 @@ and there's a need to curate labeled videos for training or testing a computer v
 ###General
   
 The element displays a selected video and allows the user to associate regions and text tags per frame.
-A **region** is a point or area within the frame, which can then be associated with textual **tags**.
+A `region` is a point or area within the frame, which can then be associated with textual `tags`.
 
-A **region** is represented by a json object, with a structure that depends on the 'type' property.
+A `region` is represented by a json object, with a structure that depends on the 'type' property.
 Examples:  
 1) { region: { type: 'point', x: 123, y: 54, radius: 15, tags: [ 'horse', 'brown'] }}  
 2) { region: { type: 'rectangle', topLeft{ x: 123, y: 54 }, bottomRight: topLef{ x: 100, y: 10 }, tags: [ 'horse', 'brown'] 
 }}
 
 There are 2 region types:  
-1) Point - designates an x,y coordinate (The shape can be x or square).  
-2) Rectangle - designates a rectangle (x1, y1, x2, y2)  
+1) `Point` - designates an x,y coordinate (The shape can be x or square).  
+2) `Rectangle` - designates a rectangle (x1, y1, x2, y2)  
 
 In addition, it is possible to define single or multiple regions per frame:  
-1) Single - only one region can appear in a frame.  
-2) Multiple - multiple regions can appear in a frame. 
+1) `Single` - only one region can appear in a frame.  
+2) `Multiple` - multiple regions can appear in a frame. 
 
 Once a video has been loaded the control is ready for use:
 
@@ -155,8 +155,10 @@ The following properties must be populated:
 
 #####Output Data      
 When a region is created or updated and when tags are added/removed, the element fires an event called "onregionchanged". Register to this event to get thedata:
-
-        document.getElementById('video-tegging').addEventListener('onregionchanged', function (e) {...
+```
+document.getElementById('video-tegging').addEventListener('onregionchanged', function (e) {...
+```
+        
 The control sends **all** the regions and their tags in the current frame. The parameter e holds this data in e.detail:  
 
 ![Alt text](assets/images/frames3.png?raw=true "Title")
@@ -168,3 +170,7 @@ The control sends **all** the regions and their tags in the current frame. The p
 
 It is recommended to use the same browser consistently as there are differences between them regarding video time calculations.
 Better precision was observed in Firefox.
+
+####License
+
+[MIT](https://github.com/CatalystCode/video-tagging/blob/master/LICENSE) 

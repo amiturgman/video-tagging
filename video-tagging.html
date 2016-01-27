@@ -93,7 +93,6 @@
       videoduration: Number,
       videowidth: Number,
       videoheight: Number,
-      regionshape: String,
       regiontype: String,
       multiregions: Number,
       regionsize: Number, 
@@ -518,7 +517,6 @@
             region.width = $('#vid').width();
             region.height = $('#vid').height();
             region.type = this.regiontype;
-            region.regionshape = this.regionshape;
             region.tags = [];
             
             var frameIndex = this.getCurrentFrame();      
@@ -546,21 +544,16 @@
             this.ctx.strokeStyle = 'rgb(0,0,0)';
             this.ctx.lineWidth = 1;
             if(this.regiontype.toLowerCase() === "point") {
+               
                var centerOffset = this.regionsize/2;
 
-                if(this.regionshape.toLowerCase() === "square") {
-                    this.ctx.strokeRect(x1 - centerOffset, y1 - centerOffset, this.regionsize, this.regionsize);
-                }
-                else if(this.regionshape.toLowerCase() === "x") {
-
-                    this.ctx.beginPath();
+                this.ctx.beginPath();
                     this.ctx.moveTo(x1 + centerOffset, y1 + centerOffset);
                     this.ctx.lineTo(x1 - centerOffset, y1 - centerOffset);
                     this.ctx.moveTo(x1 + centerOffset, y1 - centerOffset);
                     this.ctx.lineTo(x1 - centerOffset, y1 + centerOffset);
                     this.ctx.stroke();
                     this.ctx.closePath();
-                }
             }        
             else if(this.regiontype.toLowerCase() === "rectangle") {
                 this.ctx.beginPath();
