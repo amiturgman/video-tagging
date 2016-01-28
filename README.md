@@ -152,7 +152,7 @@ The following properties must be populated:
 ```
         
 
-#####Output Data      
+#####Output Data       
 When a region is created or updated and when tags are added/removed, the element fires an event called "onregionchanged". Register to this event to get thedata:
 ```
 document.getElementById('video-tegging').addEventListener('onregionchanged', function (e) {...
