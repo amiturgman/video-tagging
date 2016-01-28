@@ -117,7 +117,7 @@ run with your favorite server.
 The control receives and sends data from/to the host.   
 
 #####Input Data     
-The following properties must be populated:
+The following properties must be populated:  
 
    * videoduration - number, for example 30.07  
    * videowidth - number, for example 420  
