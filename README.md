@@ -14,7 +14,7 @@ Examples:
 }}
 
 There are 2 region types:  
-1) `Point` - designates an x,y coordinate (The shape can be x or square).  
+1) `Point` - designates an x,y coordinate (marked by an x).  
 2) `Rectangle` - designates a rectangle (x1, y1, x2, y2)  
 
 In addition, it is possible to define single or multiple regions per frame:  
@@ -119,16 +119,15 @@ The control receives and sends data from/to the host.
 #####Input Data     
 The following properties must be populated:
 
-   1) videoduration - number, for example 30.07  
-   2) videowidth - number, for example 420  
-   3) videoheight - number, for example 240  
-   4) framerate - number, for example 29.97  
-   5) regionshape - string, can be "x" or "square"  
-   6) regiontype - string, can be "point" or "rectangle"  
-   7) regionsize - number, for example 20 (in pixels) for point regions.  
-   8) multitags - string, can be "0" or "1"   
-   9) inputtagsarray - a string array of the possible tags, for example - ["horse", "bird]  
-  10) inputFrames - an object containing all the tagged frames of this video (That have been created at an earlier time).
+   * videoduration - number, for example 30.07  
+   * videowidth - number, for example 420  
+   * videoheight - number, for example 240  
+   * framerate - number, for example 29.97  
+   * regiontype - string, can be "point" or "rectangle"  
+   * regionsize - number, for example 20 (in pixels) for point regions.  
+   * multitags - string, can be "0" or "1"   
+   * inputtagsarray - a string array of the possible tags, for example - ["horse", "bird]  
+   * inputFrames - an object containing all the tagged frames of this video (That have been created at an earlier time).
       The object is a dictionary, the frame number is the key. Each frame has a collection of regions 
       and each region has a collection of tags.    
       In this example we see data for frames 434, 442 and 628.  
