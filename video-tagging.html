@@ -196,6 +196,7 @@
       this.seekBar.addEventListener("change", function() {
             self.seeking = false;
             self.video.currentTime = self.seekBar.value;
+            self.video.currentTime = Math.min(self.video.duration, self.video.currentTime + self.frameTime);
             self.playingCallback();
           });
       this.volumeSlider.addEventListener("change", function() {
@@ -718,6 +719,7 @@
     pauseState: function() {
             this.video.pause();
             clearInterval(this.playing);
+            this.stepFwdClicked();
             this.playButton.classList.toggle("icon-pause2", !this.video.paused);
             this.optionalTags.toggleEnableButtons(false);  
     },
